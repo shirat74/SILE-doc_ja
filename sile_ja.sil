@@ -1,0 +1,91 @@
+\begin[papersize=a4,class=book]{document}
+%\begin[papersize=152mm x 229mm,class=book]{document}
+\script[src=packages/grid]
+\script[src=packages/autodoc]
+\script[src=packages/verbatim]
+\script[src=packages/color]
+\script[src=packages/image]
+\script[src=packages/frametricks]
+\script[src=packages/lorem]
+\script[src=packages/bidi]\bidi-off
+\script[src=packages/pdf]
+\include[src=documentation/macros.sil]
+\define[command=silehp]{\code{http://www.sile-typesetter.org/}}
+\define[command=sileversion]{0.9.2}
+\set[parameter=document.baselineskip,value=3ex]
+\font[size=11pt, language="ja", family="Yu Mincho", style="Light"]
+\nofolios
+%\set[parameter=document.lskip,value=5em]
+%\set[parameter=document.rskip,value=5em]
+\font[size=50pt,weight=600,family=Calibri]{\hss The SILE Book \hss \par}
+\bigskip
+\font[size=12pt,family=Calibri]{\hss for SILE version \sileversion \hss \par}
+\bigskip[height=3in]
+\font[size=20pt,weight=600,family=Calibri]{\hss Simon Cozens \hss \par}
+%
+%\set[parameter=document.lskip,value=0]
+%\set[parameter=document.rskip,value=0]
+\set[parameter=document.parskip,value=4pt plus 1pt]
+\set[parameter=document.parindent,value=1em]
+\set[parameter=document.baselineskip,value=1.6em]
+\define[command=untrue]{\color[color=red]{\process}}
+\open-double-page
+\tableofcontents
+\set-counter[id=folio,value=0]
+\chapter{SILEとは?}
+
+SILEは組版システムです。その目的は美しい文書を生成することにあります。SILEについて理解する最も良い方法は、あなたが聞いたことがあるであろう他のシステムと比較することでしょう。
+
+\section{SILEとWord}
+
+多くの人たちはパソコンを使って印刷用に文書を作成するとき、通常はWord（Microsoft Officeの一部です）や
+Writer（OpenOfficeやLibreOfficeに含まれます）といったソフトウェア、あるいはそれらに似たワープロソフトを利用します。
+しかしながら、SILEはワープロソフトではありません。それは組版システムです。そこにはいくつかの重要な違いがあります。
+
+ワープロソフトの目的はあなたがスクリーン上で入力したものと全く同一に見える文書を作成することにあります。一方、SILEはあなたが入力したものを、文書を作成するための指示だとみなし、それをもとに可能な限り良く見える文書を生成します。
+
+少し具体的にみてみましょう。ワープロソフトでは、あなたが入力をしている文章が行の右端にさしかかると、カーソルは自動的に次の行に移動します。ワープロソフトは改行位置をあなたに示してくれます。SILEでは、あなたが文章を入力している段階では改行位置を知らせてくれません。その段階ではまだそれは明らかになっていないからです。あなたは好きなだけ長い行を打ち込むことができます。SILEはそれを処理する段階になって、パラグラフを構築するために、文章の最適な改行位置を探します。この処理はひとつの入力に対して（最大で）3回行われます。2つの連続した行がハイフネートされた語で終わっていないか、などあまりよろしくない状況が考慮され、最適な改行位置が見つかるよう処理が繰り返されます。
+
+ページ分割に対しても同様です。ワープロソフトではいずれあなたは新しいページに移動することになりますが、SILEでは入力自体は好きなだけ継続されます。文章がどのようにページに分割されるかは文書全体のレイアウトを検討したのちに決定されるからです。
+
+ワープロソフトはしばしばWYSIWYG—What You See Is What You Get（見たままが得られる）—であると言われます。SILEは全くWYSIWYGでは\em{ありません}。実際、結果はそれが得られるまで分からないのです。むしろ、SILE文書はテキストエディタ—テキストを入力するためのもので、整形された文書を作成するためのものではない—を用いて準備され、PDF文書を生成するためにSILEによって処理されます。
+
+言い換えると、SILEはあなたが求める結果を記述するための\em{言語}であって、SILEはあなたが与えた指示に対し、最良の印刷物を得るための文書整形の処理を行います。
+
+\section{SILEとTeX}
+
+いくらかの人たちは、なんだかTeXのようだ、と思うかもしれません。\footnote{ひとりのTeXユーザとして言わせれば“なんだかT\glue[width=-.1667em]\lower[height=0.5ex]{E}\glue[width=-.125em]Xのようだ”だろうか。}もしあなたがTeXについてよく知らない、あるいは関心がないのであれば、このセクションは読み飛ばしてもらっても構いません。
+
+実際、TeXのようだというのは正しいです。SILEはTeXからかなりのものを引き継いでいます。SILEのような小さなプロジェクトが、TeXという、“The Art of Computer　Programming”の著者たる某教授の、偉大な創造物の後継者だと名乗るのはおこがましいかもしれませんが…SILEはTeXの現代的な再創生です。
+
+TeXは組版システムのなかでも最初期のもののうちのひとつで、それゆえほとんど何もないところから設計されなければなりませんでした。そのうちいくつかは時の試練に耐え—そしてTeXはその創造から30年以上たった今でも最もよく利用される組版システムのうちのひとつであり、それはその設計とパフォーマンスの証である—多くはそうではありませんでした。実際、Knuthの時代からのTeXの発展の歴史の大部分は彼の元々の設計を取り除き、新たな業界標準技術で置き換えることでした。例えば、我々はMETAFONTではなくTrueTypeフォントを使い（xetexのように）、DVIではなくPDFを使い（pstexやpdftex）、7ビットのASCIIではなくUnicodeを使い（これもxetex）、マクロ言語ではなくマークアップ言語や組込みのプログラミング言語を使います（xmltexやluatex）。現在、我々が\em{依然として利用する}TeXのオリジナルの部分は、⑴ボックスとグルー・モデル、⑵ ハイフネーション・アルゴリズム、⑶改行処理アルゴリズムです。
+
+SILEは上記3つの点をTeXから受け継いでいます。SILEはTeXの改行処理アルゴリズムのほぼ丸写しな移植を含み、それは同じ入力が与えられたとき、TeXと全く同じ出力が得られるようにテストされています。しかしながら、SILE自身がスクリプト言語で書かれているため、\footnote{もしもあなたが\code{TeX capacity exceeded}というメッセージに馴染んでいるならば、これはさぞかし興味深いことでしょう。}SILEの組版エンジンの動作を拡張したり、変更したりすることが容易にできます。
+
+例えばTeXが苦手とすることのひとつとしてグリッド上での組版があります。この機能は聖書を組むような人にとっては重要なものです。これをTeX上で行う試みはなされてきましたが、どれもひどいものでした。SILEでは組版エンジンの動作を変更し、ごく簡単なアドオンパッケージを用意することでグリッド上での組版を可能にします。
+
+もちろん、いまどきだれもplain TeXを使いません—だれもがLaTeXで同様のことを行い、そのうえCTANから入手可能な巨大なパッケージ群を活用しています。SILEは未だTeXが持つような巨大なコミュニティやリソースを持たず、そのようなものを活用することができません。この点においてTeXはSILEよりもずっと先を行っています。しかし、\em{可能性}という点において、TeXと同等か、あるいはもっと進んでいるとも言えるところがあるかもしれません。
+\supereject
+
+\section{SILEとInDesign}
+
+人々が出版物をデザインするとき辿りつくツールとしてInDesign（あるいはそれと似たDTPソフト、例えばScribus）があります。
+
+\float[rightboundary=7pt, bottomboundary=15pt]{\img[src=documentation/fig1.png,width=150]}
+InDesignは複雑で高価な商用出版ツールです。それは非常にグラフィカルです—クリックやドラッグといったマウス操作でテキストや画像をスクリーン上で移動させます。SILEは自由なオープンソースの組版ツールで、完全にテキストベースです。SILEではエディタでコマンドを入力し、それらのコマンドをファイルに保存し、SILEに組版させるために渡します。これらの根本的な違いにかかわらず、この2つには共通した特徴があります。
+
+InDesignでは文章はページ上の\em{フレーム}に流しこまれます。左の図はInDesignでよくあるレイアウトがどのようなものかを示しています。
+
+SILEもまたページ上でどこに文章が表示されるべきかをフレームという概念を用いて決定します。そのためSILEではTeXでできうるよりもっと複雑で柔軟なページレイアウトを設計することが可能です。
+
+InDesignで有用な機能として、構造化されたXMLデータ形式を用いたカタログや名簿などの出版があります。InDesignでこれを行うには、まずそれぞれのXML要素にどのようなスタイルが適用されるか宣言します。データがInDesignに読み込まれると、InDesignは与えられたルールに従ってデータを整形し出力します。
+
+あなたは全く同じことをSILEでできるのです。ただしSILEではXML要素がどのように整形されるのかをより詳細に制御することができ、これはSILEではあなたがXML要素を処理するのに、例えばLuaコードを呼び出したりすることができるからです。SILEはコマンドラインのフィルタープログラムであるため、適切な指示が与えられれば、XMLファイルからPDFへ、いとも簡単に変換することができます。これは素晴らしいことです。
+
+この解説書の最後の章では、複雑なXML文書をスタイル付してPDFを生成するための\em{クラスファイル}のいくつかの例を示します。
+
+\section{結論}
+
+SILEは入力として与えられたテキストの指示をもとにPDFを出力します。SILEはTeXとInDesignにインスパイアされた機能を持ち、かつより柔軟で拡張可能、プログラム可能なものを目指しています。この文書（これはSILEで書かれています）のようなものを作成したり、構造化されたデータを整形して出力するシステムとして有用です。
+
+\end{document}
