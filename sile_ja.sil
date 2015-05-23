@@ -56,7 +56,7 @@ Writer（OpenOfficeやLibreOfficeに含まれます）といったソフトウ�
 
 いくらかの人たちは、なんだかTeXのようだ、と思うかもしれません。\footnote{ひとりのTeXユーザとして言わせれば“なんだかT\glue[width=-.1667em]\lower[height=0.5ex]{E}\glue[width=-.125em]Xのようだ”だろうか。}もしあなたがTeXについてよく知らない、あるいは関心がないのであれば、このセクションは読み飛ばしてもらっても構いません。
 
-実際、TeXのようだというのは正しいです。SILEはTeXからかなりのものを引き継いでいます。SILEのような小さなプロジェクトが、TeXという、“The Art of Computer　Programming”の著者たる某教授の、偉大な創造物の後継者だと名乗るのはおこがましいかもしれませんが…SILEはTeXの現代的な再創生です。
+実際、TeXのようだというのは正しい意見です。SILEはTeXからかなりのものを引き継いでいます。SILEのような小さなプロジェクトが、TeXという、“The Art of Computer　Programming”の著者たる某教授の、偉大な創造物の後継者だと名乗るのはおこがましいかもしれませんが…SILEはTeXの現代的な再創生です。
 
 TeXは組版システムのなかでも最初期のもののうちのひとつで、それゆえほとんど何もないところから設計されなければなりませんでした。そのうちいくつかは時の試練に耐え—そしてTeXはその創造から30年以上たった今でも最もよく利用される組版システムのうちのひとつであり、それはその設計とパフォーマンスの証である—多くはそうではありませんでした。実際、Knuthの時代からのTeXの発展の歴史の大部分は彼の元々の設計を取り除き、新たな業界標準技術で置き換えることでした。例えば、我々はMETAFONTではなくTrueTypeフォントを使い（xetexのように）、DVIではなくPDFを使い（pstexやpdftex）、7ビットのASCIIではなくUnicodeを使い（これもxetex）、マクロ言語ではなくマークアップ言語や組込みのプログラミング言語を使います（xmltexやluatex）。現在、我々が\em{依然として利用する}TeXのオリジナルの部分は、⑴ボックスとグルー・モデル、⑵ ハイフネーション・アルゴリズム、⑶改行処理アルゴリズムです。
 
@@ -87,5 +87,112 @@ InDesignで有用な機能として、構造化されたXMLデータ形式を用
 \section{結論}
 
 SILEは入力として与えられたテキストの指示をもとにPDFを出力します。SILEはTeXとInDesignにインスパイアされた機能を持ち、かつより柔軟で拡張可能、プログラム可能なものを目指しています。この文書（これはSILEで書かれています）のようなものを作成したり、構造化されたデータを整形して出力するシステムとして有用です。
+
+\chapter{さあ始めよう}
+
+さて、SILEとは何か、何をするものなのか、いくらか理解したところでSILEそのものについて話題を移しましょう。
+
+\section{基本的なSILE文書}
+
+SILEをどうやって使用するのか示す前にSILE文書がどのようなものなのかひとつ例を示しましょう。
+これはSILEに対する入力であり、SILEによって処理されPDFファイルへと変換されるものです。
+
+\note{これらの文書はプレーンテキストです。あなたがあなた自身のSILE文書を作成するにはテキストエディタが必要です。Unix上では例えば、\em{vi}や\em{emacs}、Mac OS XではSublime Text、TextMate、あるいはTextEditなど、WindowsではNotepadやNotepad+などです。SILEの入力として用いるにはテキストファイルとして保存する必要があります。Wordのようなワープロソフトでは作成できません。それらは文書をプレーンテキストではなく独自のフォーマットで保存するからです。}
+
+とりあえず、もっとも簡単なSILE文書から始めましょう。
+
+\begin{verbatim}
+\line
+\\begin[papersize=a4]\{document\}
+Hello SILE!
+\\end\{document\}
+\line
+\end{verbatim}
+
+今のところは、SILE文書はこのようなものだというだけにしておいて、詳細は次の章で取り上げましょう。
+
+分かり切ったことを言うようですが、これは左上部に\examplefont{Hello SILE}と書かれ、ページ番号（1）がページ下部中央に配置されたA4サイズのPDF文書を生成します。さて、どうやってそのPDFを得るのでしょうか？
+
+\section{インストール}
+
+なにはともあれ、あなたはSILEを手に入れ、あなたのパソコンで走らせなければなりません。SILEはホームページ\silehpから入手できます。
+
+SILEをインストールし、実行するにはいくつか他のソフトウェアが必要です—Luaプログラミング言語のインタプリタとHarfbuzzテキストシェーピング・ライブラリです。
+
+SILEにはそれ自身のPDF生成ライブラリが付属しており、それもまたいくつかのソフトウェアを要求します。\code{freetype}、\code{fontconfig}、\code{libz}、そして\code{libpng}です。\footnote{代わりにPangoとCairoを使うようにもできますが、その出力は特にLinuxにおいて劣ります。 あえてそうする場合は\code{libcairo-gobject2}と\code{libpango1.0-0}パッケージをシステムにインストールし、\code{lgi} Luaモジュールを追加する必要があります。}Homebrew（Mac OS Xではおすすめです）を利用するMac OS X上でこれらをインストールするには、
+
+\medskip
+• \code{brew install automake libtool harfbuzz fontconfig libpng lua luarocks freetype}
+\medskip
+
+DebianやUbuntuなどのDebian系Linux OSでは、
+
+\medskip
+• \code{apt-get install lua5.1 luarocks libharfbuzz-dev libfreetype6-dev libfontconfig1-dev libpng-dev}
+\medskip
+
+Redhat系Linuxでは次のようになるでしょう。
+
+\medskip
+• \code{yum install harfbuzz-devel make automake gcc freetype-devel fontconfig-devel
+lua-devel lua-lpeg lua-expat libpng-devel}
+
+これらの依存ライブラリがインストールされれば、次はLuaライブラリをそろえる必要があります。
+
+\medskip
+• \code{luarocks install lpeg luaexpat}
+\medskip
+
+以上のことが済めばようやく本題に移れます。SILEのホームページからダウンロードしたファイルを解凍し、ディレクトリを移動してから以下を実行します。
+
+\medskip
+• \code{./configure; make}
+\medskip
+
+これが終わればSILEを未インストールの状態で実行できます。\footnote{Mac OS XでSILEをシステムにインストールせずに実行するには、環境変数を次のようにして設定する必要があります\break
+\code{DYLD_LIBRARY_PATH=./libtexpdf/.libs ./sile examples/simple.sil}}
+
+\medskip
+• \code{./sile examples/simple.sil}
+\medskip
+
+すべてが順調であれば、\code{examples/simple.pdf}というファイルが生成されるはずです。
+
+SILEを本格的に使うには\code{sile}コマンドとSILEライブラリ・ファイルをシステムにインストールします。これを行うには次のようにします。
+
+\medskip
+• \code{make install}
+\medskip
+
+これで\code{sile}コマンドがどのディレクトリからも利用可能になりました。
+
+\section{SILEの実行}
+
+では新たなディレクトリに移り、テキストエディタを開いて先ほど例示した内容をファイル\code{hello.sil}に保存しましょう。そしてコマンドを実行します。
+
+• \code{sile hello}
+
+（SILEは引数のファイル名に拡張子が与えられなければ、自動的に拡張子\code{.sil}を追加します）
+
+これによってファイル\code{hello.pdf}ができるでしょう。あなたはめでたくSILEでの最初の文書を作成することができました。
+
+\section{少し凝ってみる}
+
+\code{examples/article-template.xml}は典型的なDocBook 5.0文書です。DocBookを印刷する場合、しばしば、XSLTプロセッサ、FOプロセッサ、そして場合によっては奇妙なLaTeXパッケージに振り回されなければなりません。しかし、SILEはXMLファイルを読み込むことができ、しかもDocBook（実際にはそのサブセット）を処理するための\code{docbook}クラスが付属しています。
+
+例、\code{examples/article-template.xml}を\code{examples/article-template.pdf}に変換するには、単純にこうします。
+
+\begin{verbatim}
+\line
+\% \em{./sile -I docbook examples/article-template.xml}
+This is SILE \sileversion
+Loading docbook
+<classes/docbook.sil><examples/article-template.xml>[1] [2] [3]
+\line
+\end{verbatim}
+
+ここで\code{-I}フラグは入力ファイルを読み込む前に\em{クラス}ファイルを読み込むための指示です。 \code{docbook}クラスファイルが読み込まれたのち、DocBookファイルは直接読み込まれ、タグはSILEコマンドとして解釈されます。
+
+第10章では\code{docbook}クラスがどのようなものか見てみます。そこでは他のXMLフォーマットをいかに処理するか学ぶでしょう。
 
 \end{document}
