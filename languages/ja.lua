@@ -23,7 +23,7 @@ SILE.settings.declare({
   name = "language.ja.shibuaki",
   type = "Glue or nil",
   default = SILE.nodefactory.newGlue("0.25em plus 0.1em minus 0.1em"),
-  help = "Glue added between two Japanese and foreign language"
+  help = "Glue added between Japanese and foreign character"
 })
 
 -- Kinsoku shori taimu!
@@ -31,12 +31,12 @@ local uchar
 local cannotStart = {}
 local cannotEnd = {}
 for uchar in string.gmatch(
-  ")]｝〕〉》」』】〙〗〟’”｠»ヽヾーァィゥェォッャュョヮヵヶぁぃぅぇぉっゃゅょゎゕゖㇰㇱㇲㇳㇴㇵㇶㇷㇸㇹㇺㇻㇼㇽㇾㇿ々〻‐゠–〜 ?!‼⁇⁈⁉・、:;,。.",
+  ")]）］｝〕〉》」』】〙〗〟’”｠»ヽヾーァィゥェォッャュョヮヵヶぁぃぅぇぉっゃゅょゎゕゖㇰㇱㇲㇳㇴㇵㇶㇷㇸㇹㇺㇻㇼㇽㇾㇿ々〻‐゠–〜 ?!‼⁇⁈⁉・、:;,。.",
   "([%z\1-\127\194-\244][\128-\191]*)") do
   cannotStart[SU.codepoint(uchar)] = 1
 end
 for uchar in string.gmatch(
-  "([｛〔〈《「『【〘〖〝‘“｟«",
+  "([（［｛〔〈《「『【〘〖〝‘“｟«",
   "([%z\1-\127\194-\244][\128-\191]*)") do
   cannotEnd[SU.codepoint(uchar)] = 1
 end

@@ -12,8 +12,7 @@
 \include[src=documentation/macros.sil]
 \define[command=silehp]{\code{http://www.sile-typesetter.org/}}
 \define[command=sileversion]{0.9.2}
-\set[parameter=document.baselineskip,value=3ex]
-\font[size=11pt, language="ja", family="Yu Mincho", style="Light"]
+\font[size=10pt, language="ja", family="Yu Mincho", style="Light"]
 \nofolios
 %\set[parameter=document.lskip,value=5em]
 %\set[parameter=document.rskip,value=5em]
@@ -27,7 +26,7 @@
 %\set[parameter=document.rskip,value=0]
 \set[parameter=document.parskip,value=4pt plus 1pt]
 \set[parameter=document.parindent,value=1em]
-\set[parameter=document.baselineskip,value=1.6em]
+\set[parameter=document.baselineskip,value=1.8em]
 \define[command=untrue]{\color[color=red]{\process}}
 \open-double-page
 \tableofcontents
@@ -56,7 +55,7 @@ Writer（OpenOfficeやLibreOfficeに含まれます）といったソフトウ�
 
 いくらかの人たちは、なんだかTeXのようだ、と思うかもしれません。\footnote{ひとりのTeXユーザとして言わせれば“なんだかT\glue[width=-.1667em]\lower[height=0.5ex]{E}\glue[width=-.125em]Xのようだ”だろうか。}もしあなたがTeXについてよく知らない、あるいは関心がないのであれば、このセクションは読み飛ばしてもらっても構いません。
 
-実際、TeXのようだというのは正しい意見です。SILEはTeXからかなりのものを引き継いでいます。SILEのような小さなプロジェクトが、TeXという、“The Art of Computer　Programming”の著者たる某教授の、偉大な創造物の後継者だと名乗るのはおこがましいかもしれませんが…SILEはTeXの現代的な再創生です。
+実際、TeXのようだというのは正しい意見です。SILEはTeXからかなりのものを引き継いでいます。SILEのような小さなプロジェクトが、TeXという、“The Art of Computer　Programming”の著者たる某教授の、偉大な創造物の後継者だと名乗るのはおこがましいかもしれませんが\dots{}SILEはTeXの現代的な再創生です。
 
 TeXは組版システムのなかでも最初期のもののうちのひとつで、それゆえほとんど何もないところから設計されなければなりませんでした。そのうちいくつかは時の試練に耐え—そしてTeXはその創造から30年以上たった今でも最もよく利用される組版システムのうちのひとつであり、それはその設計とパフォーマンスの証である—多くはそうではありませんでした。実際、Knuthの時代からのTeXの発展の歴史の大部分は彼の元々の設計を取り除き、新たな業界標準技術で置き換えることでした。例えば、我々はMETAFONTではなくTrueTypeフォントを使い（xetexのように）、DVIではなくPDFを使い（pstexやpdftex）、7ビットのASCIIではなくUnicodeを使い（これもxetex）、マクロ言語ではなくマークアップ言語や組込みのプログラミング言語を使います（xmltexやluatex）。現在、我々が\em{依然として利用する}TeXのオリジナルの部分は、⑴ボックスとグルー・モデル、⑵ ハイフネーション・アルゴリズム、⑶改行処理アルゴリズムです。
 
@@ -94,7 +93,7 @@ SILEは入力として与えられたテキストの指示をもとにPDFを出�
 
 \section{基本的なSILE文書}
 
-SILEをどうやって使用するのか示す前にSILE文書がどのようなものなのかひとつ例を示しましょう。
+SILEをどうやって使用するのか示す前に、SILE文書がどのようなものなのかひとつ例を示しましょう。
 これはSILEに対する入力であり、SILEによって処理されPDFファイルへと変換されるものです。
 
 \note{これらの文書はプレーンテキストです。あなたがあなた自身のSILE文書を作成するにはテキストエディタが必要です。Unix上では例えば、\em{vi}や\em{emacs}、Mac OS XではSublime Text、TextMate、あるいはTextEditなど、WindowsではNotepadやNotepad+などです。SILEの入力として用いるにはテキストファイルとして保存する必要があります。Wordのようなワープロソフトでは作成できません。それらは文書をプレーンテキストではなく独自のフォーマットで保存するからです。}
@@ -210,7 +209,7 @@ Hello SILE!
 文書は\code{\\begin\{document\}}コマンドで始まります。それには用紙サイズの指定が\em{必須}です。そして文書は\code{\\end\{document\}}で終わります。その間には2種類のSILE文書を構成する要素が来ます。ページ上に出力されるテキスト、ここでは“Hello SILE!”、とコマンドです。
 
 \note{\notehead{用紙サイズ}
-SILEは国際規格ISOのA・B・Cシリーズの用紙サイズを認識します。これに加えて次の伝統的によく用いられる用紙サイズも利用可能です。letter、note、legal、executive、halfletter、halfexecutive、statement,、folio、quarto、ledger、tabloid。
+SILEは国際規格ISOのA・B・Cシリーズの用紙サイズを認識します。これに加えて次の伝統的によく用いられる用紙サイズも利用可能です。letter、note、legal、executive、halfletter、halfexecutive、statement、folio、quarto、ledger、tabloid。
 
 もしも標準的でない用紙サイズを指定したければ、具体的なサイズを直接指定することも可能です。\code{papersize=\em{<basic length> x <basic length>}}。
 
@@ -275,14 +274,9 @@ fishing}と入力すると（実際には使用するフォントに依存しま
 
 \section{コマンド}
 
-Typically (and we’ll unpack that
-statement later), SILE commands are made up of a backslash followed by a
-command name, and a document starts with a \code{\\begin\{document\}} command
-and ends with \code{\\end\{document\}}.
+典型的な（この点に関しては後ほど再検討しましょう）SILEコマンドは、バックスラッシュで始まり、コマンド名が続く文字列です。そして文書は\code{\\begin\{document\}}コマンドで始まり、\code{\\end\{document\}}で終わります。
 
-A command may also take two other optional components: some \em{parameters}, and an \em{argument}. The \code{\\begin} command at the start of the document is an
-example of this.\footnote{Strictly speaking \code{\\begin} isn’t actually a command
-but we’ll pretend that it is for now and get to the details in a moment.}
+コマンドはまた、ふたつの必須でない部分を持ちます。それはパラメータと引数です。文書を開始する時の\code{\\begin}コマンドはその良い例です。\footnote{厳密に言うと\code{\\begin}はコマンドではありませんが、とりあえず今はそういうことにしときましょう。}
 
 \begin{verbatim}
 \line
@@ -290,45 +284,28 @@ but we’ll pretend that it is for now and get to the details in a moment.}
 \line
 \end{verbatim}
 
-The parameters to a command are enclosed in square brackets and take the form
-\code{\em{key}=\em{value}};\break{}multiple parameters are separated by commas
-or semicolons,
-as in \code{[key1=value1,key2=value2,\dots]} Spaces around
-the keys are not significant; we could equally write that as
-\code{[key1 = value1; key2 = value2; \dots]}. If you need to include a comma or
-semicolon within the value to a parameter, you can enclose the value in quotes:
-\code{[key1 = "value1, still value 1", key2 = value2; \dots]}.
+コマンドのパラメータは角括弧で囲まれ、\code{\em{key}=\em{value}}の形をとります。\break{}複数のパラメータを指定する場合は、コンマやセミコロンを使って、\code{[key1=value1,key2=value2,\dots]}のように続けます。"key"の前後のスペースは重要ではありません。\code{[key1 = value1; key2 = value2; \dots]}のように書くこともできます。もしもコンマやセミコロンをパラメータの値に使いたければ、引用符で値全体を囲います。\code{[key1 = "value1, still value 1", key2 = value2; \dots]}のように。
 
-The optional argument (of which
-there can only be at most one) is enclosed in curly braces.\footnote{TeX users
-may forget this and try adding a command argument “bare”, without the braces.
-This won’t work; in SILE, the braces are mandatory.}
+コマンドは引数をとるかもしれませんが、その場合は波括弧で囲います。\footnote{TeXユーザはつい括弧を忘れてしまうかもしれませんが、それはいけません。SILEでは括弧は必須です}
 
-Here are a few more examples of SILE commands:
+以下にいくつかのSILEコマンドを示しましょう。
 
 \begin{verbatim}
 \line
-\\eject                               \% A command with no parameters or argument
+\\eject                                 \% A command with no parameters or argument
 
-\\font[family=Times,size=10pt]           \% Parameters, but no argument
+\\font[family=Times,size=10pt]          \% Parameters, but no argument
 
-\\chapter\{Introducing SILE\}             \% Argument but no parameters
+\\chapter\{Introducing SILE\}               \% Argument but no parameters
 
 \\font[family=Times,size=10pt]\{Hi there!\} \% Parameters and argument
 \line
 \end{verbatim}%
-\section{Environments}
+\section{環境}
 
-Commands like \code{\\chapter} and \code{\\em} (emphasises text by
-making it italic) are normally used to enclose a relatively small piece
-of text; a few lines at most. Where you want to enclose a larger piece of
-the document, you can use an \em{environment}; an environment begins
-with \code{\\begin\{\em{name}\}} and encloses all the text up until the
-corresponding \code{\\end\{\em{name}\}}. We’ve already seen an example,
-the \code{document} environment, which must enclose the \em{entire} document.
+\code{\\chapter}や\code{\\em} (イタリック体による強調)といったコマンドは、せいぜい数行の比較的短いテキストを囲むために用いられます。もっと長い、文書の一部を構成する部分を囲みたい場合は、\em{環境}を使います。環境は\code{\\begin\{\em{name}\}}で始まり、対応する\code{\\end\{\em{name}\}}までをその中に含みます。ひとつの例が既に出ていますね。\code{document}環境で、これは文書\em{全体}を囲みます。
 
-Here is a secret: there is absolutely no difference between a command and
-an environment. In other words, the following two forms are equivalent:
+内緒ですが、コマンドと環境の間には全く違いはありません。いうなれば、以下のふたつは等価なのです。
 
 \begin{verbatim}
 \line
@@ -340,24 +317,16 @@ Hi there!
 \line
 \end{verbatim}
 
-However, in some cases the environment form of the command will be easier
-to read and will help you to be clearer on where the command begins and ends.
+しかしながら、いくつかの場面では、環境を用いたほうが読みやすく、どこからどこまでコマンドが影響するのか認識しやすくまります。
 
-\section{The XML Flavour}
+\section{XML書式}
 
-While we’re on the subject of alternative forms, SILE can actually process its
-input in a completely different file format. What we’ve seen so far has
-been SILE’s “TeX-like flavor”, but if the first character of the
-input file is an angle bracket (\code{<}) then SILE will interpret its input
-as an XML file. (If it isn’t well-formed XML, then SILE will get very upset.)
+実際のところ、SILEはこれまで示したものとは完全に異なる入力フォーマットを受け付けます。
+これまで例示してきたのもは「TeX風書式」でしたが、もし入力ファイルの最初の文字が山括弧（実際は不等号記号\code{<}）であった場合は、SILEは入力ファイルがXML書式であると捉えます。［もしそれが整形式の（well-formed）XML文書でなければ、SILEは非常に機嫌を損ねるでしょう］
 
-Any XML tags within the input file will then be regarded as SILE commands,
-and tag attributes are interpreted as command parameters;
-from then on, the two file formats are exactly equivalent, with one exception:
-instead of a \code{<document>} tag, SILE documents can be enclosed in \em{any}
-tag. (Although \code{<sile>} is conventional for SILE documents.)
+入力ファイル中のすべてのXMLタグは、SILEコマンドであると解釈され、属性はパラメータであるとみなされます。このため、ふたつのファイルフォーマットは実際的には等価です。ただひとつの例外を除いては。XML書式の場合はSILE文書は\em{任意の}タグで始まってもよいのです。（習慣としてSILE文書には\code{<sile>}を用いるのが好ましいですが）
 
-In other words, the XML form of the above document would be:
+例えば、XML形式で前述の例文を示すと、
 
 \begin{verbatim}
 \line
@@ -367,9 +336,7 @@ Hello SILE!
 \line
 \end{verbatim}
 
-Commands without an argument need to be well-formed self-closing XML tags
-(for instance, \code{<break/>}), and commands with parameters should have
-well-formed attributes. The example above, in XML flavor, would look like this:
+引数を取らないコマンドはすべて整形式のself-closing\footnote{訳注：適切な訳語が分からないが、開始・終了のペアではなく、単体で存在するタグのこと。}タグ（例えば\code{<break/>}）でなければならず、パラメータ付のコマンドはその属性が整形式でなければなりません。前に挙げた例をXML書式で書くと、
 
 \begin{verbatim}
 \line
@@ -377,20 +344,10 @@ well-formed attributes. The example above, in XML flavor, would look like this:
 \line
 \end{verbatim}
 
-We don’t expect humans to write their documents in SILE’s XML flavor—the
-TeX-like flavor is much better for that—but having an XML flavor allows for
-computers to deal with SILE a lot more easily. One could create
-graphical user interfaces to edit SILE documents, or convert other XML formats
-to SILE.
+XML書式は人間が直接書くことを想定しているわけではありませんが—TeX風書式のほうがそれには向いているでしょう—XML書式に対応することは、コンピューターでSILEを扱うのをより容易にします。例えばSILE文書を編集するためのGUIインターフェイスを作ったり、他のXML書式をSILEのそれに変換したり。
 
-However, there is an even smarter way of processing XML with SILE. For this,
-you need to know that you can define your own SILE commands, which can range
-from very simple formatting to fundamentally changing the way that SILE operates.
-If you have a file in some particular XML format—let’s say it’s a DocBook file—and
-you define SILE commands for each possible DocBook tag, then the DocBook file
-becomes a valid SILE input file, as-is.
+しかしながら、SILEにおいてはXML文書を処理するためのよりスマートな方法が存在します。そのためには、あなたはあなた自身のSILEコマンド、それは非常に単純な文書整形用のものからSILEの動作を根本から変えるものまでを含む、を定義できることを知る必要があります。あなたがある特定のXML形式のファイル—仮にDocBookとしましょう—を持っているとします。あなたはすべての可能なDocBookタグに対するSILEコマンドを定義します。するとあなたのDocBookファイルはSILE入力ファイルとしてそのまま使えるようになるのです。
 
-In the final two chapters, we’ll provide
-some examples of defining SILE commands and processing XML documents.
+最後の2章では、SILEコマンドを定義とXML文書を処理する例を示しましょう。
 
 \end{document}
