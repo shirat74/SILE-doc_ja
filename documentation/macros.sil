@@ -10,7 +10,8 @@
 </define>
 <define command="sectionsfont"><font family="Yu Mincho" weight="600"><process/></font></define>
 <define command="tableofcontents:headerfont"><font family="Yu Mincho" weight="600" size="22pt"><process/></font></define>
-<define command="examplefont"><font family="Palatino Linotype"><process/></font></define>
+<!-- Use Constantia for ligatures. Don't forget setting language to "en". -->
+<define command="examplefont"><font family="Constantia" language="en"><process/></font></define>
 <define command="bf"><font weight="600"><process/></font></define>
 <define command="book:chapterfont"><sectionsfont><font size="22pt"><process/></font></sectionsfont></define>
 <define command="book:sectionfont"><sectionsfont><font size="15pt"><process/></font></sectionsfont></define>
