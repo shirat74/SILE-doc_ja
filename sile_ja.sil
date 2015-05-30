@@ -12,7 +12,7 @@
 \include[src=documentation/macros.sil]
 \define[command=silehp]{\code{http://www.sile-typesetter.org/}}
 \define[command=sileversion]{0.9.2}
-\font[size=10pt, language="ja", family="Yu Mincho", style="Light"]
+\font[size=10pt, language="ja", family="Yu Mincho", weight="300"]
 \nofolios
 %\set[parameter=document.lskip,value=5em]
 %\set[parameter=document.rskip,value=5em]
@@ -148,7 +148,7 @@ lua-devel lua-lpeg lua-expat libpng-devel}
 • \code{./configure; make}
 \medskip
 
-これが終わればSILEを未インストールの状態で実行できます。\footnote{Mac OS XでSILEをシステムにインストールせずに実行するには、環境変数を次のようにして設定する必要があります\break
+これが終わればSILEを未インストールの状態で実行できます。\footnote{Mac OS XでSILEをシステムにインストールせずに実行するには、環境変数を次のように設定する必要があります\break
 \code{DYLD_LIBRARY_PATH=./libtexpdf/.libs ./sile examples/simple.sil}}
 
 \medskip
@@ -175,7 +175,7 @@ SILEを本格的に使うには\code{sile}コマンドとSILEライブラリ・�
 
 これによってファイル\code{hello.pdf}ができるでしょう。あなたはめでたくSILEでの最初の文書を作成することができました。
 
-\section{少し凝ってみる}
+\section{もうちょっとクールに}
 
 \code{examples/article-template.xml}は典型的なDocBook 5.0文書です。DocBookを印刷する場合、しばしば、XSLTプロセッサ、FOプロセッサ、そして場合によっては奇妙なLaTeXパッケージに振り回されなければなりません。しかし、SILEはXMLファイルを読み込むことができ、しかもDocBook（実際にはそのサブセット）を処理するための\code{docbook}クラスが付属しています。
 
@@ -286,7 +286,7 @@ fishing}と入力すると（実際には使用するフォントに依存しま
 
 コマンドのパラメータは角括弧で囲まれ、\code{\em{key}=\em{value}}の形をとります。\break{}複数のパラメータを指定する場合は、コンマやセミコロンを使って、\code{[key1=value1,key2=value2,\dots]}のように続けます。"key"の前後のスペースは重要ではありません。\code{[key1 = value1; key2 = value2; \dots]}のように書くこともできます。もしもコンマやセミコロンをパラメータの値に使いたければ、引用符で値全体を囲います。\code{[key1 = "value1, still value 1", key2 = value2; \dots]}のように。
 
-コマンドは引数をとるかもしれませんが、その場合は波括弧で囲います。\footnote{TeXユーザはつい括弧を忘れてしまうかもしれませんが、それはいけません。SILEでは括弧は必須です}
+コマンドは引数をとるかもしれませんが、その場合は波括弧で囲います。\footnote{TeXユーザはつい括弧を忘れてしまうかもしれませんが、それはいけません。SILEでは括弧は必須です。}
 
 以下にいくつかのSILEコマンドを示しましょう。
 
@@ -349,5 +349,207 @@ XML書式は人間が直接書くことを想定しているわけではあり�
 しかしながら、SILEにおいてはXML文書を処理するためのよりスマートな方法が存在します。そのためには、あなたはあなた自身のSILEコマンド、それは非常に単純な文書整形用のものからSILEの動作を根本から変えるものまでを含む、を定義できることを知る必要があります。あなたがある特定のXML形式のファイル—仮にDocBookとしましょう—を持っているとします。あなたはすべての可能なDocBookタグに対するSILEコマンドを定義します。するとあなたのDocBookファイルはSILE入力ファイルとしてそのまま使えるようになるのです。
 
 最後の2章では、SILEコマンドを定義とXML文書を処理する例を示しましょう。
+
+\chapter{SILEコマンド}
+
+さて、それではSILEの具体的な使用法について見ていきましょう。まずはあなたがSILEで文書を作成し始めるのに最も役立つコマンドから始め、次第により細かな点について進んでいきます。
+
+\section{フォント}
+
+テキストの見た目を変えるもっとも基本的なコマンドは\code{\\font}コマンドです。これは次のような書式をとります。
+
+\noindent{}• \code{\\font[\em{parameters\dots}]\{\em{argument}\}}
+
+\noindent{}• \code{\\font[\em{parameters\dots}]}
+
+最初の書式では引数として与えられたテキストを指定されたフォントで描画します。次の書式ではそれ以降のテキストすべてに影響します。
+
+例として挙げると、
+
+\begin{verbatim}
+\line
+Small text
+
+\\font[size=15pt]%
+Big text!
+
+\\font[size=30pt]\{Bigger text\}
+
+Still big text!
+\line
+\end{verbatim}
+
+\noindent{}は
+
+\begin{examplefont}%
+\line%
+Small text
+
+\noindent\font[size=15pt]%
+Big text!
+
+\noindent\font[size=30pt]{Bigger text}
+
+\noindent{}Still big text!
+\line
+\end{examplefont}
+
+\noindent{}となります。
+
+\font[size=10pt]%
+
+ここで見たように、属性として可能なものとして、\code{size}があります。これは、\code{<dimension>}で指定されます。ここで、\code{<dimension>}は以前登場した\code{<basic length>}のようなものですが、これは現在のフォントのサイズに対する相対的な値として指定可能です。例えば、exユニット（\code{ex}）、であったり、emユニット（\code{em}）、あるいはenユニット（\code{en}）です。
+
+
+\code{\\font}コマンドで指定可能な属性値は、
+
+\medskip
+
+\noindent{}• \em{size}－先に述べたとおりです。
+
+\noindent{}• \em{family}－使用するフォント名が来ます。フォントをその名前で指定するには、SILEはシステムにインストールされたすべてのフォントについて知る必要があります。SILEのXML書式では、フォントファミリーはCSS形式のコンマで分離された‘スタック’として指定可能です。
+
+\noindent{}• \em{style}－\code{normal}または\code{italic}です。
+
+\noindent{}• \em{weight}－CSS形式のウェイトを表す数値が来ます。有効な値は\font[weight=100]{100}と\font[weight=200]{200}から\font[weight=300]{300}、\font[weight=400]{400}、\font[weight=500]{500}、\font[weight=600]{600}、\font[weight=700]{700}、\font[weight=800]{800}、\font[weight=900]{900}までです。フォントによっては全てのウェイトがサポートされているとは限りませんが（ふたつ程度かもしれません)、SILEは最も近いものを選択します。
+
+\noindent{}• \em{language}－2文字からなる（ISO639-1）言語コードです。これはスペーシングとハイフネーションの両方に影響を与えます。
+
+\noindent{}• \em{direction}－これは書字方向が左から右の場合では\code{LTR}、あるいは右から左の場合は\code{RTL}となります。もしも指定されていなければ、デフォルトで左から右となります。
+
+\noindent{}• \em{script}－スクリプト（文字体系、用字系）の指定です。後で述べる「言語とハイフネーション」の節を参照してください。
+\medskip
+
+手動で陽にフォント指定を行うのは非常に面倒ですね。後ほどこれを自動化する方法についても見てみましょう。SILEは\code{\\em\{\dots\}}コマンドを\code{\\font[style=italic]\{\dots\}}のショートカットとして提供します。ボールド体に対するショートカットはありません。なぜならそれはあまり良い習慣とは言えないからです。そのようなものを簡単に行う方法は与えないことにしましょう。
+
+\section{文書構造}
+
+SILEは様々な文書\em{クラス}（LaTeXのクラスと似た）を提供します。デフォルトでは、文書の構造化をごくわずかにサポートするのみの、\em{plain}クラスが用いられます。他には\em{book}クラスがあり、これは左右のページマスタ、ヘッダと脚注、章、節などのヘッディングをサポートします。
+
+この節のコマンドを使うには、あなたの文書の\code{\\begin\{document\}}コマンドで\em{book}クラスを指定する必要があります。あなたが今読んでいるこの文書は実際に、\code{\\begin[papersize=a4,class=book]\{document\}}で始まります。
+
+\subsection{章と節}
+
+あなたは文書を\code{\\chapter\{\dots\}}、\code{\\section\{\dots\}}、そして \code{\\subsection\{\dots\}}などのコマンドを使って分割することができます。これらのコマンドは引数として、その章や節のタイトルをとります。章は新たな左ページから始まり、章のタイトルは左ページのヘッダに表示されます。加えて、節のタイトルは右ページのヘッダに表示されます。
+
+\note{章や節は自動的に１から番号付けされて開始されます。この動作を変更するには、次の章の\code{counters}パッケージの解説を参照してください。番号付けを抑制したければ、パラメータ\code{[numbering=no]}を与えます。}
+
+この副節はコマンド\code{\\subsection\{}章と節\code{\}}で開始されています。
+
+\subsection{脚注}
+
+脚注は\code{\\footnote\{\dots\}}コマンドでつけることができます。\footnote{このように。 \code{\\footnote\{}このように\code{\}}。}脚注コマンドに対する引数はページ下部に表示される脚注の内容です。これは各章ごとに、自動的に１から番号付けされます。
+
+\section{インデントとスペーシング}
+
+SILEでは、パラグラフは通常インデントされます（デフォルトで20ポイント幅です）。これを抑制するには\code{\\noindent}コマンドを、パラグラフの先頭に付与します。(このパラグラフのような、最初のパラグラフでは\code{\\noindent}は必要ありません。なぜなら\code{\\section}と\code{\\chapter}は自動的に、章や節のタイトルに続く文章に対してそれを呼ぶからです）\code{\\noindent}は\code{\\indent}コマンドを続けて呼ぶことで打ち消すことができます。
+
+パラグラフ間、あるいはパラグラフと他の要素との間の垂直方向のスペース分量を増やすには、 \code{\\smallskip}、\code{\\medskip}および\code{\\bigskip}が使えます。これらはそれぞれ、3pt、6pt、12ptのスペースに相当します。このパラグラフの後に\code{\\bigskip}を入れてみましょう。
+
+\bigskip%
+水平方向のスペースを行ないに挿入するには、小さなものから大きなものへ順に、\code{\\thinspace} （emの1/6）、\code{\\enspace}（1en）、\code{\\quad} （1em）、そして\code{\\qquad}（2em）。
+
+\begin{center}
+\code{center}環境中（\code{\\begin\{center\} \dots \\end\{center\}}）では中央寄せとなります。 例えばこのパラグラフのように。
+\end{center}
+
+\section{分割}
+
+SILEは行とページの分割を自ら決定します。後の章ではこのプロセスを微調整する\em{設定法}を紹介しましょう。しかしながら、SILEのplainクラスにもそれを助けるためのいくつかの方法が存在します。
+
+パラグラフ間に挿入された\code{\\break}コマンドは\em{フレーム分割}を引き起こします。（\code{\\framebreak}と\code{\\eject}という同義のコマンドも存在します）もし、複数のフレームがページ内にあれば、—例えば、多段組みの文書—現在のフレームが終了し、次のフレームの先頭から処理は続けられます。\code{\\pagebreak}（あるいは\code{\\supereject}）はより強制力のあるもので、これはページ上に更なるフレームが残っていても新しいページを開始します。より穏やかな変種としては、\code{\\goodbreak}、これはSILEにそこが良いページ分割点であると教えるもの、があります。それとは反対に、\code{\\nobreak}は分割を抑止する働きがあります。これらの中間的なものとして、\code{\\allowbreak}があり、SILEにページやフレームの分割に適さないかもしれないが、それを許可するよう指示するものとして利用できます。
+
+パラグラフの\em{中}では、これらのコマンドは全く別の意味を持ちます。\code{\\break}コマンドは改\em{行}を指示し、\em{同様に}、\code{\\goodbreak}、\code{\\nobreak}、および\code{\\allowbreak}も行分割に対応します。もしも\em{ページ分割}を特に禁止したければ、\code{\\novbreak}を使います。
+
+\begin{raggedright}
+SILEは通常、両端揃えを行います—すなわち、SILEは一行がちょうど与えられた行幅にぴったり収まるように単語間のスペースを調整します。\footnote{これはSILEが、常に一行を行幅に厳密に合うようにするということを意味しません。SILEはある程度の調整を行いますが、最善を尽くした後、最も悪くないと思われる結果を出力します。いくつかの語がわずかに余白に突き出る結果となることもあります。}両端揃え以外には左揃えがあります。左揃えでは単語間のスペースは均等になるかわり、パラグラフの右端はきれいに揃いません。左揃えはしばしば子供向けの本に用いられたり、新聞のような行幅が狭い状況でも用いられます。左揃えを行うには、文章を\code{\\begin\break\{raggedright\}}環境を囲います。このパラグラフは左揃えで組まれています。
+\end{raggedright}
+
+\begin{raggedleft}
+同様に、\code{raggedleft}環境もあります。これはパラグラフの右側は揃え、逆に左はがたつきます。 このパラグラフは右揃えで組まれています。\par
+\end{raggedleft}
+
+\section{言語とハイフネーション}
+
+SILEは現在選択されている言語の設定に基づいてハイフネーションを行います。（言語設定は前に見たように\code{\\font}コマンドで行います）SILEは様々な言語のハイフネーションをサポートしています。また、その言語特有の組版ルールについてもサポートすることを目的としています。
+
+SILEはまた、\code{xx}という特別な「言語」、を理解します。これはなんのハイフネーションパターンもないものです。この言語に切り替えると、ハイフネーションは行われません。コマンド\code{\\nohyphenation\{\dots\}}が\code{\\font[language=xx]\{\dots\}}のショートカットとして利用できます。
+
+ハイフネーション以外にも、言語ごとに組版上の規則は異なりますが、SILEはほとんどの言語とスクリプトに対する基本的なサポートを備えます。（もしもSILEが適切に処理出来ない言語やスクリプトがあれば知らせてください。対応します）
+
+いくつかの言語では、同じ文字を使うが異なるように組まれるという状況が生じます。例えば、SindhiとUrduはアラビア文字\em{heh}を標準的なアラビア語とは異なるやり方で結合します。そのような場合は、あなたは\code{language}と\code{script}オプションを\command{\\font}コマンド中で適切に指定しなければなりません。
+
+\begin{verbatim}
+\line
+Standard Arabic:
+\\font[family=Scheherazade,direction=RTL,language=ar,script=Arab]\{ههه\};
+then in Sindi:
+\\font[family=Scheherazade,direction=RTL,language=snd,script=Arab]\{ههه\};
+then in Urdu:
+\\font[family=Scheherazade,direction=RTL,language=urd,script=Arab]\{ههه\}.
+\line
+\end{verbatim}
+
+\begin{examplefont}
+\line
+Standard Arabic: \font[family=Scheherazade,direction=RTL,language=ar,script=Arab]{ههه};
+then in Sindi: \font[family=Scheherazade,direction=RTL,language=snd,script=Arab]{ههه};
+then in Urdu: \font[family=Scheherazade,direction=RTL,language=urd,script=Arab]{ههه}.
+\line
+\end{examplefont}
+
+（\code{script}オプションの完全なリストについては\code{http://www.simon-cozens.org/content/duffers-guide-fontconfig-and-harfbuzz}を参照のこと）
+
+\section{ファイルの取り込みとLuaコード}
+
+長大な文書を作成するとき、あなたはSILE文書を複数のファイルに分割して管理したくなるでしょう。例えば、それぞれの章を別のファイルに小分けしたり、ユーザー定義のコマンドを開発し（第6章を参照）、それをひとまとめのファイルにして文書の本文とは分けて管理したり。その場合、異なるSILEファイルを取り込む必要があります。
+
+その機能は\code{\\include}コマンドにより提供されます。これには、必須の\code{src=\em{<path>}}パラメータによりファイルへのパスを示す必要があります。 例えば、あなたは学位論文を次のように書きたくなるでしょう。
+
+\begin{verbatim}
+\line
+\\begin[papersize=a4,class=thesis]\{document\}
+\\include[src=macros]
+\\include[src=chap1]
+\\include[src=chap2]
+\\include[src=chap3]
+\dots\par
+\\include[src=endmatter]
+\\end\{document\}
+\line
+\end{verbatim}
+
+\code{\\include}は入れ子になっても構いません。ファイルAがファイルBを取り込み、それがまたファイルCを取り込んだり。
+
+SILEはLuaプログラム言語で書かれており、Luaインタプリタが実行時に利用可能です。ちょうどHTML文書中でJavascriptコードを\code{<script>}タグで実行するように、SILE文書中ではLuaコードを\code{\\script}コマンドを用いて実行可能です。（XML書式ではちょうどよく見えるでしょう）このコマンドはふたつの形態をとります。ひとつは\code{\\script[src=\em{<filename>}]}でLuaスクリプトをファイルごと取り込み、もうひとつは\code{\\script\{\dots\}}で、インラインのLuaコードです。
+
+インラインで何か面白いことをやるにはSILEの内部に関する知識が必要です（幸運なことにコードはそれほど複雑ではない）が、とりあえず手始めに、Lua関数\code{SILE.typesetter:typeset(\dots)}を使ってみましょう。これはページにテキストを加えます。\code{SILE.call("\dots")}はSILEコマンドを呼び出し、\code{SILE.typesetter:leaveHmode()}は現在のパラグラフを終了し、テキストを出力します。 例として、
+
+\begin{verbatim}
+\line
+\\begin\{script\}
+  for i=1,10 do
+    SILE.typesetter:typeset(i .. " x " .. i .. " = " .. i*i .. ". ")
+    SILE.typesetter:leaveHmode()
+    SILE.call("smallskip")
+  end
+\\end\{script\}
+\line
+\end{verbatim}
+
+\noindent{}は以下を出力します。
+
+\begin{examplefont}
+\line
+\begin{script}
+  SILE.call("indent");SILE.typesetter:leaveHmode()
+  for i=1,10 do
+    SILE.typesetter:typeset(i .. " x " .. i .. " = " .. i*i .. ". ")
+    SILE.typesetter:leaveHmode()
+    SILE.call("smallskip")
+  end
+\end{script}
+\line
+\end{examplefont}
 
 \end{document}
