@@ -1,6 +1,7 @@
 \begin[papersize=a4,class=book]{document}
 %\begin[papersize=152mm x 229mm,class=book]{document}
 \script[src=packages/grid]
+\script[src=packages/url]
 \script[src=packages/autodoc]
 \script[src=packages/verbatim]
 \script[src=packages/color]
@@ -10,16 +11,19 @@
 \script[src=packages/bidi]\bidi-off
 \script[src=packages/pdf]
 \include[src=documentation/macros.sil]
-\define[command=silehp]{\code{http://www.sile-typesetter.org/}}
+\define[command=silehp]{\url{http://www.sile-typesetter.org/}}
 \define[command=sileversion]{0.9.2}
 \font[size=10pt, language="ja", family="Yu Mincho", weight="300"]
 \nofolios
 %\set[parameter=document.lskip,value=5em]
 %\set[parameter=document.rskip,value=5em]
-\font[size=50pt,weight=600,family=Calibri]{\hss The SILE Book \hss \par}
+\par\center{\font[size=50pt,weight=600,family=Calibri]{The}\par
+\center{\img[src=documentation/sile-logo.pdf,height=40mm]}\par
+\font[size=50pt,weight=600,family=Calibri]{Book}}
 \bigskip
 \font[size=12pt,family=Calibri]{\hss for SILE version \sileversion \hss \par}
-\bigskip[height=3in]
+\skip[height=1in]
+\skip[height=1in]
 \font[size=20pt,weight=600,family=Calibri]{\hss Simon Cozens \hss \par}
 %
 %\set[parameter=document.lskip,value=0]
@@ -27,7 +31,6 @@
 \set[parameter=document.parskip,value=4pt plus 1pt]
 \set[parameter=document.parindent,value=1em]
 \set[parameter=document.baselineskip,value=1.8em]
-\define[command=untrue]{\color[color=red]{\process}}
 \open-double-page
 \tableofcontents
 \set-counter[id=folio,value=0]
@@ -118,58 +121,60 @@ Hello SILE!
 
 SILEをインストールし、実行するにはいくつか他のソフトウェアが必要です—Luaプログラミング言語のインタプリタとHarfbuzzテキストシェーピング・ライブラリです。
 
-SILEにはそれ自身のPDF生成ライブラリが付属しており、それもまたいくつかのソフトウェアを要求します。\code{freetype}、\code{fontconfig}、\code{libz}、そして\code{libpng}です。\footnote{代わりにPangoとCairoを使うようにもできますが、その出力は特にLinuxにおいて劣ります。 あえてそうする場合は\code{libcairo-gobject2}と\code{libpango1.0-0}パッケージをシステムにインストールし、\code{lgi} Luaモジュールを追加する必要があります。}Homebrew（Mac OS Xではおすすめです）を利用するMac OS X上でこれらをインストールするには、
-
-\medskip
-• \code{brew install automake libtool harfbuzz fontconfig libpng lua luarocks freetype}
-\medskip
-
-DebianやUbuntuなどのDebian系Linux OSでは、
-
-\medskip
-• \code{apt-get install lua5.1 luarocks libharfbuzz-dev libfreetype6-dev libfontconfig1-dev libpng-dev}
-\medskip
-
-Redhat系Linuxでは次のようになるでしょう。
-
-\medskip
-• \code{yum install harfbuzz-devel make automake gcc freetype-devel fontconfig-devel
-lua-devel lua-lpeg lua-expat libpng-devel}
+SILEにはそれ自身のPDF生成ライブラリが付属しており、それもまたいくつかのソフトウェアを要求します。\code{freetype}、\code{fontconfig}、\code{libz}、そして\code{libpng}です。\footnote{代わりにPangoとCairoを使うようにもできますが、その出力は特にLinuxにおいて劣ります。 あえてそうする場合は\code{libcairo-gobject2}と\code{libpango1.0-0}パッケージをシステムにインストールし、\code{lgi} Luaモジュールを追加する必要があります。}
 
 これらの依存ライブラリがインストールされれば、次はLuaライブラリをそろえる必要があります。
 
-\medskip
-• \code{luarocks install lpeg luaexpat}
-\medskip
+\listitem{\code{luarocks install lpeg}}
+\listitem{\code{luarocks install luaexpat}}
 
 以上のことが済めばようやく本題に移れます。SILEのホームページからダウンロードしたファイルを解凍し、ディレクトリを移動してから以下を実行します。
 
-\medskip
-• \code{./configure; make}
-\medskip
+\listitem{\code{./configure; make}}
 
-これが終わればSILEを未インストールの状態で実行できます。\footnote{Mac OS XでSILEをシステムにインストールせずに実行するには、環境変数を次のように設定する必要があります\break
-\code{DYLD_LIBRARY_PATH=./libtexpdf/.libs ./sile examples/simple.sil}}
+これが終わればSILEを未インストールの状態で実行できます。
 
-\medskip
-• \code{./sile examples/simple.sil}
-\medskip
+\listitem{\code{./sile examples/simple.sil}}
 
 すべてが順調であれば、\code{examples/simple.pdf}というファイルが生成されるはずです。
 
 SILEを本格的に使うには\code{sile}コマンドとSILEライブラリ・ファイルをシステムにインストールします。これを行うには次のようにします。
 
-\medskip
-• \code{make install}
-\medskip
+\listitem{\code{make install}}
 
 これで\code{sile}コマンドがどのディレクトリからも利用可能になりました。
+
+\subsection{OS Xユーザためのノート}
+
+Homebrew（Mac OS Xではおすすめです）を利用するMac OS X上でこれらをインストールするには、
+
+\listitem{\code{brew install automake libtool harfbuzz fontconfig libpng lua luarocks freetype}}
+
+もしも OS XでHomebrewを利用しているのであれば、環境変数\code{PKG_CONFIG_PATH}を適切に設定する必要があるかもしれません。 （\code{PKG_CONFIG_PATH=/usr/local/lib/pkgconfig:/usr/local/lib}）あるいはライブラリ依存関係参照のための\code{pkgconfig}ファイルを提供する\code{brew link}を使用してください。configureスクリプトはどのライブラリが見つからなかったか警告してくれるでしょう。
+
+SILEをシステムにインストールせずに実行するには、環境変数を次のように設定する必要があります。
+
+\code{DYLD_LIBRARY_PATH=./libtexpdf/.libs ./sile examples/simple.sil}
+
+\subsection{Linuxユーザのためのノート}
+
+DebianやUbuntuなどのDebian系Linux OSでは、
+
+\listitem{\code{apt-get install lua5.1 luarocks libharfbuzz-dev libfreetype6-dev libfontconfig1-dev libpng-dev}}
+
+Redhat系Linuxでは次のようになるでしょう。
+
+\listitem{\code{yum install harfbuzz-devel make automake gcc freetype-devel fontconfig-devel
+lua-devel lua-lpeg lua-expat libpng-devel}}
+
+\subsection{Windowsユーザのためのノート}
+Windowsでも\code{mingw32}環境でSILEを動作させることができたとのユーザからの報告があります。現在のところ、確実な方法はありませんが、\url{https://github.com/simoncozens/sile/issues/82}での議論が参考になるでしょう。
 
 \section{SILEの実行}
 
 では新たなディレクトリに移り、テキストエディタを開いて先ほど例示した内容をファイル\code{hello.sil}に保存しましょう。そしてコマンドを実行します。
 
-• \code{sile hello}
+\listitem{\code{sile hello}}
 
 （SILEは引数のファイル名に拡張子が与えられなければ、自動的に拡張子\code{.sil}を追加します）
 
@@ -415,8 +420,6 @@ Big text!
 
 \noindent{}• \em{language}－2文字からなる（ISO639-1）言語コードです。これはスペーシングとハイフネーションの両方に影響を与えます。
 
-\noindent{}• \em{direction}－これは書字方向が左から右の場合では\code{LTR}、あるいは右から左の場合は\code{RTL}となります。もしも指定されていなければ、デフォルトで左から右となります。
-
 \noindent{}• \em{script}－スクリプト（文字体系、用字系）の指定です。後で述べる「言語とハイフネーション」の節を参照してください。
 \medskip
 
@@ -479,26 +482,28 @@ SILEはまた、\code{xx}という特別な「言語」、を理解します。�
 
 いくつかの言語では、同じ文字を使うが異なるように組まれるという状況が生じます。例えば、SindhiとUrduはアラビア文字\em{heh}を標準的なアラビア語とは異なるやり方で結合します。そのような場合は、あなたは\code{language}と\code{script}オプションを\command{\\font}コマンド中で適切に指定しなければなりません。
 
+\bidi-on
 \begin{verbatim}
 \line
-Standard Arabic:
-\\font[family=Scheherazade,direction=RTL,language=ar,script=Arab]\{ههه\};
-then in Sindi:
-\\font[family=Scheherazade,direction=RTL,language=snd,script=Arab]\{ههه\};
-then in Urdu:
-\\font[family=Scheherazade,direction=RTL,language=urd,script=Arab]\{ههه\}.
+Standard Arabic
+\\font[family=Scheherazade,language=ar,script=Arab]\{ه{}ه{}ه\};
+Sindi:
+\\font[family=Scheherazade,language=snd,script=Arab]\{ه{}ه{}ه\};
+Urdu:
+\\font[family=Scheherazade,language=urd,script=Arab]\{ه{}ه{}ه\}.
 \line
 \end{verbatim}
 
 \begin{examplefont}
 \line
-Standard Arabic: \font[family=Scheherazade,direction=RTL,language=ar,script=Arab]{ههه};
-then in Sindi: \font[family=Scheherazade,direction=RTL,language=snd,script=Arab]{ههه};
-then in Urdu: \font[family=Scheherazade,direction=RTL,language=urd,script=Arab]{ههه}.
+Standard Arabic: \font[family=Scheherazade,language=ar,script=Arab]{ههه};
+Sindi: \font[family=Scheherazade,language=snd,script=Arab]{ههه};
+Urdu: \font[family=Scheherazade,language=urd,script=Arab]{ههه}.
 \line
 \end{examplefont}
+\bidi-off
 
-（\code{script}オプションの完全なリストについては\code{http://www.simon-cozens.org/content/duffers-guide-fontconfig-and-harfbuzz}を参照のこと）
+（\code{script}オプションの完全なリストについては\url{http://www.simon-cozens.org/content/duffers-guide-fontconfig-and-harfbuzz}を参照のこと）
 
 \section{ファイルの取り込みとLuaコード}
 
