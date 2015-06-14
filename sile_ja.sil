@@ -6,6 +6,8 @@
 \script[src=packages/verbatim]
 \script[src=packages/color]
 \script[src=packages/image]
+\script[src=packages/rotate]
+\script[src=packages/unichar]
 \script[src=packages/frametricks]
 \script[src=packages/lorem]
 \script[src=packages/bidi]\bidi-off
@@ -17,14 +19,14 @@
 \nofolios
 %\set[parameter=document.lskip,value=5em]
 %\set[parameter=document.rskip,value=5em]
-\par\center{\font[size=50pt,weight=600,family=Calibri]{The}\par
+\par\center{\font[size=50pt,weight=600,family=Arial]{The}\par
 \center{\img[src=documentation/sile-logo.pdf,height=40mm]}\par
-\font[size=50pt,weight=600,family=Calibri]{Book}}
+\font[size=50pt,weight=600,family=Arial]{Book}}
 \bigskip
-\font[size=12pt,family=Calibri]{\hss for SILE version \sileversion \hss \par}
+\font[size=12pt,family=Arial]{\hss for SILE version \sileversion \hss \par}
 \skip[height=1in]
 \skip[height=1in]
-\font[size=20pt,weight=600,family=Calibri]{\hss Simon Cozens \hss \par}
+\font[size=20pt,weight=600,family=Arial]{\hss Simon Cozens \hss \par}
 %
 %\set[parameter=document.lskip,value=0]
 %\set[parameter=document.rskip,value=0]
@@ -416,7 +418,7 @@ Big text!
 
 \noindent{}• \em{style}－\code{normal}または\code{italic}です。
 
-\noindent{}• \em{weight}－CSS形式のウェイトを表す数値が来ます。有効な値は\font[weight=100]{100}と\font[weight=200]{200}から\font[weight=300]{300}、\font[weight=400]{400}、\font[weight=500]{500}、\font[weight=600]{600}、\font[weight=700]{700}、\font[weight=800]{800}、\font[weight=900]{900}までです。フォントによっては全てのウェイトがサポートされているとは限りませんが（ふたつ程度かもしれません)、SILEは最も近いものを選択します。
+\noindent{}• \em{weight}－CSS形式のウェイトを表す数値が来ます。有効な値は\font[weight=100]{100}と\font[weight=200]{200}から\font[weight=300]{300}、\font[weight=400]{400}、\font[weight=500]{500}、\goodbreak\font[weight=600]{600}、\goodbreak\font[weight=700]{700}、\font[weight=800]{800}、\font[weight=900]{900}までです。フォントによっては全てのウェイトがサポートされているとは限りませんが（ふたつ程度かもしれません)、SILEは最も近いものを選択します。
 
 \noindent{}• \em{language}－2文字からなる（ISO639-1）言語コードです。これはスペーシングとハイフネーションの両方に影響を与えます。
 
@@ -556,5 +558,209 @@ SILEはLuaプログラム言語で書かれており、Luaインタプリタが�
 \end{script}
 \line
 \end{examplefont}
+\chapter{SILEパッケージ}
+
+SILEには付加的な機能を提供する様々なパッケージが付属しています。
+事実、SILE の実際の「中核」（“core”）となる機能はかなりコンパクトで拡張性に富み、ほとんどの重要な機能はアドオンパッケージとして提供されています。SILEパッケージはLuaプログラミング言語で書かれており、新たなコマンドを定義したり、SILEシステムの動作を変更したり、実際のところ、Luaでできるこてゃ何でもできます。
+
+先に述べたとおり、パッケージのロードは\code{\\script}コマンドで行われ、これはLuaコードを実行します。規約として、パッケージはあなたの作業ディレクトリ、またはSILEのインストールディレクトリの、\code{packages/}サブディレクトリに入れることになります。例えば、すぐ後に述べる\code{grid}パッケージは通常は\code{/usr/local/lib/sile/packages/grid.lua}にあります。これをロードするには、
+
+\begin{verbatim}
+\line
+\\script[src=packages/grid]
+\line
+\end{verbatim}
+
+\note{\notehead{SILEのパス検索} SILEは様々なディレクトリを検索します。まずはカレントディレクトリ、次に、もし環境変数\code{SILE_PATH}が設定されていれば、SILEはそのディレクトリを、そして標準的なインストールディレクトリ、\code{/usr/lib/sile}や\code{/usr/local/lib/sile}。TeXとは異なり、SILEはサブディレクトリを再帰的に検索しません。このためもしあなたが、あなたのマクロやクラス、パッケージファイルなどをサブディレクトリに置いたら、あなたはその完全な相対パスを指定しなければなりません。}
+
+\section{image}
+
+テキスト以外にもSILEは画像を挿入することができます。
+
+\code{image}パッケージをロードすることで、HTMLのそれと同様の、\code{\\img}コマンドが使えるようになります。\code{img}は次のふたつのパラメータを取ります。\code{src=\dots}は画像ファイルへのパスで、またオプションとして、\code{height=\dots} あるいは\code{width=\dots}パラメータを表示する画像のサイズとして指定します。もしもサイズが指定されなければ、画像はその「自然な」\footnote{訳注：原著は‘natural’です。どういう意味なのかよく分かりません。}ピクセルサイズで表示されます。
+
+\begin{note}
+デフォルトのlibtexpdfバックエンドでは、画像はJPEG、PNG、EPS、PDFフォーマットがサポートされます。Pango/CairoバックエンドではPNGのみです。
+\end{note}
+
+それでは200x243ピクセルの画像を、\code{\\img[src=documentation/gutenberg.png]}で表示させてみましょう。\par
+\img[src=documentation/gutenberg.png]
+
+\raggedright{
+それと、（それぞれ）\code{\\img[src=documentation/gutenberg.png,width=120px]}、\goodbreak\code{\\img[src=documentation/gutenberg.png,height=200px]}、\goodbreak\code{\\img[src=documentation/gutenberg.png,width=120px,height=200px]}です。}
+
+\img[src=documentation/gutenberg.png,width=120px]
+\img[src=documentation/gutenberg.png,height=200px]
+\img[src=documentation/gutenberg.png,width=120px,height=200px]
+
+画像は、あたかも非常に大きな文字のように、テキストのベースラインに沿って配置されることに注意してください。
+
+\section{rules}
+\code{rules}パッケージは罫線を描画します。これはふたつのコマンドを提供します。
+
+まずは\code{\\hrule}で、これは与えられた太さ（高さ）と長さ（幅）の線分を描画します。
+
+罫線は他のテキストと全く同じように取り扱われます。このため、パラグラフの途中で、このように\hrule[width=20pt, height=0.5pt]描画することも可能です。（これは\code{\\hrule[width=20pt, height=0.5pt]}で生成されました)
+
+画像と同じく、罫線はテキストのベースラインに沿って配置されます。
+
+\code{rules}パッケージで提供される、ふたつ目のコマンドは\code{\\underline}で、これは下線を引くものです。
+
+\note{「下線」は文書作成上の良い習慣とはとても言えません。\underline{決して}使わないでください。}
+
+(これは\code{\\underline\{}決して\code{\}}で生成されました)
+
+\section{color}
+
+
+\code{color}パッケージは、テキストや罫線の色を一時的に変えるためのものです。 このパッケージはひとつのパラメータを取る\code{\\color}コマンドを提供します。パラメータは\code{color=\em{<color \nobreak{}specification>}}で引数として与えられたものをその色で描画します。色の指定法はHTMLと同じです。16進数値\code{x}を使ったRGB値で\code{#xxx}または\code{#xxxxxx}の形式（例えば、\code{#000}は黒で\code{#fff}は白、\code{#f00}は赤）、またはHTMLとCSSにおける名前付きの色指定が可能です。
+
+\note{HTMLとCSSの名前付き色のリストは\code{http://dev.w3.org/csswg/css-color/#named-colors}にあります。}
+
+例として挙げると、\color[color=red]{このテキストは\code{\\color[color=red]\{\dots\}}での出力です}。
+
+罫線の例も挙げておきましょう。\code{\\color[color=#22dd33]}:
+\color[color=#ffdd33]{\hrule[width=120pt,height=0.5pt]}
+
+\section{rotate}
+\code{rotate}パッケージは回転機能を提供します。これにより、\code{rotate=<angle>}をフレーム宣言に加えることで、フレーム全体を回転させることができます。また、\code{\\rotate[angle=<angle>]\{...\}}コマンドであらゆるものを回転させることができます。ここで\code{<angle>}は角度を「度」で表したものです。
+
+回転される描画物はボックスに配置され、回転されます。その高さと幅は計算され、組版のために通常の水平リストに加えられます。このため、回転される内容の周囲には余白が確保されます。このことを理解するために実例をいくつか示しましょう。 here is some text rotated by
+\rotate[angle=10]{ten}, \rotate[angle=20]{twenty} and \rotate[angle=40]{forty} degrees.
+
+
+前行は以下のコードで生成されました。
+
+\begin{verbatim}
+\line
+here is some text rotated by
+\\rotate[angle=10]\{ten\}, \\rotate[angle=20]\{twenty\} and \\rotate[angle=40]\{forty\} degrees.
+\line
+\end{verbatim}
+
+\section{features}
+Chapter 3で述べたように、SILEは自動的にフォントで定義されたリガチャを適用します。これらのリガチャはフォントファイルの\em{フィーチャ}\footnote{訳注：原文は単に features。OpenType などの高度な組版拡張機能のこと}テーブルで定義されています。リガチャ（複数のグリフがひとつのグリフとして表示される）の他にも、フィーチャテーブルでは様々なグリフ置換が宣言されています。
+
+\code{features}パッケージはSILEがあなたが選択するフォントで有効にするフィーチャを選択する機構を提供します。どのようなフィーチャが存在するかはフォントに依存します。いくつかのフォントでは、それがどのようなフィーチャをサポートしているか説明する文書が付属しています。OpenType フィーチャに関する議論はこのマニュアルの範疇を超えているのでここでは行いません。
+
+フィーチャは\code{\\font}コマンドのオプションで‘そのままの’フィーチャ名を渡すことで有効・無効にできます。
+
+\begin{verbatim}
+\line
+\\font[features="+dlig,+hlig"]{...} \% turn on discretionary and historic ligatures
+\line
+\end{verbatim}
+
+しかしながら、この方法は扱いづらく、フィーチャコードを覚えておく必要があります。\code{features}はふたつのコマンドを提供します。\code{\\add-font-feature}と\code{\\remove-font-feature}で、OpenTypeフィーチャへのより簡単なアクセスを実現します。インターフェイスはTeXパッケージの\code{fontspec}に由来しています。サポートされているOpenTypeフィーチャの完全な解説については、\code{fontspec}パッケージの文書を参照してください。\footnote{\code{http://texdoc.net/texmf-dist/doc/latex/fontspec/fontspec.pdf}}
+
+以下に\code{features}パッケージで任意の（discretionary）リガチャと歴史的（historic）リガチャを制御する例を示します。
+
+\begin{verbatim}
+\line
+\\add-font-feature[Ligatures=Rare]\\add-font-feature[Ligatures=Discretionary]
+...
+\\remove-font-feature[Ligatures=Rare]\\remove-font-feature[Ligatures=Discretionary]
+\line
+\end{verbatim}
+
+\section{unichar}
+SILEはUnicode対応であり、その入力はUTF-8エンコーディングです。（サポートされるUnicodeの範囲に関しては、使用するフォントに依存します）Unicodeで定義されたいくつかの文字はキーボードから直接入力するのは困難です。このため、\code{unichar}パッケージはこの問題に対処するための方法、Unicode コードを直接指定するコマンド、を提供します。\code{unichar}をロードすると、\code{\\unichar}コマンドが利用可能となります。
+
+%%WINDOWS SPECIFIC
+\begin{verbatim}
+\line
+\\unichar\{U+263A\} \% produces \font[family=Consolas]{\unichar{U+263A}}
+\line
+\end{verbatim}
+
+\code{\\unichar}の引数が\code{U+}、\code{u+}、\code{0x}あるいは\code{0X}で始まる場合は、それは16進数値だとみなされます。そうでなければ10進数であると仮定されます。
+
+\section{bidi}
+ラテン文字などの用字系では文章は左から右へ（LTR）進みます。しかしながら、いくつかの用字系、特にアラビア語やヘブライ語では、右から左に（RTL）進みます。\code{bidi}パッケージ、これはデフォルトでロードされます、は右から左へ書き進める場合の文書や、LTRとRTLを混在させるような文書を、正しく組むための機能を提供します。これはデフォルトで読み込まれるため、パラグラフ中でLTRとRTLテキストの両方を書くことができ、SILEは正しい順序でそれらの文字が出力されることを保証します。
+
+\code{bidi}パッケージはふたつのコマンド、\command{\\thisframeLTR}と\command{\\thisframeRTL}、これらは現在のフレームのデフォルトの書字方向を設定する、を提供します。すなわち、もしあなたがSILEにフレームがRTLであると指示するならば、文章は右端から始まり、左に進みます。このパッケージはまた、\command{\\bidi-off}と\command{\\bidi-on}コマンドを提供します。bidirectionalサポートを無効にすることで、もしかしたら処理速度を向上させることができるかもしれません。
+
+\section{raiselower}
+
+もしあなたが、画像や罫線、テキストなどがベースライン上に沿って配置させてくないならば、\code{raiselower}パッケージを使ってそれらを上げ下げすることができます。（\code{footnote}パッケージは脚注の参照番号を、上付き数字として表示するため、このパッケージを利用しています。）
+
+これはふたつの単純なコマンドを提供します。\code{\\raise}と\code{\\lower}で、どちらも\code{height=\em{<dimension>}}をパラメータとして取ります。それぞれ引数となるものを、与えられた量だけ持ち上げたり、下げたりします。これらは行の高さや深さに影響しません。
+
+Here is some text raised by \raise[height=3pt]{three points}; here is
+some text lowered by \lower[height=4pt]{four points}.
+
+前のパラグラフは以下のコードで生成されます。
+
+\begin{verbatim}
+Here is some text raised by \\raise[height=3pt]\{three points\}; here is
+some text lowered by \\lower[height=4pt]\{four points\}.
+\end{verbatim}
+
+\section{grid}
+\grid[spacing=15pt]
+SILE は通常、以下に示すふたつのルールに従って行と行の間のスペースを決めます。
+
+\noindent• SILEはベースライン間が、\code{baselineskip}と呼ばれるある固定された距離となるように、連続したふたつの行の間にスペースの挿入を試みる。
+
+\noindent• もしも最初のルールによる結果によって、行間の距離が2ポイント以下になるならば、それを2ポイントとなるように強制する。（この量は\code{lineskip}の設定で調整可能)
+
+2番目のルールは、前の行が大きなディセンダー（例えば、g、q、j、pなどの文字が含まれる）場合に、高いアセンダーを持つ（k、l、と大文字など）次の行とぶつかるのを防ぐためにあります。
+
+これに加えて、\code{baselineskip}はある量の「伸張性」（‘stretch’）を持ちます。これはページ分割処理を最適化させるために役に立つ場合に、行間を広げたり、同様にパラグラフ間の距離を伸縮させたりします。
+
+これらのルールの組み合わせにより、行はページの様々な位置で開始することになるのです。
+
+これとは別の組版の流儀では、行は規則正しいグリッド上の決まった位置で始まることを要求します。いくらかの人々はグリッド上の組版によって生じる、ページの「カラー」（‘color’）を好みます。そしてこの手法は、しばしば非常に薄い紙に印字するときに、インクが裏から滲まないように工夫する目的として、行の位置をきっちり揃えるために用いられます。次の例を比べてみてください。左のものは行が紙の両面で同じ位置にくるようにしたもので、右はそのようになっていないものです。
+
+\img[src=documentation/grid-1.png,height=130]
+\img[src=documentation/grid-2.png,height=130]
+
+\code{grid}パッケージはSILEの組版エンジンが、上記ふたつのルールを適用しないように動作を変更させます。その結果、行は常にグリッド上に整列され、パラグラフ間のスペースなどは常に、グリッド上に行が規則正しく並ぶように調整されます。パッケージをロードすることで、ふたつの新たなSILEコマンドが追加されます。\code{\\grid[spacing=\em{<dimension>}]}と\code{\\no-grid}です。最初のものはグリッド上の組版を、それが実行された時点以降から、有効にして、次のものはそれを無効にします。
+
+このセクションのはじめで、\code{\\grid[spacing=15pt]}によって、15ポイントのグリッドが設定されています。グリッドが有効になったときの例文を示しましょう。
+
+\smallskip
+Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+\smallskip
+
+そして以下は、\code{\\no-grid}にした後のものです。
+
+\no-grid\smallskip
+Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+
+\section{verbatim}
+\code{verbatim}パッケージはプログラムのコードを引用したりするなど、フォーマッティングが重要な文章を表示したりする際に役に立ちます。これはSILEの設定を、左揃え、ハイフネーションなし、インデントなしの規則的なスペーシングとなるようにします。これはまた、SILEにスペースの数を勝手に減らしたりしないように伝え、また等幅フォントを使うように設定します。
+
+\note{この名前にも関わらず、\code{verbatim}はSILEが特殊文字を扱うやり方を変えません。あなたは\code{verbatim}中でもバックスラッシュと波括弧をエスケープする必要があります。例えば、\code{\\\\}のように。}
+
+それではverbatim環境の例を示してみましょう。
+
+\begin{verbatim}
+function SILE.repl()
+  if not SILE._repl then SILE.initRepl() end
+  SILE._repl:run()
+end
+\end{verbatim}
+
+verbatim環境の中で使用するフォントを指定したければ、\code{verbatim:font}コマンドで再定義することができます。この文書では、
+
+%%WINDOWS SPECIFIC
+\begin{verbatim}
+<define command="verbatim:font">
+   <font family="Consolas" size="10pt"/>
+</define>
+\end{verbatim}
+
+\noindent{}です。
 
 \end{document}
