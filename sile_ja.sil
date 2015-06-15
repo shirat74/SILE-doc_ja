@@ -561,7 +561,7 @@ SILEはLuaプログラム言語で書かれており、Luaインタプリタが�
 \chapter{SILEパッケージ}
 
 SILEには付加的な機能を提供する様々なパッケージが付属しています。
-事実、SILE の実際の「中核」（“core”）となる機能はかなりコンパクトで拡張性に富み、ほとんどの重要な機能はアドオンパッケージとして提供されています。SILEパッケージはLuaプログラミング言語で書かれており、新たなコマンドを定義したり、SILEシステムの動作を変更したり、実際のところ、Luaでできるこてゃ何でもできます。
+事実、SILE の実際の「中核」（“core”）となる機能はかなりコンパクトで拡張性に富み、ほとんどの重要な機能はアドオンパッケージとして提供されています。SILEパッケージはLuaプログラミング言語で書かれており、新たなコマンドを定義したり、SILEの動作を変更したり、実際のところ、Luaでできることは何でもできます。
 
 先に述べたとおり、パッケージのロードは\code{\\script}コマンドで行われ、これはLuaコードを実行します。規約として、パッケージはあなたの作業ディレクトリ、またはSILEのインストールディレクトリの、\code{packages/}サブディレクトリに入れることになります。例えば、すぐ後に述べる\code{grid}パッケージは通常は\code{/usr/local/lib/sile/packages/grid.lua}にあります。これをロードするには、
 
@@ -570,6 +570,8 @@ SILEには付加的な機能を提供する様々なパッケージが付属し�
 \\script[src=packages/grid]
 \line
 \end{verbatim}
+
+とします。
 
 \note{\notehead{SILEのパス検索} SILEは様々なディレクトリを検索します。まずはカレントディレクトリ、次に、もし環境変数\code{SILE_PATH}が設定されていれば、SILEはそのディレクトリを、そして標準的なインストールディレクトリ、\code{/usr/lib/sile}や\code{/usr/local/lib/sile}。TeXとは異なり、SILEはサブディレクトリを再帰的に検索しません。このためもしあなたが、あなたのマクロやクラス、パッケージファイルなどをサブディレクトリに置いたら、あなたはその完全な相対パスを指定しなければなりません。}
 
@@ -762,5 +764,140 @@ verbatim環境の中で使用するフォントを指定したければ、\code{
 \end{verbatim}
 
 \noindent{}です。
+
+\section{他のパッケージにより利用されるパッケージ}
+
+これらに加えて、\em{おそらく}あなたが直接は利用しないであろうパッケージもあります。それらのパッケージは、他のパッケージやクラスにより基本的な機能を提供するという目的のために存在します。例えば\code{book}クラスは、他の補助的なパッケージからの機能で構成されています。
+
+\subsection{footnotes}
+
+例えば、\code{book}クラスでは、\code{\\footnote}コマンドで脚注を加えることができることをみました。このコマンドは実際には、\code{footnotes}パッケージにより提供されています。\code{book}クラスはこのパッケージをロードし、どこに脚注を置くべきか伝え、そして\code{footnotes}パッケージは脚注を整形し表示させます。これは他にも、以下に述べる数々のパッケージを利用しながら行われます。
+
+\subsection{counters}
+
+SILEの様々な部分、例えば\code{footnotes}パッケージや章・節用のコマンド、はカウンタを利用します。現在の脚注番号、章番号、などに使うためです。\code{counters}パッケージは、カウンタを設定し、カウンタを増加させ、表示させたりすることに使えます。これは以下のようなコマンドを提供します。
+
+• \code{\\set-counter[id=\em{<counter-name>},value=\em{<value>}]} — \code{<counter-name>}という名前のカウンタを与えられた値で設定します。
+
+• \code{\\increment-counter[id=\em{<counter-name>}]} — \code{\\set-counter} と同様に、しかし\code{value}パラメータがなければ、カウンタを1だけ増加させます。
+
+• \code{\\show-counter[id=\em{<counter-name>}]} — これはカウンタの値を、宣言された表示形式で整形し、表示します。
+
+\note{カウンタパッケージのすべてのコマンドはオプションとして、\code{display=\em{<display-type>}}パラメータをとり、これはカウンタの\em{表示形式}を設定します。
+
+可能な表示形式は、デフォルトで\code{arabic}、アルファベットのカウンタとして\code{alpha}、小文字のローマ数字\code{roman}、そして大文字のローマ数字\code{Roman}です。}
+
+例えば、次のようなSILEコードは、
+
+\begin{verbatim}
+\line
+\\set-counter[id=mycounter, value=2]
+\\show-counter[id=mycounter]
+
+\\increment-counter[id=mycounter]
+\\show-counter[id=mycounter, display=roman]
+\line
+\end{verbatim}
+
+以下のようになります。
+
+\line
+\examplefont{2
+
+\noindent{}iii}
+\line
+
+\subsection{pdf}
+\code{pdf}パッケージは（基本的な）PDFリンクや目次の機能を実現します。これは3つのコマンドを提供します。\command{\\pdf:destination}、\command{\\pdf:link}、そして\command{\\pdf:bookmark}です。
+
+コマンド\command{\\pdf:destination}はリンク先（ターゲット）を生成します。これはパラメータとして\code{name}をとり、リンク先を特定するための一意的な名前を指定します。文書中のある場所にリンクを張るには、\code{\\pdf:link[dest=\goodbreak{}name]\{}内容\code{\}}を使います。
+
+もし、\code{pdf}パッケージが\code{tableofcontents}パッケージのあとにロードされたら（例えば、\code{book}クラスを用いた文書の中）、PDF文書はしおり（アウトライン）付のものとなります。
+
+\subsection{frametricks}
+
+最初の章で述べたように、SILEはページのどの部分にテキストを置くか指定するために、フレームを用います。\code{frametricks}パッケージはパッケージの著者に、フレームを扱うための数々のコマンドを提供します。
+
+とにかく有用なのは\code{showframe}です。これは出力エンジンに、フレームを線で囲いラベルを付けるように指示します。これはオプションでパラメータ\code{id=\em{<frame id>}}をとります。もしこのオプションが与えられなければ、現在のフレームが使用されます。もしIDが\code{all}であれば、現在のクラスの中で宣言されたすべてのフレームが表示されます。
+
+\breakframevertical\par
+コマンド\code{\\breakframevertical}は現在のフレームを、与えられた地点で上下2分割にします。現在のフレームがID \code{main}を持つとしましょう。フレームが分割されると、\code{main}は上のフレーム（コマンド挿入以前）となり、下のフレーム（コマンド挿入以降）は\code{main_}というIDとなります。このパラグラフの先頭では、\code{\\breakframevertical}コマンドを実行しています。そしてここで、コマンド\code{\\showframe}を実行してみましょう。\showframe{}見てわかる通り、現在のフレームは\code{\script{SILE.typesetter:typeset(SILE.typesetter.frame.id)}}
+で、ちょうどこのパラグラフの開始位置で始まります。
+
+同様に、\code{\\breakframehorizontal}コマンドは、フレームを左右に分割します。このコマンドは必須でない引数として、\code{offset=<dimension>}をとり、これはどの位置でフレームを分割するかを指定します。もしこれが与えられなければ、フレームはその行の現在地で分割されます。
+
+コマンド\code{\\shiftframeedge}は、現在のフレームを左右に再配置します。これは\code{left=}と（または）\code{right=}パラメータをとり、パラメータの値は正か負の長さです。このコマンドはフレームの先頭で使用されなければなりません。それはこのコマンドが組版エンジンを再初期化するからです。
+
+\float[bottomboundary=5pt]{\font[size=50pt]{こ}}れらをすべて組み合わせた\code{\\float}コマンドは、現在のフレームを分割し、フロートオブジェクトを保持する小さなフレーム（この文章のはじめのドロップキャップのように）を生成し、文章を周囲のフレームに流し込み、文章がフロートオブジェクトの脇を過ぎ去れば、フレームを元のように戻します。\code{\\float}コマンドは必須でないふたつのパラメータを取ります。\code{bottomboundary=\em{<dimension>}}と\code{rightboundary=\em{<dimension>}}で、フレームの周りに余白を付与します。このパラグラフのはじめでは、コマンド\code{\\float[bottomboundary=5pt]\{\\font[size=50pt]\{}こ\code{\}\}}が実行されています。
+
+最後に、本文とは分離された、サイドバーのようなフレームを定義する方法を示しましょう。後の章でどのようにしてそれが実現されるか見るでしょう。\footnote{訳注：原文はWe’ll see how to do that in a later chapter, but
+this raises the obvious question: if they’re not part of the text flow, how do we
+get stuff into them?} \code{frametricks}は\command{\\typeset-into}コマンドを提供します。これはテキストを指定されたフレームに描画します。
+
+\begin{verbatim}
+\line
+\\typeset-into[frame=sidebar]\{ ... frame content here ... \}
+\line
+\end{verbatim}
+
+\subsection{insertions}
+
+\code{footnotes}パッケージは付加的なもの（脚注の内容）を内容として取り、現在のフレームを縮小し、それを脚注フレームに挿入します。このような作業は\code{insertions}パッケージの力で実現されています。これはユーザに見えるSILEコマンドを提供しませんが、他のパッケージにLua機能を提供します。TeXnician たちは、これがSILEのコアではなく、外部のアドオンパッケージとして実装されていることに興味を持つかもしれません。
+
+\subsection{twoside}
+
+Chapter 4で述べた\code{book}クラスは左右の対となるページマスタ\footnote{訳注：適切な訳語がわかりません。}を設定します。\code{twoside}パッケージはヘッダやその他の位置の入れ替えなどを行います。これは一般ユーザからは利用されません。
+
+\subsection{masters}
+
+The masters functionality is also itself an add-on package. It allows a class to
+define sets of frames and switch between them either temporarily or permanently.
+It defines the commands \command{\\define-master-template} (which is pattern
+on the \command{\\pagetemplate} function we will meet in chapter 8), \command{\\switch-master}
+and \command{\\switch-master-one-page}. See \code{tests/masters.sil} for more
+about this package.
+
+\subsection{infonode}
+
+\note{This package is only for class designers.}
+
+While typesetting a document, SILE first breaks a paragraph into lines, then
+arranges lines into a page, and later outputs the page. In other words,
+while it is looking at the text of a paragraph, it is not clear what page
+the text will eventually end up on. This makes it difficult to produce
+indexes, tables of contents and so on where one needs to know the page number
+for a particular element.
+
+To get around this problem, the \code{infonode} allows you to insert \em{information
+nodes} into the text stream; when a page is outputted, these nodes are collected into
+a list, and a class’s output routine can examine this list to determine which nodes
+fell on a particular page. \code{infonode} provides the \code{\\info} command
+to put an information node into the text stream; it has two required parameters,
+\code{category=} and \code{value=}. Categories are used to group similar sets of
+node together.
+
+As an example, when typesetting a Bible, you may wish to display which range
+of verses are on each page as a running header. During the command which starts
+a new verse, you would insert an information node with the verse reference:
+
+\begin{verbatim}
+\line
+SILE.Commands["info"]({ category = "references", value = ref }, {})
+\line
+\end{verbatim}
+
+During the \code{endPage} method which is called at the end of every page,
+we look at the list of “references” information nodes:
+
+\begin{verbatim}
+\line
+local refs = SILE.scratch.info.thispage.references
+local runningHead = SILE.shaper.shape(refs[1] .. " - " .. refs[#refs])
+SILE.typesetNaturally(rhFrame, runningHead);
+\line
+\end{verbatim}
+
+\subsection{inputfilter}
+\package-documentation[src=packages/inputfilter]
 
 \end{document}
