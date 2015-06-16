@@ -608,14 +608,14 @@ SILEには付加的な機能を提供する様々なパッケージが付属し�
 
 \code{rules}パッケージで提供される、ふたつ目のコマンドは\code{\\underline}で、これは下線を引くものです。
 
-\note{「下線」は文書作成上の良い習慣とはとても言えません。\underline{決して}使わないでください。}
+\note{「下線」は文書を作成する上で、あまり良い習慣とは言えません。\underline{決して}使わないでください。}
 
 (これは\code{\\underline\{}決して\code{\}}で生成されました)
 
 \section{color}
 
 
-\code{color}パッケージは、テキストや罫線の色を一時的に変えるためのものです。 このパッケージはひとつのパラメータを取る\code{\\color}コマンドを提供します。パラメータは\code{color=\em{<color \nobreak{}specification>}}で引数として与えられたものをその色で描画します。色の指定法はHTMLと同じです。16進数値\code{x}を使ったRGB値で\code{#xxx}または\code{#xxxxxx}の形式（例えば、\code{#000}は黒で\code{#fff}は白、\code{#f00}は赤）、またはHTMLとCSSにおける名前付きの色指定が可能です。
+\code{color}パッケージは、テキストや罫線の色を一時的に変えるためのものです。 このパッケージはひとつのパラメータを取る、\code{\\color}コマンドを提供します。パラメータは\code{color=\em{<color \nobreak{}specification>}}で引数として与えられたテキストや罫線を、その色で描画します。色の指定法はHTMLと同じです。16進数値\code{x}を使ったRGB値で\code{#xxx}または\code{#xxxxxx}の形式（例えば、\code{#000}は黒で\code{#fff}は白、\code{#f00}は赤）、またはHTMLとCSSにおける名前付きの色指定が可能です。
 
 \note{HTMLとCSSの名前付き色のリストは\code{http://dev.w3.org/csswg/css-color/#named-colors}にあります。}
 
@@ -625,9 +625,9 @@ SILEには付加的な機能を提供する様々なパッケージが付属し�
 \color[color=#ffdd33]{\hrule[width=120pt,height=0.5pt]}
 
 \section{rotate}
-\code{rotate}パッケージは回転機能を提供します。これにより、\code{rotate=<angle>}をフレーム宣言に加えることで、フレーム全体を回転させることができます。また、\code{\\rotate[angle=<angle>]\{...\}}コマンドであらゆるものを回転させることができます。ここで\code{<angle>}は角度を「度」で表したものです。
+\code{rotate}パッケージは回転機能を提供します。これにより、\code{rotate=<angle>}をフレーム宣言に加えることで、フレーム全体を回転させることができます。また、\code{\\rotate[angle=<angle>]\{...\}}コマンドで、あらゆるものを回転させることができます。ここで\code{<angle>}は角度を「度」で表したものです。
 
-回転される描画物はボックスに配置され、回転されます。その高さと幅は計算され、組版のために通常の水平リストに加えられます。このため、回転される内容の周囲には余白が確保されます。このことを理解するために実例をいくつか示しましょう。 here is some text rotated by
+回転される描画物はボックスの中に配置され、回転されます。その高さと幅は再度計算され、組版のための通常の水平リストに送られます。このため、回転される内容の周囲には余白が確保されます。このことを理解するために実例をいくつか示しましょう。 here is some text rotated by
 \rotate[angle=10]{ten}, \rotate[angle=20]{twenty} and \rotate[angle=40]{forty} degrees.
 
 
@@ -641,11 +641,11 @@ here is some text rotated by
 \end{verbatim}
 
 \section{features}
-Chapter 3で述べたように、SILEは自動的にフォントで定義されたリガチャを適用します。これらのリガチャはフォントファイルの\em{フィーチャ}\footnote{訳注：原文は単に features。OpenType などの高度な組版拡張機能のこと}テーブルで定義されています。リガチャ（複数のグリフがひとつのグリフとして表示される）の他にも、フィーチャテーブルでは様々なグリフ置換が宣言されています。
+Chapter 3で述べたように、SILEは自動的に、フォントで定義されたリガチャを適用します。これらのリガチャは、フォントファイルの\em{フィーチャ}\footnote{訳注：原文は単に features。OpenType などの高度な組版拡張機能のこと}テーブルで定義されています。リガチャ（複数のグリフがひとつのグリフとして表示される）の他にも、フィーチャテーブルでは様々なグリフ置換が定義されています。
 
-\code{features}パッケージはSILEがあなたが選択するフォントで有効にするフィーチャを選択する機構を提供します。どのようなフィーチャが存在するかはフォントに依存します。いくつかのフォントでは、それがどのようなフィーチャをサポートしているか説明する文書が付属しています。OpenType フィーチャに関する議論はこのマニュアルの範疇を超えているのでここでは行いません。
+\code{features}パッケージは、SILEがあなたが選択したフォントに対し、有効にするフィーチャを選択する機構を提供します。どのようなフィーチャが存在するかはフォントに依存します。いくつかのフォントでは、それがどのようなフィーチャをサポートしているのかを説明するマニュアルが付属しています。OpenType フィーチャに関する議論はこの文書の範疇を超えているのでここでは行いません。
 
-フィーチャは\code{\\font}コマンドのオプションで‘そのままの’フィーチャ名を渡すことで有効・無効にできます。
+フィーチャは、\code{\\font}コマンドのオプションで、「そのままの」フィーチャ名を渡すことで有効・無効にできます。
 
 \begin{verbatim}
 \line
@@ -653,7 +653,7 @@ Chapter 3で述べたように、SILEは自動的にフォントで定義され�
 \line
 \end{verbatim}
 
-しかしながら、この方法は扱いづらく、フィーチャコードを覚えておく必要があります。\code{features}はふたつのコマンドを提供します。\code{\\add-font-feature}と\code{\\remove-font-feature}で、OpenTypeフィーチャへのより簡単なアクセスを実現します。インターフェイスはTeXパッケージの\code{fontspec}に由来しています。サポートされているOpenTypeフィーチャの完全な解説については、\code{fontspec}パッケージの文書を参照してください。\footnote{\code{http://texdoc.net/texmf-dist/doc/latex/fontspec/fontspec.pdf}}
+しかしながら、この方法は扱いづらく、フィーチャコードを覚えておく必要が出てきます。\code{features}はふたつのコマンドを提供します。\code{\\add-font-feature}と\code{\\remove-font-feature}で、OpenTypeフィーチャへのより簡単なアクセスを実現します。インターフェイスはTeXのパッケージの\code{fontspec}に由来しています。サポートされているOpenTypeフィーチャの完全な解説については、\code{fontspec}パッケージの文書を参照してください。\footnote{\code{http://texdoc.net/texmf-dist/doc/latex/fontspec/fontspec.pdf}}
 
 以下に\code{features}パッケージで任意の（discretionary）リガチャと歴史的（historic）リガチャを制御する例を示します。
 
@@ -842,43 +842,34 @@ get stuff into them?} \code{frametricks}は\command{\\typeset-into}コマンド�
 
 \subsection{insertions}
 
-\code{footnotes}パッケージは付加的なもの（脚注の内容）を内容として取り、現在のフレームを縮小し、それを脚注フレームに挿入します。このような作業は\code{insertions}パッケージの力で実現されています。これはユーザに見えるSILEコマンドを提供しませんが、他のパッケージにLua機能を提供します。TeXnician たちは、これがSILEのコアではなく、外部のアドオンパッケージとして実装されていることに興味を持つかもしれません。
+\code{footnotes}パッケージは、補助的なもの（すなわち脚注の内容）を内容として受け取り、フレームを適当なサイズに縮小して脚注フレームに挿入します。このような作業は\code{insertions}パッケージの力で実現されています。これはユーザの目に見えるSILEコマンドを提供しませんが、他のパッケージにLua機能を提供します。TeXnician たちは、これがSILEのコアではなく、外部のアドオンパッケージとして実装されていることに興味を持つかもしれません。
 
 \subsection{twoside}
 
-Chapter 4で述べた\code{book}クラスは左右の対となるページマスタ\footnote{訳注：適切な訳語がわかりません。}を設定します。\code{twoside}パッケージはヘッダやその他の位置の入れ替えなどを行います。これは一般ユーザからは利用されません。
+Chapter 4で述べた\code{book}クラスは左右の対となるページマスタ\footnote{訳注：適切な訳がわかりません。}を設定します。\code{twoside}パッケージはヘッダやその他の位置の入れ替えなどを行います。これは一般ユーザからは利用されません。
 
 \subsection{masters}
 
+ページマスタ設定機能もそれ自身、アドオンパッケージのひとつです。それはクラス中で、フレームのセットを定義し、一時的あるいは恒久的にそれらの間を切り替えることを可能にします。これはコマンド\command{\\define-master-template}（これは Chapter 8 で見る\command{\\pagetemplate}をまねたもの）、\command{\\switch-master}、そして\command{\\switch-master-one-page}を定義します。このパッケージについて、より詳しくは、\code{tests/masters.sil}を参照してください。
+
+%%FIXME
+\note{\notehead{訳注：原文（よく意味が分かりません）}
 The masters functionality is also itself an add-on package. It allows a class to
 define sets of frames and switch between them either temporarily or permanently.
 It defines the commands \command{\\define-master-template} (which is pattern
 on the \command{\\pagetemplate} function we will meet in chapter 8), \command{\\switch-master}
 and \command{\\switch-master-one-page}. See \code{tests/masters.sil} for more
-about this package.
+about this package.}
 
 \subsection{infonode}
 
-\note{This package is only for class designers.}
+\note{このパッケージはクラスを設計する人にのみ有用です。}
 
-While typesetting a document, SILE first breaks a paragraph into lines, then
-arranges lines into a page, and later outputs the page. In other words,
-while it is looking at the text of a paragraph, it is not clear what page
-the text will eventually end up on. This makes it difficult to produce
-indexes, tables of contents and so on where one needs to know the page number
-for a particular element.
+文書を処理するとき、SILEはまずパラグラフを行に分割します。それから行をページ内に配置し、最終的にページを出力します。言うならば、SILEがパラグラフ中のテキストを処理している間では、そのテキストがどのページに現れるかは明らかではないのです。これはインデックスや目次などを生成する際に困難をもたらします。なぜならそれらは、ある特定のテキストなどの要素が現れるページ番号を必要とするからです。
 
-To get around this problem, the \code{infonode} allows you to insert \em{information
-nodes} into the text stream; when a page is outputted, these nodes are collected into
-a list, and a class’s output routine can examine this list to determine which nodes
-fell on a particular page. \code{infonode} provides the \code{\\info} command
-to put an information node into the text stream; it has two required parameters,
-\code{category=} and \code{value=}. Categories are used to group similar sets of
-node together.
+この問題に対処するため、\code{infonode}は、あなたが入力テキスト・ストリーム中に\em{情報ノード}を挿入することを可能にします。ページが出力されるとき、これらのノードはあるリストに集約され、クラスの出力ルーチンは、どのノードが特定のページに出現するか決定するために、このリストを調べることができます。\code{infonode}は\code{\\info}コマンドコマンドを提供します。これはテキスト・ストリームに情報ノードを挿入するためのもので、ふたつのパラメータを取ります。\code{category=}と\code{value=}です。カテゴリは似たような種類のノードをグループ化するのに使用されます。
 
-As an example, when typesetting a Bible, you may wish to display which range
-of verses are on each page as a running header. During the command which starts
-a new verse, you would insert an information node with the verse reference:
+例として、聖書を考えましょう。どの範囲の節がページに含まれるかヘッダに出力しましょう。新たな節を開始するコマンドで、情報ノードを節への参照とともに挿入します。
 
 \begin{verbatim}
 \line
@@ -886,8 +877,7 @@ SILE.Commands["info"]({ category = "references", value = ref }, {})
 \line
 \end{verbatim}
 
-During the \code{endPage} method which is called at the end of every page,
-we look at the list of “references” information nodes:
+各ページの最後に呼ばれる\code{endPage}メソッドで、“references”情報ノードのリストを調べます。
 
 \begin{verbatim}
 \line
@@ -898,6 +888,8 @@ SILE.typesetNaturally(rhFrame, runningHead);
 \end{verbatim}
 
 \subsection{inputfilter}
-\package-documentation[src=packages/inputfilter]
+\code{inputfilter}パッケージは、クラスの製作者に、SILEによって処理される前の入力データに、フィルタをかける方法を提供します。これは文書を表す抽象構文木（abstract syntax tree）を書き換えることで可能となります。
+
+\code{inputfilter}を、あなたのクラスで\code{class:loadPackage("inputfilter")}によりロードすることで、ふたつの新たなLua関数が利用可能となります。\code{transformContent}と\code{createCommand}です。\code{transformContent}は文書の内容を構成する木構造（content tree）に対し、その内容となるテキストに変換関数を適用します。簡単な例として、\code{examples/inputfilter.sil}を、より完全なものとして、\code{packages/chordmode.sil}を見てください。
 
 \end{document}
