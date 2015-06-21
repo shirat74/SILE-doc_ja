@@ -595,6 +595,7 @@ SILEには付加的な機能を提供する様々なパッケージが付属し�
 \img[src=documentation/gutenberg.png,height=200px]
 \img[src=documentation/gutenberg.png,width=120px,height=200px]
 
+
 画像は、あたかも非常に大きな文字のように、テキストのベースラインに沿って配置されることに注意してください。
 
 \section{rules}
@@ -1015,5 +1016,184 @@ Making things red is a \\red\{silly\} way to emphasise text.
 \end{verbatim}
 
 ここで初めて登場するコマンドは\code{\\set}です。これについてはすぐに議論します。
+
+\chapter{SILEの設定}
+
+コマンドの他にも、SILEはその動作に影響を与える様々な仕組みを提供します。SILEのパラメータを操作することで、その出力結果に対し、些細なものから劇的なものまで、実に様々な変化を与えることができます。外部パッケージはそれ自身の設定を宣言することができます（SILEに同梱されているパッケージはそうではありませんが）が、ここではSILE本体に組み込みの設定のみ解説することにしましょう。
+
+SILEの設定は\em{名前空間}を持ちます。これは、⑴その設定がシステムのどのエリアに影響するのか、その名前から明らかなようにする、⑵各パッケージが、他のパッケージやSILE内部に干渉する心配なしに設定を行えるようにする、ために必要なことです。それぞれの設定パラメータは\code{\em{area.name}}の形をとります—例えば\code{typesetter.orphanpenalty}は、タイプセッタがオーファン\footnote{訳注：パラグラフの最終行が、ごく少数の語句のみから構成されてしまい、それが最終行に「取り残された」ようになること。または、パラグラフの先頭行のみが、前のページに分離して取り残されることを指す。}に対するペナルティを課す際の設定です。
+
+SILE文書中から設定を変更するインターフェイスは、\code{\\set}コマンドです。これはふたつのオプションを取ります。どの設定が変更されるのかを表す\em{パラメータ}と、それがどのように変更されるのかを示す\em{値}です。例えば、
+
+\begin{verbatim}
+\line
+\\set[parameter=typesetter.orphanpenalty, value=250]
+\line
+\end{verbatim}
+
+もし、\code{\\set}コマンドが引数とともに与えられるならば、それは引数として与えられたブロックのみの、局所的な変更であるとみなされます。言うならば、
+
+\begin{verbatim}
+\line
+\\set[parameter=typesetter.orphanpenalty, value=250]\{ \\lorem \}
+\line
+\end{verbatim}
+
+\noindent{}はオーファン・ペナルティを250に設定し、\code{\\lorem}コマンドで与えられる50語からなるダミーのテキストを組み、オーファン・ペナルティを元の値に戻します。
+
+それでは各ビルトインの設定がどのようなものなのか見てみましょう。まずはより明瞭なものから始め、次第に理解が難しいものへ移ります。
+
+\section{スペーシング設定}
+
+\code{\\note}環境の\code{document.lskip}パラメータを例にとりましょう。これは\em{グルー}パラメータで、各行の左側に与えられるスペースです。この値を正の値に設定することで、左マージンを実効的に増加させることができます。同様に、\code{document.rskip}は各行の右側にスペースを与えます。
+
+\begin{note}
+\notehead{グルー} \em{グルー}パラメータは、通常の長さとは若干異なります。グルーは基本的には「スペース」で、長さとして表されますが、ふたつの付加的な構成要素を持ちます。\em{ストレッチ}と\em{スキップ}\footnote{訳注：シュリンクの間違いではないかと思われます。}で、\code{<dimension> plus <dimension> minus <dimension>}の形で指定されます。最初の長さ（dimension）は基本となる長さで、ストレッチはそれに加えることができる最大の長さ、シュリンクは逆に差し引くことができる長さです。例えば、\code{12pt plus 6pt minus 3pt}は理想的には12ポイントだが、最大で18ポイント、最小で9ポイントまで伸び縮みが許容されます。
+\end{note}
+
+ここで、\code{center}環境がどのように実装されているか考えましょう。まずは我々は非常に柔軟に伸びるグルーを左右のマージンに追加します。
+
+\begin{verbatim}
+\line
+\\set[parameter=document.lskip,value=0pt plus 100000pt]
+\\set[parameter=document.rskip,value=0pt plus 100000pt]
+\line
+\end{verbatim}
+
+これは以下のような結果を出力します。
+
+\medskip%
+\begin{examplefont}%
+\set[parameter=document.lskip,value=0pt plus 500pt]% Lying for didactic purposes
+\set[parameter=document.rskip,value=0pt plus 500pt]
+\set[parameter=document.spaceskip,value=0.5en plus 120pt minus 0.3en]
+
+Here is some text which is almost centered. However, there are three problems:
+first, the normal paragraph indentation is applied, meaning the first line of
+text is indented.
+Second, the space between words is stretchable, meaning that the lines are
+stretched out so they almost seem justified.
+Finally, by default SILE adds very large glue at the
+end of each paragraph so that when the text is justified, the spacing of the
+last line is not stretched out of proportion. This makes the centering of the
+last line look a bit odd. We will deal with these three issues in the following
+paragraphs.\par
+\end{examplefont}
+\medskip
+
+\begin{note}
+\notehead{訳}
+この文章はほぼ中央寄せとなっています。しかしながら、これには3つの問題があります。まずは、通常のパラグラフのように、最初の行にはインデントが付加されています。次に単語間のスペースが伸張可能となっているため、各行はほぼ行端揃えされたように見えてしまいます。最後に、デフォルトでは、SILEはパラグラフの終わりに非常に大きなグルーを挿入します。これはテキストが行端揃えの場合に、最後の行が行長に合わせて伸張されてしまうのを避けるためです。このため最後の行は、中央寄せとしてはやや不自然に見えてしまいます。この3つの点について、続けてその対処法について見てみましょう。
+\end{note}
+
+\set[parameter=document.lskip,value=0pt]%
+\set[parameter=document.rskip,value=0pt]%
+\set[parameter=document.spaceskip]%
+各パラグラフの最初のインデント量は、\code{document.parindent}で制御されます。これはグルーパラメータで、デフォルトでは20ポイントで、伸び縮みしません。実際には、パラグラフのはじめに挿入される空白の量は\code{current.parindent}です。各パラグラフの出力後に、
+\code{current.parident}は、\code{document.parindent}の値でリセットされます。\code{\\noindent}コマンドは\code{current.parindent}をゼロに設定することで実現されます。
+
+\medskip%
+\set[parameter=current.parindent,value=-20pt]%
+\set[parameter=document.lskip,value=20pt]%
+さて、このように「ぶら下げ」インデントにするのはどうすればよいでしょう。ここでは、\code{document.lskip}を20ポイントに、\code{current.parindent}を\em{マイナス}20ポイントに設定しています。 （つまり、\allowbreak\code{\\set[parameter=document.lskip,value=20pt]}\goodbreakと\goodbreak\code{\\set[parameter=current.parindent,\break{}value=-20pt]}\goodbreak{}を実行します）
+
+\medskip%
+\set[parameter=document.lskip,value=0pt]%
+\em{パラグラフ}間のスペースはグルーパラメータ\code{document.parskip}で設定されます。これは通常は、1ポイントのストレッチを持つ、5ポイントのグルーとして設定されます。
+
+グリッド上の組版の節で述べたように、パラグラフ内の\em{行}間のスペースはふたつのルールにより決定されます。ここでは、それを設定パラメータを用いて再び説明してみましょう。
+
+\noindent• SILEはふたつの連続した行の間の距離が、ちょうど\code{document.baselineskip}となるように試みます。
+
+\noindent• もし最初のルールを適用した結果として、パラグラフの最後の行と次のパラグラフの最初の行の間の距離が、\code{document.lineskip}以下となるようであれば、それが\code{document.lineskip}だけ確保されるように調整します。
+
+最後のスペーシング設定は、\code{document.spaceskip}です。通常、\em{単語}間のスペースは、現在のフォントの空白文字の幅より決定されますが、行端揃えを実現するために、このスペースは伸縮可能となります。具体的には、もし仮に現在のフォントでのスペース幅が、\code{<space>}だとすると、\code{document.spaceskip}のデフォルト値は、\code{1.2 <space> plus 0.5 <space> minus 0.333 <space>}と設定されます。\footnote{この幾分適当な値の設定はバグとも言えるでしょう。}
+
+これを陽に設定したければ、\code{document.spaceskip}により設定を行います。もしもデフォルト値に戻したければ（つまりフォントの空白文字の幅を計り直す）、設定を\em{クリア}する必要があます。これを行うには、\code{\\set}コマンドを\code{value}パラメータなしで呼び出します。\code{\\set[parameter=document.spaceskip]}のようにです。
+
+\section{タイプセッタの設定}
+
+SILEのスペーシングを制御する設定は、生成される文書に対して明白な影響を与えます。タイプセッタにも操作するスイッチがあります。
+
+\code{typesetter.widowpenalty}と\code{typesetter.orphanpenalty}\footnote{TeX
+ユーザはリネームされていることに注意}は、SILEがどの程度、ページの始まりや終わりにはぐれた行があるのを抑止するかを決定します。\em{ウィドウ}は改ページの際に、1行だけ前のページの終わりに取り残されることを、\em{オーフォン}はパラグラフの最後の行だけが次のページに引き離されてしまうことを指します。デフォルトでは、これらに対し、150ポイントの\em{penalty}が与えられています。この値は\code{10000}までの値を取り、最大値は「ウィドウとオーファンの禁止」を意味します。
+
+\set[parameter=typesetter.parfillskip,value=0pt]
+SILEは非常によく伸張するグルーを、各パラグラフの末尾に自動的に挿入します。これなくしては、行端揃えのアルゴリズムが最終行を含むパラグラフ全体に渡って適用され、パラグラフのすべての行が両端揃えとなってしまいます。（通常、我々は最後の行は左揃えにします）このグルーの量は\code{typesetter.parfillskip}により設定されています。デフォルト値は\code{0pt plus 10000pt}ですが、このパラグラフではゼロにしてあります。
+
+それでは、ようやく中央寄せの実装を完結させましょう。\hss
+
+\begin{verbatim}
+\line
+\\set[parameter=document.lskip,value=0pt plus 100000pt]
+\\set[parameter=document.rskip,value=0pt plus 100000pt]
+\\set[parameter=document.spaceskip,value=0.5en]
+\\set[parameter=current.parindent,value=0pt]
+\\set[parameter=document.parindent,value=0pt]
+\\set[parameter=typesetter.parfillskip,value=0pt]
+\line
+\end{verbatim}
+
+\medskip
+\noindent\begin{examplefont}%
+\set[parameter=document.lskip,value=0pt plus 100000pt]%
+\set[parameter=document.rskip,value=0pt plus 100000pt]%
+\set[parameter=document.spaceskip,value=0.5en]%
+\set[parameter=current.parindent,value=0pt]%
+\set[parameter=typesetter.parfillskip,value=0pt]
+
+And this is (more or less) how the \code{center} environment is defined in
+the plain class: we make the margins able to expand but the spaces not able
+to expand; we turn off indenting at the started of the paragraph, and we turn
+off the filling glue at the end of the paragraph.
+\par
+\end{examplefont}
+
+\set[parameter=typesetter.parfillskip,value=0pt plus 10000pt]
+\begin{note}
+\notehead{訳}
+そしてこれがほぼ、plainクラスで定義されている\code{center}環境そのものです。マージンは伸張可能ですが、スペースは伸張せず、パラグラフの最初のインデントやパラグラフの最後のグルーは無効化されています。
+\end{note}
+\medskip
+
+\set[parameter=typesetter.parfillskip,value=0pt plus 10000pt]
+最後に、タイプセッタは入力におけるパラグラフ分割方法を知る必要があります。これは通常、ふたつの連続した改行文字です。しかしながら、XML入力を扱う際には、この仮定は適切ではありません。このような場合は、\code{typesetter.parseppattern}をLuaパターンを使って指定することができます。これはデフォルトでは\code{\\n\\n+}です。これに加えて、入力における複数のスペースがひとつのスペースに変換されるやり方を定義するのが \code{shaper.spacepattern}の設定です。これは\code{\%s+}をデフォルト値として持ちます。（任意の数のスペースがひとつのスペースとみなされる）もしあなたが、スペースの数をそのまま保ちたいならば、スペースパターンを\code{\%s}に設定すると良いでしょう。
+
+\section{ラインブレーキング設定}
+
+SILEのラインブレーキング（行分割）アルゴリズムはTeXからの借り物であり、そして同等の水準のカスタマイズ性を備えます。とにかくラインブレーキング・アルゴリズムに適用可能な設定を列挙してみましょう。あなたはこれらについてよく知っているものとします。
+
+\noindent• \code{linebreak.tolerance}：アルゴリズムによって分割点が却下されるまでの限界値です。（デフォルト：500）
+
+\noindent• \code{linebreak.pretolerance}：これよりも良い分割点がければ、ハイフネーションが検討されます（デフォルト：100）
+
+\noindent• \code{linebreak.adjdemerits}：ふたつの引き続く行が視覚的に不整合であった場合に、パラグラフ構築中に累積される付加的なデメリット値の量です。このケースでは、ジャスティフィケーションのためによるスペーシングの不均一のために起こります。\footnote{訳注：よく分かりません。原文：Additional demerits which are accumulated in the course of paragraph building when two consecutive lines are visually incompatible. In these cases, one line is built with much space for justification, and the other one with little space.}（デフォルト：10000）
+
+\noindent• \code{linebreak.looseness}：現在のパラグラフの行数が、通常よりどのくらい多くなるべきか設定します。（デフォルト：0）
+
+\noindent• \code{linebreak.prevGraf}：現在のパラグラフにおいて、垂直リストに追加された行数。
+
+\noindent• \code{linebreak.emergencyStretch}：パラグラフの各行に追加されるかもしれないストレッチの量。
+
+\noindent• \code{linebreak.linePenalty}：各ラインブレークに付随したペナルティの値。（デフォルト：10）
+
+\noindent• \code{linebreak.hyphenPenalty}：ハイフネーションに伴うペナルティの値。（デフォルト：50）
+
+\noindent• \code{linebreak.doubleHyphenDemerits}：連続した行がともにハイフンで分割される場合のペナルティ。（デフォルト：10000）
+
+\section{Luaからの設定}
+
+これらの設定をSILEレイヤで操作することはまずないでしょう。複雑なレイアウトコマンドはLuaスクリプトで実装されることが想定されています。以下のSILE関数がLuaからアクセス可能です。
+
+\noindent• \code{SILE.settings.set(\em{<parameter>}, \em{value})}：パラメータの設定を行います。
+
+\note{
+SILEレイヤでは、\code{\\set}コマンドは文字列による表現を、可能な限り適切なLua型に変換してくれますが、\code{SILE.settings.set}はそれを行いません。Luaではパラメータは適切な型で与えられることが想定されています。例えば、長さは\code{SILE.Length}オブジェクトでグルーは\code{Glue}でなければなりません。}
+
+\noindent• \code{SILE.settings.get(\em{<parameter>})}：現在のパラメータの設定を取得します。
+
+\noindent• \code{SILE.settings.temporarily(\em{function})}：すべての設定を一旦保存し、関数を実行した後、それを回復します。 Saves all
+
+\noindent• \code{SILE.settings.declare(\em{<specification>})}：新たな設定パラメータを宣言します。使い方については、例として\code{settings.lua}における基本的な設定を参照してください。クラスパッケージは名前空間を用い、\code{<package>.<setting>}とすべきです。
 
 \end{document}
