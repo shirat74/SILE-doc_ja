@@ -1111,7 +1111,7 @@ paragraphs.\par
 
 これを陽に設定したければ、\code{document.spaceskip}により設定を行います。もしもデフォルト値に戻したければ（つまりフォントの空白文字の幅を計り直す）、設定を\em{クリア}する必要があます。これを行うには、\code{\\set}コマンドを\code{value}パラメータなしで呼び出します。\code{\\set[parameter=document.spaceskip]}のようにです。
 
-\section{タイプセッタの設定}
+\section{タイプセッタ設定}
 
 SILEのスペーシングを制御する設定は、生成される文書に対して明白な影響を与えます。タイプセッタにも操作するスイッチがあります。
 
@@ -1192,8 +1192,285 @@ SILEレイヤでは、\code{\\set}コマンドは文字列による表現を、�
 
 \noindent• \code{SILE.settings.get(\em{<parameter>})}：現在のパラメータの設定を取得します。
 
-\noindent• \code{SILE.settings.temporarily(\em{function})}：すべての設定を一旦保存し、関数を実行した後、それを回復します。 Saves all
+\noindent• \code{SILE.settings.temporarily(\em{function})}：すべての設定を一旦保存し、関数を実行した後、それを回復します。
 
 \noindent• \code{SILE.settings.declare(\em{<specification>})}：新たな設定パラメータを宣言します。使い方については、例として\code{settings.lua}における基本的な設定を参照してください。クラスパッケージは名前空間を用い、\code{<package>.<setting>}とすべきです。
+
+\chapter{SILEの中核}
+
+我々のSILEに関する探索は、そろそろ最深部にたどり着きました。ここからは、SILEのすべての基礎となる、基本的構成要素についてみていきましょう。
+
+\note{ここでは、あなたはクラスの設計者であるとしましょう。あなたはSILEがこれから説明するコマンドや機能をどう実装しているかについての細部を、きちんと理解できるようになるものとしましょう。我々はまた、Luaレベルでこのコンポーネントにどうアクセスするのか見るでしょう。}
+
+\section{ボックスとグルー、ペナルティ}
+
+SILEの仕事は、大雑把に言うと、小さなボックスをページに配置するだけのことです。これらのボックスのうちいくつかは、その内部に文字を持ち、そしてそれらの文字はある幅や高さを持ち、またボックスはスペースを占有するだけで空っぽであったりします。ボックスの、ひとつの水平な集まりが出来上がる（つまりラインブレークが起こる）と、それは別のボックスの中に押し込まれ、それらが集まってできるボックスの垂直なリストは、ページを構成するよう配置されます。
+
+概念的に、SILEはいくつかの基本的なコンポーネントを知っています。水平ボックス（文字など）、水平グルー（伸縮可能な単語間のスペース）、垂直ボックス（テキストから構成される行）、垂直グルー（行間やパラグラフ間のスペース）、そしてペナルティ（いかなるときに行やページを分割するかの情報）です。\footnote{これらに加えて、あと3つのボックスの種類があります。N-ノード、アンシェイプド・ノード、そしてディスクレショナリー（任意の）ノードです。}
+
+とにかく簡単に使えるのは、水平・垂直グルーです。SILEの入力ストリームに直接これらグルーを加えるには、\code{\\glue}と\code{\\skip}コマンドを使います。水平・垂直グルーはそれぞれ、\code{width}と\code{height}パラメータを取ります。このパラメータはグルー・ディメンジョン（寸法）です。例えば、\code{\\smallskip}コマンドは、\code{\\skip[height=3pt plus 1pt minus 1pt]}で、\code{\\thinspace}は\code{\\glue[width=0.16667em]}と定義されています。
+
+同様に、\code{\\penalty}コマンドが、ペナルティノードを挿入するのに使えます。\code{\\break}は\code{\\penalty[penalty=-10000]}と、\code{\\nobreak}は\code{\\penalty[penalty=10000]}と定義されています。
+
+水平あるいは垂直ボックスを生成することもできます。これを行うひとつの明白な動機は、改ページや改行によって分割されて欲しくないものがあることでしょう。別の理由としては、一度ボックスとして構築されると、それがどのくらいの大きさを占めるのかが明らかになることです。\code{\\hbox}と\code{\\vbox}コマンドはその内容をボックスに配置し、Luaから呼び出されるときは新たなボックスを\em{返し}（\em{return}し）ます。
+
+\subsection{Luaインターフェイス}
+
+SILEのLuaインターフェイスには、ボックスとグルーを扱うための\code{nodefactory}があります。この話題に移る前に、次のことを理解しておいてください。グルー量は常に\code{SILE.length}オブジェクトで指定されます。これは、基本長とストレッチ、シュリンクの3要素からなるという意味での「3次元」量です。\code{SILE.length}を構築するには、
+
+\begin{verbatim}
+\line
+local l = SILE.length.new(\{ length = x, stretch = y, shrink = z\})
+\line
+\end{verbatim}
+
+\noindent{}のようにします。
+
+水平グルーや垂直グルーを作るには、
+
+\begin{verbatim}
+\line
+local glue  = SILE.nodefactory.newGlue (\{ width =  l\})
+local vglue = SILE.nodefactory.newVglue(\{ height = l\})
+\line
+\end{verbatim}
+
+SILEの組版エンジンは\code{SILE.typesetter}オブジェクトにより構成されます。これはふたつのキューを管理します—ノードキュー（\code{SILE.typesetter.state.nodes}）は、すぐに行に分割されることになる、新たな水平ボックスと水平グルーの集まりです。出力キュー（\code{SILE.typesetter.state.outputQueue}）はページに分割されることになる垂直要素（行）から構成されます。ラインブレーキングやページブレーキングはタイプセッタが水平モードと垂直モードの間を遷移する際に起こります。あなたはこれを\code{SILE.typesetter:leaveHmode()}で強制することができます。SILEレベルでは、パラグラフの終了を強制するコマンドは\code{\\par}です。
+
+あなたが垂直なスペースを加えたいとしましょう。この場合、まずは\code{SILE.typesetter:leaveHmode()}によって、現在のパラグラフの処理対象が適切にボックス化され、出力キューに送られることを確実にします。その後あなたは、望みのグルーを出力キューに加えることができます。
+
+ボックスとグルーをキューに送るということは、よくあるオペレーションで、そのための特別なメソッドが存在します。
+
+\begin{verbatim}
+\line
+SILE.typesetter:leaveHmode()
+SILE.typesetter:pushVglue(\{ height = l \})
+\line
+\end{verbatim}
+
+ボックスをキューに追加することはやや複雑です。なぜならボックスは何らかのやり方でページに描画される必要があるからです。これを容易にするために、ボックスは通常、\code{value}と\code{outputYourself}メンバ関数を備えます。例えば、\code{image}パッケージはこれを非常に単純なやり方で実現します。画像の幅と高さ、画像のソース、画像を表示するための出力エンジンへの指示、を記した水平ボックスをノードキューに送ります。
+
+\begin{verbatim}
+\line
+SILE.typesetter:pushHbox(\{
+  width= \dots,
+  height= \dots,
+  depth= 0,
+  value= options.src,
+  outputYourself= function (this, typesetter, line)
+    SILE.outputter.drawImage(this.value,
+      typesetter.frame.state.cursorX, typesetter.frame.state.cursorY-this.height,
+      this.width,this.height
+    );
+    typesetter.frame:moveX(this.width)
+end\});
+\line
+\end{verbatim}
+
+水平・垂直ペナルティをキューに送るには、単に\code{SILE.typesetter:pushPenalty(\{penalty = x\})}と\code{SILE.typesetter:pushVpenalty(\{penalty = y\})}メソッドを使用します。
+
+\section{フレーム}
+
+既に述べたように、SILEは文章をページ上のフレームに配置します。通常これらのフレームは、文書クラスで定義されています。しかしながら、あなたはフレームをページごとに作ることができます。これを行うには、\code{\\pagetemplate}と\code{\\frame}コマンドを使います。このようなことを行いたい状況というものは、ごく限られているでしょう。しかしながら、これについて理解することは、文書クラスを自らの手で作成するのに役立つでしょう。
+
+例として、2段組みレイアウトを実現したいとしましょう。SILEはフレームを宣言するのに、\em{constraint solver}システムを利用しています。あなたはフレームが互いにどのように関係しているかSILEに教え、SILEはページ上にそれがどのように配置されるべきか計算します
+
+具体的な手順を見てみましょう。まずは改ページから始まります。なぜならSILEは、ページにテキストを配置し始めた後にページレイアウトを変えることを許可しないからです。\footnote{もちろんあなたは\code{frametricks}パッケージを使ってこの制限を回避することができます—現在のフレームを分割し、\code{frametricks}がこしらえた新たなフレームを操るのです。}どのようにして新しいページを始めることができたでしょう？\code{\\eject}（垂直モード中の\code{\\break}の別名）が出力キューにペナルティを加えるのみであることを思い出してください。そして、改ページは水平モードを去るときに引き起こされます。それを行うには\code{\\par}です。つまり、\code{\\eject\\par}をした後に、\code{\\pagetemplate}を開始できます。
+\code{\\pagetemplate}の中では、我々はSILEにどのフレームを用いるのか指示する必要があります。
+
+\begin{verbatim}
+\line
+\\eject\\par
+\\begin[first-content-frame=leftCol]\{pagetemplate\}
+\line
+\end{verbatim}
+
+それではカラムを宣言しましょう。その前にまずガター（溝）\footnote{適切な用語分かりません。カラム間のアキのことです。}を宣言します。なぜならそれは既に分かっているのものであり、定義可能だからです。ここではページ幅の3\%としましょう。
+
+\begin{verbatim}
+\line
+\\frame[id=gutter,width=3\%]
+\line
+\end{verbatim}
+
+\begin{note}%
+フレームのサイズは通常の\code{<dimension>}で記述されます。加えて以下の3つも可能です。
+
+\noindent• 他のフレームのプロパティを\code{top()}、\code{bottom()}、\code{left()}、\code{right()}、\code{height()}、\code{width()}関数で参照することができます。この関数はフレームIDを引数にとります。SILEではフレーム\code{page}が定義済みとなっており、これによりページ全体のサイズにアクセスできます。
+
+\noindent• 算術関数が利用可能です。plus、minus、divide、multiply、そして括弧は数式でのそれと同じ意味を持ちます。フレーム\code{b}がフレーム\code{a}の半分の高さに5ミリ加えたものであると宣言するには、\code{height=5mm + (height(b) / 2)}とします。しかしながら、後に見るように、SILEにこのような計算を任せるようにしたほうが良いでしょう。
+
+\noindent• 版面のデザインはしばしばページに対する割合で指定されるため、ショートカットとして、\code{width=5\%}を\code{width=0.05 * width(page)}の代わりに、\code{height=50\%}を\code{height=0.5 * height(page)}の代わりに使うことができます。SILEはあなたが垂直・水平どちらの割合指定をおこなうつもりなのか、判断できます。
+
+\end{note}
+
+次に左右のカラムのためのフレームを準備しましょう。\code{book}クラスは既にいくつかのフレームを定義しています。ひとつは\code{content}で、本文用にちょうど良いサイズと位置に配置されています。我々は、このフレームの境界をカラムの宣言に使います。左カラムの左マージンはこのフレームの左マージンで、右カラムの右マージンはこれの右マージンです。また、我々の目的には追加のパラメータが必要となります。なぜなら以下の要件、
+
+\noindent• ガターはふたつのカラムの間に配置される。
+
+\noindent• ふたつのカラムは同じ幅を持つ。（この幅は明らかではないが、SILEがうまくやってくれる）
+
+\noindent• 左カラムがいっぱいになったら、右カラムに移動して文章を続ける。
+
+\noindent{}を満たす必要があるからです。
+
+\begin{verbatim}
+\line
+\\frame[id=leftCol, left=left(r), right=left(gutter),
+       top=top(r), bottom=bottom(r),
+       next=rightCol]
+\\frame[id=rightCol, left=right(gutter), right=right(r),
+       top=top(r), bottom=bottom(r),
+       width=width(leftCol)]
+\line
+\end{verbatim}
+
+そして、ようやく\code{pagetemplate}を完了させます。
+
+\begin{verbatim}
+\line
+\\end\{pagetemplate\}
+\line
+\end{verbatim}
+
+実際に試してみましょう。
+\eject\par%
+\begin[first-content-frame=leftCol]{pagetemplate}
+\frame[id=gutter,width=3%]
+\frame[id=leftCol,left=left(content),right=left(gutter),top=top(content),bottom=bottom(content),next=rightCol]
+\frame[id=rightCol,left=right(gutter),right=right(runningHead),top=top(content),bottom=bottom(content),width=width(leftCol)]
+\end{pagetemplate}
+\showframe[id=leftCol]\showframe[id=rightCol]
+
+このページは2段組みになっています。
+
+次の章では、フレームの宣言に関する知識を、独自の文書クラスを作成するために役立ててみましょう。とりあえず、段組みがきちんとできていることを示すために、ダミーの文章を流しておきましょう。
+
+\lorem[words=500]
+
+\chapter{文書クラスの設計}
+
+\changed
+
+ひとつのページ上でフレームレイアウトを定義する方法を学んだところで、文書全体でそれを定義する方法へと進みましょう。
+
+文書クラスはLuaファイルで、それはカレントディレクトリ、あるいはSILE検索パス（典型的には\code{/usr/local/share/sile}）の\code{classes/}サブディレクトリにあります。 それでは、マージンと本文領域\footnote{訳注：原文はtypeblock。}のサイズを変えるだけの、単純なクラスを作成してみましょう。我々はこれを\code{bringhurst.lua}と名付けます。なぜならばこれは、、Hartley
+& Marks editionのRobert Bringhurstによる『The Elements of Typographical Style』のレイアウトを複製するからです。
+
+我々が設計するのは、本用のクラスです。このためSILEの\code{book}クラス、\code{classes/book.lua}、を継承すると良いでしょう。
+
+ざっと\code{book.lua}の内容を覗いてみましょう。最初のクラス定義の後、\code{masters}パッケージを読み込んでいます。そしてマスタを以下のフレームとして定義します。（可読性のために適宜、改行を入れています）
+
+\begin{verbatim}
+\line
+book:defineMaster(\{
+  id = "right",
+  firstContentFrame = "content",
+  frames = \{
+
+    content = \{
+      left = "8.3\%", right = "86%",
+      top = "11.6\%", bottom = "top(footnotes)"
+    \},
+
+    folio = \{
+      left = "left(content)", right = "right(content)",
+      top = "bottom(footnotes)+3\%",bottom = "bottom(footnotes)+5\%"
+    \},
+
+    runningHead = \{
+      left = "left(content)", right = "right(content)",
+      top = "top(content) - 8\%", bottom = "top(content)-3\%"
+    \},
+
+    footnotes = \{
+      left ="left(content)", right = "right(content)",
+      height = "0", bottom="83.3\%"
+    \}
+  \}
+\})
+\line
+\end{verbatim}
+
+4つのフレームが宣言されていることが分かります。最初のは本文用のフレームで、SILEでは約束事として\code{content}と呼びます。\code{content}フレームの下部に隣接するのは、 \code{footnotes}フレームです。本文領域の上辺と注釈用フレームの下辺は固定された位置に来ます。しかしながら、本文領域と注釈の間の境界は可変です。初期値として、注釈用フレームの高さはゼロです。（そして本文領域がページの全領域を占めます）注釈が挿入されると、それらの高さは調整されます。
+
+フォリオフレーム(ノンブル：ページ番号の部分) は注釈の下にきます。そしてヘッダ（柱）は\code{content}フレームの上に来ます。
+
+次に我々は、\code{twoside}パッケージで右ページと左ページが対になるようにします。
+
+\begin{verbatim}
+\line
+book:loadPackage("twoside", { oddPageMaster = "right", evenPageMaster = "left" });
+book:mirrorMaster("left", "right")
+\line
+\end{verbatim}
+
+The book class also sets up commands for sectioning, and declares various
+things that need to be done at the start and end of each page.
+Since we will be inheriting from the book class, we will have all
+these definitions already available to us. All we need to do is set
+up our new class, and then define what is different about it. Here is
+how we set up the inheritance:
+
+\begin{verbatim}
+\line
+local book = SILE.require("classes/book")
+local bringhurst = book { id = "bringhurst" }
+...
+return bringhurst
+\line
+\end{verbatim}
+
+Now we need to define our frame masters.
+
+The LaTeX memoir class’ \em{A Few Notes
+On Book Design} tells us that Bringhurst’s book has a spine margin one thirteenth
+of the page width; a top margin eight-fifths of the spine margin; a front margin
+and bottom margin both sixteen-fifths of the spine margin. We can define this in SILE
+terms like so:
+
+\begin{verbatim}
+\line
+bringhurst:defineMaster(\{
+  id = "right", firstContentFrame = "content",
+  frames = \{
+    content = \{
+      left = "width(page)/13",
+      top = "left(content) * 8 / 5",
+      right = "100% - 2*top(content)",
+      bottom = "top(footnotes)"
+    \},
+    folio = \{ ... as before ... \},
+    footnotes = \{ ... as before ... \},
+    runningHead = \{ ... as before ... \},
+    \},
+  \}
+\})
+bringhurst:mirrorMaster("right", "left")
+\line
+\end{verbatim}
+
+We are nearly finished!
+
+If we try this class as-is, we’ll
+actually find that the running headers are too high, because the typeblock is
+higher on the page than the standard book class, and the running heads are
+defined relative to them.
+
+So, we need to change the definition the running header frame to bring them
+down a bit lower:
+
+\begin{verbatim}
+\line
+  runningHead = \{
+    left = "left(content)", right = "right(content)",
+    top = "top(content) - 4\%", bottom = "top(content)-2\%"
+  \},
+\line
+\end{verbatim}
+
+If all we want to do in our new class is to create a different page shape,
+this is all we need.
+
 
 \end{document}
