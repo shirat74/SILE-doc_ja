@@ -46,7 +46,7 @@ SILEは組版システムです。その目的は美しい文書を生成する�
 Writer（OpenOfficeやLibreOfficeに含まれます）といったソフトウェア、あるいはそれらに似たワープロソフトを利用します。
 しかしながら、SILEはワープロソフトではありません。それは組版システムです。そこにはいくつかの重要な違いがあります。
 
-ワープロソフトの目的はあなたがスクリーン上で入力したものと全く同一に見える文書を作成することにあります。一方、SILEはあなたが入力したものを、文書を作成するための指示だとみなし、それをもとに可能な限り良く見える文書を生成します。
+ワープロソフトの目的は、あなたがスクリーン上で入力したものと全く同一に見える文書を作成することにあります。一方、SILEはあなたが入力したものを、文書を作成するための指示だとみなし、それをもとに可能な限り良く見える文書を生成します。
 
 少し具体的にみてみましょう。ワープロソフトでは、あなたが入力をしている文章が行の右端にさしかかると、カーソルは自動的に次の行に移動します。ワープロソフトは改行位置をあなたに示してくれます。SILEでは、あなたが文章を入力している段階では改行位置を知らせてくれません。その段階ではまだそれは明らかになっていないからです。あなたは好きなだけ長い行を打ち込むことができます。SILEはそれを処理する段階になって、パラグラフを構築するために、文章の最適な改行位置を探します。この処理はひとつの入力に対して（最大で）3回行われます。ふたつの連続した行がハイフネートされた語で終わっていないか、などあまりよろしくない状況が考慮され、最適な改行位置が見つかるよう処理が繰り返されます。
 
@@ -62,25 +62,25 @@ Writer（OpenOfficeやLibreOfficeに含まれます）といったソフトウ�
 
 実際、TeXのようだというのは正しい意見です。SILEはTeXからかなりのものを引き継いでいます。SILEのような小さなプロジェクトが、TeXという、“The Art of Computer Programming”の著者たる某教授の、偉大な創造物の後継者だと名乗るのはおこがましいかもしれませんが\dots{}SILEはTeXの現代的な再創生です。
 
-TeXは組版システムのなかでも最初期のもののうちのひとつで、それゆえほとんど何もないところから設計されなければなりませんでした。そのうちいくつかは時の試練に耐え—そしてTeXはその創造から30年以上たった今でも最もよく利用される組版システムのうちのひとつであり、それはその設計とパフォーマンスの証である—多くはそうではありませんでした。実際、Knuthの時代からのTeXの発展の歴史の大部分は彼の元々の設計を取り除き、新たな業界標準技術で置き換えることでした。例えば、我々はMETAFONTではなくTrueTypeフォントを使い（xetexのように）、DVIではなくPDFを使い（pstexやpdftex）、7ビットのASCIIではなくUnicodeを使い（これもxetex）、マクロ言語ではなくマークアップ言語や組込みのプログラミング言語を使います（xmltexやluatex）。現在、我々が\em{依然として利用する}TeXのオリジナルの部分は、⑴ボックスとグルー・モデル、⑵ ハイフネーション・アルゴリズム、⑶改行処理アルゴリズムです。
+TeXは組版システムのなかでも最初期のもののうちのひとつで、それゆえほとんど何もないところから設計されなければなりませんでした。そのうちいくつかは時の試練に耐え—そしてTeXはその創造から30年以上たった今でも最もよく利用される組版システムのうちのひとつであり、それはその設計とパフォーマンスの証である—多くはそうではありませんでした。実際、Knuthの時代より続くTeXの発展の歴史の大半は、彼の元々の設計を取り除き、新たな業界標準技術で置き換えることでした。例えば、我々はMETAFONTではなくTrueTypeフォントを使い（xetexのように）、DVIではなくPDFを使い（pstexやpdftex）、7ビットのASCIIではなくUnicodeを使い（これもxetex）、マクロ言語ではなくマークアップ言語や組込みのプログラミング言語を使います（xmltexやluatex）。現在、我々が\em{依然として利用する}TeXのオリジナルの部分は、⑴ボックスとグルー・モデル、⑵ ハイフネーション・アルゴリズム、⑶改行（行分割）処理アルゴリズムです。
 
 SILEは上記3つの点をTeXから受け継いでいます。SILEはTeXの改行処理アルゴリズムのほぼ丸写しな移植を含み、それは同じ入力が与えられたとき、TeXと全く同じ出力が得られるようにテストされています。しかしながら、SILE自身がスクリプト言語で書かれているため、\footnote{もしもあなたが\code{TeX capacity exceeded}というメッセージに馴染んでいるならば、これはさぞかし興味深いことでしょう。}SILEの組版エンジンの動作を拡張したり、変更したりすることが容易にできます。
 
-例えばTeXが苦手とすることのひとつとしてグリッド上での組版があります。この機能は聖書を組むような人にとっては重要なものです。これをTeX上で行う試みはなされてきましたが、どれもひどいものでした。SILEでは組版エンジンの動作を変更し、ごく簡単なアドオンパッケージを用意することでグリッド上での組版を可能にします。
+例えばTeXが苦手とすることのひとつとして、グリッド上での組版があります。この機能は聖書を組むような人にとっては重要なものです。これをTeX上で行う試みはなされてきましたが、どれもひどいものでした。SILEでは組版エンジンの動作を変更し、ごく簡単なアドオンパッケージを用意することでグリッド上での組版を可能にします。
 
 もちろん、いまどきだれもplain TeXを使いません—だれもがLaTeXで同様のことを行い、そのうえCTANから入手可能な巨大なパッケージ群を活用しています。SILEは未だTeXが持つような巨大なコミュニティやリソースを持たず、そのようなものを活用することができません。この点においてTeXはSILEよりもずっと先を行っています。しかし、\em{可能性}という点において、TeXと同等か、あるいはもっと進んでいるとも言えるところがあるかもしれません。
 \supereject
 
 \section{SILEとInDesign}
 
-人々が出版物をデザインするとき辿りつくツールとしてInDesign（あるいはそれと似たDTPソフト、例えばScribus）があります。
+人々が出版物をデザインするとき辿りつくツールとして、InDesign（あるいはそれと似たDTPソフト、例えばScribus）があります。
 
 \float[rightboundary=7pt, bottomboundary=15pt]{\img[src=documentation/fig1.png,width=150]}
 InDesignは複雑で高価な商用出版ツールです。それは非常にグラフィカルです—クリックやドラッグといったマウス操作でテキストや画像をスクリーン上で移動させます。SILEは自由なオープンソースの組版ツールで、完全にテキストベースです。SILEではエディタでコマンドを入力し、それらのコマンドをファイルに保存し、SILEに組版させるために渡します。これらの根本的な違いにかかわらず、この2つには共通した特徴があります。
 
 InDesignでは文章はページ上の\em{フレーム}に流しこまれます。左の図はInDesignでよくあるレイアウトがどのようなものかを示しています。
 
-SILEもまたページ上でどこに文章が表示されるべきかをフレームという概念を用いて決定します。そのためSILEではTeXでできうるよりもっと複雑で柔軟なページレイアウトを設計することが可能です。
+SILEもまたページ上でどこに文章が表示されるべきかを、フレームという概念を用いて決定します。そのためSILEではTeXでできうるよりもっと複雑で柔軟なページレイアウトを設計することが可能です。
 
 InDesignで有用な機能として、構造化されたXMLデータ形式を用いたカタログや名簿などの出版があります。InDesignでこれを行うには、まずそれぞれのXML要素にどのようなスタイルが適用されるか宣言します。データがInDesignに読み込まれると、InDesignは与えられたルールに従ってデータを整形し出力します。
 
@@ -433,13 +433,13 @@ Big text!
 
 \section{文書構造}
 
-SILEは様々な文書\em{クラス}（LaTeXのクラスと似た）を提供します。デフォルトでは、文書の構造化をごくわずかにサポートするのみの、\em{plain}クラスが用いられます。他には\em{book}クラスがあり、これは左右のページマスタ、ヘッダと脚注、章、節などのヘッディングをサポートします。
+SILEは様々な文書\em{クラス}（LaTeXのクラスと似た）を提供します。デフォルトでは、文書の構造化をごくわずかにサポートするのみの、\em{plain}クラスが用いられます。他には\em{book}クラスがあり、これは左右のページマスタ、ヘッダと脚注、章、節などのヘッディング（柱）をサポートします。
 
 この節のコマンドを使うには、あなたの文書の\code{\\begin\{document\}}コマンドで\em{book}クラスを指定する必要があります。あなたが今読んでいるこの文書は実際に、\code{\\begin[papersize=a4,class=book]\{document\}}で始まります。
 
 \subsection{章と節}
 
-あなたは文書を\code{\\chapter\{\dots\}}、\code{\\section\{\dots\}}、そして \code{\\subsection\{\dots\}}などのコマンドを使って分割することができます。これらのコマンドは引数として、その章や節のタイトルをとります。章は新たな左ページから始まり、章のタイトルは左ページのヘッダに表示されます。加えて、節のタイトルは右ページのヘッダに表示されます。
+あなたは文書を\code{\\chapter\{\dots\}}、\code{\\section\{\dots\}}、そして \code{\\subsection\{\dots\}}などのコマンドを使って分割することができます。これらのコマンドは引数として、その章や節の見出しをとります。章は新たな左ページから始まり、章の見出しは左ページのヘッダに表示されます。加えて、節の見出しは右ページのヘッダに表示されます。
 
 \note{章や節は自動的に１から番号付けされて開始されます。この動作を変更するには、次の章の\code{counters}パッケージの解説を参照してください。番号付けを抑制したければ、パラメータ\code{[numbering=no]}を与えます。}
 
@@ -451,7 +451,7 @@ SILEは様々な文書\em{クラス}（LaTeXのクラスと似た）を提供し
 
 \section{インデントとスペーシング}
 
-SILEでは、パラグラフは通常インデントされます（デフォルトで20ポイント幅です）。これを抑制するには\code{\\noindent}コマンドを、パラグラフの先頭に付与します。(このパラグラフのような、最初のパラグラフでは\code{\\noindent}は必要ありません。なぜなら\code{\\section}と\code{\\chapter}は自動的に、章や節のタイトルに続く文章に対してそれを呼ぶからです）\code{\\noindent}は\code{\\indent}コマンドを続けて呼ぶことで打ち消すことができます。
+SILEでは、パラグラフは通常インデントされます（デフォルトで20ポイント幅です）。これを抑制するには\code{\\noindent}コマンドを、パラグラフの先頭に付与します。(このパラグラフのような、最初のパラグラフでは\code{\\noindent}は必要ありません。なぜなら\code{\\section}と\code{\\chapter}は自動的に、章や節の見出しに続く文章に対してそれを呼ぶからです）\code{\\noindent}は\code{\\indent}コマンドを続けて呼ぶことで打ち消すことができます。
 
 パラグラフ間、あるいはパラグラフと他の要素との間の垂直方向のスペース分量を増やすには、 \code{\\smallskip}、\code{\\medskip}および\code{\\bigskip}が使えます。これらはそれぞれ、3pt、6pt、12ptのスペースに相当します。このパラグラフの後に\code{\\bigskip}を入れてみましょう。
 
@@ -908,7 +908,7 @@ SILEにおいてもこれは同じことです。しばらくSILEを使ってい
 \define[command=SILE]{S\lower[height=0.5ex]{I}L\glue[width=-.2em]\raise[height=0.6ex]{\font[size=0.8em]{E}}}
 仮にSILEのちょっとした「でこぼこ道」ロゴをデザインしたいとしましょう。（ T\glue[width=-.1667em]\lower[height=0.5ex]{E}\glue[width=-.125em]Xの熱烈なファンにはおなじみの）我々のロゴは「\SILE」です。あまり素晴らしいものとは言えませんが、この節ではこのロゴを例題として用いましょう。
 
-このロゴを出力するには、我々は\SILEに、‘S’を、少し下げ（ちょうどexの半分）て‘I’を、続けて‘L’を、ちょっと戻って少し小さな‘E’をやや持ちあげて、出力するように指示ます。
+このロゴを出力するには、我々は\SILEに、‘S’を、少し下げて（ちょうどexの半分）‘I’を、続けて‘L’を、ちょっと戻って少し小さな‘E’をやや持ちあげて、出力するように指示します。
 
 \SILEコードではこれは、
 
@@ -978,7 +978,7 @@ Making things red is a \\red\{silly\} way to emphasise text.
 \begin{note}
 \code{\\process}コマンドはひとつのマクロ中で何度も呼ぶことはできません。
 
-%例えば\code{\\chapter}コマンドの定義では、⑴章のタイトルを大きな太字で描画する、⑵章のタイトルを左ページのヘッダとして使う、という処理が入ります。もしあなたが、\code{\\chapter}コマンドを自身で定義しようとするならば、困ったことにまります。章のタイトルを太字で描画するために\code{\\process}を使ってしまったら、ヘッダでそれを使えなくなってしまうのです。
+%例えば\code{\\chapter}コマンドの定義では、⑴章の見出しを大きな太字で描画する、⑵章の見出しを左ページのヘッダとして使う、という処理が入ります。もしあなたが、\code{\\chapter}コマンドを自身で定義しようとするならば、困ったことにまります。章の見出しを太字で描画するために\code{\\process}を使ってしまったら、ヘッダでそれを使えなくなってしまうのです。
 
 このため、\code{\\chapter}コマンドは単純なマクロとしては実装できません。コマンドを定義する別の方法は、Luaプログラミング言語を使ってそれを書くことです。そしてそれは実際に\code{\\chapter}コマンドの定義で行われています。後の章でどのようにそれを行うか見るでしょう。.
 
@@ -1212,7 +1212,7 @@ SILEの仕事は、大雑把に言うと、小さなボックスをページに�
 
 概念的に、SILEはいくつかの基本的なコンポーネントを知っています。水平ボックス（文字など）、水平グルー（伸縮可能な単語間のスペース）、垂直ボックス（テキストから構成される行）、垂直グルー（行間やパラグラフ間のスペース）、そしてペナルティ（いかなるときに行やページを分割するかの情報）です。\footnote{これらに加えて、あと3つのボックスの種類があります。N-ノード、アンシェイプド・ノード、そしてディスクレショナリー（任意の）ノードです。}
 
-とにかく簡単に使えるのは、水平・垂直グルーです。SILEの入力ストリームに直接これらグルーを加えるには、\code{\\glue}と\code{\\skip}コマンドを使います。水平・垂直グルーはそれぞれ、\code{width}と\code{height}パラメータを取ります。このパラメータはグルー・ディメンジョン（寸法）です。例えば、\code{\\smallskip}コマンドは、\code{\\skip[height=3pt plus 1pt minus 1pt]}で、\code{\\thinspace}は\code{\\glue[width=0.16667em]}と定義されています。
+とにかく使い勝手がいいのは、水平および垂直グルーです。SILEの入力ストリームに直接これらのグルーを挿入するには、\code{\\glue}と\code{\\skip}コマンドを使います。水平・垂直グルーはそれぞれ、\code{width}と\code{height}パラメータを取ります。このパラメータはグルー・ディメンジョン（寸法）です。例えば、\code{\\smallskip}コマンドは、\code{\\skip[height=3pt plus 1pt minus 1pt]}で、\code{\\thinspace}は\code{\\glue[width=0.16667em]}と定義されています。
 
 同様に、\code{\\penalty}コマンドが、ペナルティノードを挿入するのに使えます。\code{\\break}は\code{\\penalty[penalty=-10000]}と、\code{\\nobreak}は\code{\\penalty[penalty=10000]}と定義されています。
 
@@ -1277,7 +1277,7 @@ end\});
 
 既に述べたように、SILEは文章をページ上のフレームに配置します。通常これらのフレームは、文書クラスで定義されています。しかしながら、あなたはフレームをページごとに作ることができます。これを行うには、\code{\\pagetemplate}と\code{\\frame}コマンドを使います。このようなことを行いたい状況というものは、ごく限られているでしょう。しかしながら、これについて理解することは、文書クラスを自らの手で作成するのに役立つでしょう。
 
-例として、2段組みレイアウトを実現したいとしましょう。SILEはフレームを宣言するのに、\em{constraint solver}システムを利用しています。あなたはフレームが互いにどのように関係しているかSILEに教え、SILEはページ上にそれがどのように配置されるべきか計算します
+例として、二段組みレイアウトを実現したいとしましょう。SILEはフレームを宣言するのに、\em{constraint solver}\footnote{制約（constraint）を解決する（solve）}システムを利用しています。あなたがフレームが互いにどのように関係しているかをSILEに教えると、SILEはページ上にそれがどのように配置されるべきか計算して教えてくれます。
 
 具体的な手順を見てみましょう。まずは改ページから始まります。なぜならSILEは、ページにテキストを配置し始めた後にページレイアウトを変えることを許可しないからです。\footnote{もちろんあなたは\code{frametricks}パッケージを使ってこの制限を回避することができます—現在のフレームを分割し、\code{frametricks}がこしらえた新たなフレームを操るのです。}どのようにして新しいページを始めることができたでしょう？\code{\\eject}（垂直モード中の\code{\\break}の別名）が出力キューにペナルティを加えるのみであることを思い出してください。そして、改ページは水平モードを去るときに引き起こされます。それを行うには\code{\\par}です。つまり、\code{\\eject\\par}をした後に、\code{\\pagetemplate}を開始できます。
 \code{\\pagetemplate}の中では、我々はSILEにどのフレームを用いるのか指示する必要があります。
@@ -1289,7 +1289,7 @@ end\});
 \line
 \end{verbatim}
 
-それではカラムを宣言しましょう。その前にまずガター（溝）\footnote{適切な用語分かりません。カラム間のアキのことです。}を宣言します。なぜならそれは既に分かっているのものであり、定義可能だからです。ここではページ幅の3\%としましょう。
+それでは段を宣言しましょう。その前にまず段間を宣言します。なぜならそれは既知のものとして定義可能だからです。ここではそれを、ページ幅の3\%としましょう。
 
 \begin{verbatim}
 \line
@@ -1308,13 +1308,13 @@ end\});
 
 \end{note}
 
-次に左右のカラムのためのフレームを準備しましょう。\code{book}クラスは既にいくつかのフレームを定義しています。ひとつは\code{content}で、本文用にちょうど良いサイズと位置に配置されています。我々は、このフレームの境界をカラムの宣言に使います。左カラムの左マージンはこのフレームの左マージンで、右カラムの右マージンはこれの右マージンです。また、我々の目的には追加のパラメータが必要となります。なぜなら以下の要件、
+次に左右の段のためのフレームを準備しましょう。\code{book}クラスは既にいくつかのフレームを定義しています。ひとつは\code{content}で、本文用にちょうど良いサイズと位置に配置されています。我々は、このフレームの境界を段の宣言に使います。左段の左マージンはこのフレームの左マージンで、右段の右マージンはこれの右マージンです。また、我々の目的には追加のパラメータが必要となります。なぜなら以下の要件、
 
-\noindent• ガターはふたつのカラムの間に配置される。
+\noindent• 段間の余白はふたつの段の間に配置される。
 
-\noindent• ふたつのカラムは同じ幅を持つ。（この幅は明らかではないが、SILEがうまくやってくれる）
+\noindent• ふたつの段は同じ幅を持つ。（この幅は明らかではないが、SILEがうまくやってくれる）
 
-\noindent• 左カラムがいっぱいになったら、右カラムに移動して文章を続ける。
+\noindent• 左段がいっぱいになったら、右段に移動して文章を続ける。
 
 \noindent{}を満たす必要があるからです。
 
@@ -1358,8 +1358,8 @@ end\});
 
 ひとつのページ上でフレームレイアウトを定義する方法を学んだところで、文書全体でそれを定義する方法へと進みましょう。
 
-文書クラスはLuaファイルで、それはカレントディレクトリ、あるいはSILE検索パス（典型的には\code{/usr/local/share/sile}）の\code{classes/}サブディレクトリにあります。 それでは、マージンと本文領域\footnote{訳注：原文はtypeblockです。}のサイズを変えるだけの、単純なクラスを作成してみましょう。我々はこれを\code{bringhurst.lua}と名付けます。なぜならばこれは、Hartley
-& Marks editionのRobert Bringhurstによる『The Elements of Typographical Style』のレイアウトを複製するからです。
+文書クラスはLuaファイルで、それはカレントディレクトリ、あるいはSILE検索パス（典型的には\code{/usr/local/share/sile}）の\code{classes/}サブディレクトリにあります。 それでは、マージンと本文領域\footnote{訳注：版面。原文はtypeblockです。}のサイズを変えるだけの、単純なクラスを作成してみましょう。我々はこれを\code{bringhurst.lua}と名付けます。なぜならばこれは、Hartley
+& Marks版、Robert Bringhurstによる『The Elements of Typographical Style』のレイアウトを模倣するからです。
 
 我々が設計するのは、本用のクラスです。このためSILEの\code{book}クラス、\code{classes/book.lua}、を継承すると良いでしょう。
 
@@ -1398,7 +1398,7 @@ book:defineMaster(\{
 
 4つのフレームが宣言されていることが分かります。最初のは本文用のフレームで、SILEでは約束事として\code{content}と呼びます。\code{content}フレームの下部に隣接するのは、\code{footnotes}フレームです。本文領域の上辺と注釈用フレームの下辺は固定された位置に来ます。しかしながら、本文領域と注釈の間の境界は可変です。初期値として、注釈用フレームの高さはゼロです。（そして本文領域がページの全領域を占めます）注釈が挿入されると、それらの高さは調整されます。
 
-フォリオフレーム(ページ番号の部分)\footnote{訳注：ノンブル} は注釈の下に来ます。そしてヘッダ（柱）は\code{content}フレームの上に来ます。
+フォリオフレーム(ページ番号の部分)\footnote{訳注：ノンブル} は注釈の下に来ます。そしてヘッダは\code{content}フレームの上に来ます。
 
 次に我々は、\code{twoside}パッケージで右ページと左ページが対になるようにします。
 
@@ -1623,27 +1623,18 @@ return \{
 
 \begin{verbatim}
 \line
-  exports = {writeToc = writeToc, moveTocNodes = moveNodes}
+  exports = \{writeToc = writeToc, moveTocNodes = moveNodes\}
 \}
 \line
 \end{verbatim}
 
 \noindent{}となっている場合には、\code{tableofcontents}パッケージをロードするクラスは\code{self:writeToc()}と\code{self:moveTocNodes()}を呼び出すことができます。（エクスポートしたときにリネームされていることに注意）これらのメソッドを出力ルーチンの適切な場面で呼び出すのは、そのクラスの責任です。
 
-\chapter{Advanced Class Files 1: SILE As An XML Processor}
+\chapter{高度なクラスファイル1: XMLプロセッサとしてのSILE}
 
-Now we are ready to look at a worked example of writing a class to turn an arbitrary
-XML format into a PDF file. We’ll be looking at the DocBook processor that ships with
-SILE. DocBook is an XML format for structured technical documentation. DocBook itself
-doesn’t encode any presentation information about how its various tags should be rendered
-on a page, and so we shall have to make all the presentation decisions for ourself.
+今や我々は、任意のXML形式のファイルを、PDFへと変換する実例を解説する段階に来ました。SILEに同梱されているDocBookプロセッサを例にとって見ていきましょう。DocBookは技術文書を作成するためのXML文書形式です。DocBook自身は、それが用いるタグがどのように表示されるべきかについては定めていません。よって我々は、自身で文書の体裁を定めなければなりません。
 
-The first thing you should know is that it makes your life significantly easier if you
-consider writing the class file in \em{two} files; the first being a SILE file in TeX
-format, and the second as Lua code. This allows you to dispose of all the easy jobs in a 
-convenient format, and then deal with the hard jobs in Lua. When you use the 
-\code{-I \em{classname}} command line option to SILE, SILE first looks for \code{\em{classname}.sil}
-and uses that as a wrapper around your file to be processed. If that then begins
+まずあなたに理解しておいて欲しいことは、\em{2種類}のファイルを扱うことが、物事をずっと容易にするということです。ひとつはTeX風書式のSILEファイルで、もうひとつはLuaコードです。これにより、簡単な仕事はそれに都合の良いフォーマットで処理し、困難な仕事はLuaで扱うことを可能とします。SILEのコマンドライン・オプションで\code{-I \em{classname}}を使うと、SILEはまず\code{\em{classname}.sil}というファイルを探し、そしてそれを処理すべきファイルへのラッパーとして用います。そうして、
 
 \begin{verbatim}
 \line
@@ -1651,13 +1642,9 @@ and uses that as a wrapper around your file to be processed. If that then begins
 \line
 \end{verbatim}
 
-\noindent{}then SILE will also load up \code{classes/\em{classname}.lua} as normal.
+\noindent{}で文書を始めれば、SILEはまた、いつものように、\code{classes/\em{classname}.lua}をロードします。
 
-Now we can start defining SILE commands to render XML elements. Most of these are 
-fairly straightforward so we will not dwell on them too much. For instance,
-DocBook has a tags like \code{<code>}, \code{<filename>}, \code{<guimenu>} which should
-all be rendered in a monospaced typewriter font. To make it easier to customize the
-class, we abstract out the font change into a single command:
+それでは、XML要素を描画するSILEコマンドの定義を始めましょう。この作業の大部分は、単純明快なもので、あまりくどくど述べるのはやめましょう。例えば、DocBookは\code{<code>}、\goodbreak\code{<filename>}、\goodbreak\code{<guimenu>}などのタグを定義し、これらは等幅フォントで描画されるべきものです。クラスのカスタマイズを容易にするために、まずはフォントの切り替えをひとつのコマンドで置き換えましょう。
 
 \begin{verbatim}
 \line
@@ -1665,7 +1652,7 @@ class, we abstract out the font change into a single command:
 \line
 \end{verbatim}
 
-Now we can define our \code{<code>} (etc.) tags:
+そして、\code{<code>}などのタグを定義します。
 
 \begin{verbatim}
 \\define[command=code]\{\\docbook-ttfont\{\\process\}\}
@@ -1676,10 +1663,9 @@ Now we can define our \code{<code>} (etc.) tags:
 \\define[command=computeroutput]\{\\docbook-ttfont\{\\process\}\}
 \end{verbatim}
 
-If an end user wants things to look different, they can redefine the \code{docbook-ttfont}
-command and get a different font.
+もしもユーザが異なるフォントでの表示を望むなら、\code{docbook-ttfont}を再定義するだけで済みます。
 
-\section{Handling Titles}
+\section{表題を扱う}
 
 So much for simple tags.
 Things get interesting when there is a mismatch between the simple format of
