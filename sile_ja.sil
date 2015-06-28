@@ -42,9 +42,7 @@ SILEは組版システムです。その目的は美しい文書を生成する�
 
 \section{SILEとWord}
 
-多くの人たちはパソコンを使って印刷用に文書を作成するとき、Word（Microsoft Officeの一部です）や
-Writer（OpenOfficeやLibreOfficeに含まれます）といったソフトウェア、あるいはそれらに似たワープロソフトを利用します。
-しかしながら、SILEはワープロソフトではありません。それは組版システムです。そこにはいくつかの重要な違いがあります。
+多くの人たちはパソコンを使って印刷用に文書を作成するとき、Word（Microsoft Officeの一部です）やWriter（OpenOfficeやLibreOfficeに含まれます）といったソフトウェア、あるいはそれらに似たワープロソフトを利用します。しかしながら、SILEはワープロソフトではありません。それは組版システムです。そこにはいくつかの重要な違いがあります。
 
 ワープロソフトの目的は、あなたがスクリーン上で入力したものと全く同一に見える文書を作成することにあります。一方、SILEはあなたが入力したものを、文書を作成するための指示だとみなし、それをもとに可能な限り良く見える文書を生成します。
 
@@ -58,9 +56,9 @@ Writer（OpenOfficeやLibreOfficeに含まれます）といったソフトウ�
 
 \section{SILEとTeX}
 
-いくらかの人たちは、なんだかTeXのようだ、と思うかもしれません。\footnote{ひとりのTeXユーザとして言わせれば“なんだかT\glue[width=-.1667em]\lower[height=0.5ex]{E}\glue[width=-.125em]Xのようだ”だろうか。}もしあなたがTeXについてよく知らない、あるいは関心がないのであれば、このセクションは読み飛ばしてもらっても構いません。
+いくらかの人たちは、なんだかTeXのようだ、と思うかもしれません。\footnote{ひとりのTeXユーザとして言わせれば「なんだかT\glue[width=-.1667em]\lower[height=0.5ex]{E}\glue[width=-.125em]Xのようだ」だろうか。}もしあなたがTeXについてよく知らない、あるいは関心がないのであれば、このセクションは読み飛ばしてもらっても構いません。
 
-実際、TeXのようだというのは正しい意見です。SILEはTeXからかなりのものを引き継いでいます。SILEのような小さなプロジェクトが、TeXという、“The Art of Computer Programming”の著者たる某教授の、偉大な創造物の後継者だと名乗るのはおこがましいかもしれませんが\dots{}SILEはTeXの現代的な再創生です。
+実際、TeXのようだというのは正しい意見です。SILEはTeXからかなりのものを引き継いでいます。SILEのような小さなプロジェクトが、TeXという、『The Art of Computer Programming』の著者たる某教授の、偉大な創造物の後継者だと名乗るのはおこがましいかもしれませんが\dots{}SILEはTeXの現代的な再創生です。
 
 TeXは組版システムのなかでも最初期のもののうちのひとつで、それゆえほとんど何もないところから設計されなければなりませんでした。そのうちいくつかは時の試練に耐え—そしてTeXはその創造から30年以上たった今でも最もよく利用される組版システムのうちのひとつであり、それはその設計とパフォーマンスの証である—多くはそうではありませんでした。実際、Knuthの時代より続くTeXの発展の歴史の大半は、彼の元々の設計を取り除き、新たな業界標準技術で置き換えることでした。例えば、我々はMETAFONTではなくTrueTypeフォントを使い（xetexのように）、DVIではなくPDFを使い（pstexやpdftex）、7ビットのASCIIではなくUnicodeを使い（これもxetex）、マクロ言語ではなくマークアップ言語や組込みのプログラミング言語を使います（xmltexやluatex）。現在、我々が\em{依然として利用する}TeXのオリジナルの部分は、⑴ボックスとグルー・モデル、⑵ ハイフネーション・アルゴリズム、⑶改行（行分割）処理アルゴリズムです。
 
@@ -1161,7 +1159,7 @@ off the filling glue at the end of the paragraph.
 \medskip
 
 \set[parameter=typesetter.parfillskip,value=0pt plus 10000pt]
-最後に、タイプセッタは入力におけるパラグラフ分割方法を知る必要があります。これは通常、ふたつの連続した改行文字です。しかしながら、XML入力を扱う際には、この仮定は適切ではありません。このような場合は、\code{typesetter.parseppattern}をLuaパターンを使って指定することができます。これはデフォルトでは\code{\\n\\n+}です。これに加えて、入力における複数のスペースがひとつのスペースに変換されるやり方を定義するのが \code{shaper.spacepattern}の設定です。これは\code{\%s+}をデフォルト値として持ちます。（任意の数のスペースがひとつのスペースとみなされる）もしあなたが、スペースの数をそのまま保ちたいならば、スペースパターンを\code{\%s}に設定すると良いでしょう。
+最後に、タイプセッタは入力におけるパラグラフ分割方法を知る必要があります。これは通常、ふたつの連続した改行文字です。しかしながら、XML入力を扱う際には、この仮定は適切ではありません。このような場合は、\code{typesetter.parseppattern}をLuaパターンを使って指定することができます。これはデフォルトでは\code{\\n\\n+}です。これに加えて、入力における複数のスペースがひとつのスペースに変換されるやり方を定義するのが \code{shaper.spacepattern}の設定です。これは\code{\%s+}をデフォルト値として持ちます。（任意の数のスペースがひとつのスペースとみなされる）もしあなたが、スペースの数をそのまま保ちたいならば、スペースパターンを\code{\%s}に設定するとよいでしょう。
 
 \section{ラインブレーキング設定}
 
@@ -1302,7 +1300,7 @@ end\});
 
 \noindent• 他のフレームのプロパティを\code{top()}、\code{bottom()}、\code{left()}、\code{right()}、\code{height()}、\code{width()}関数で参照することができます。この関数はフレームIDを引数にとります。SILEではフレーム\code{page}が定義済みとなっており、これによりページ全体のサイズにアクセスできます。
 
-\noindent• 算術関数が利用可能です。plus、minus、divide、multiply、そして括弧は数式でのそれと同じ意味を持ちます。フレーム\code{b}がフレーム\code{a}の半分の高さに5ミリ加えたものであると宣言するには、\code{height=5mm + (height(b) / 2)}とします。しかしながら、後に見るように、SILEにこのような計算を任せるようにしたほうが良いでしょう。
+\noindent• 算術関数が利用可能です。plus、minus、divide、multiply、そして括弧は数式でのそれと同じ意味を持ちます。フレーム\code{b}がフレーム\code{a}の半分の高さに5ミリ加えたものであると宣言するには、\code{height=5mm + (height(b) / 2)}とします。しかしながら、後に見るように、SILEにこのような計算を任せるようにしたほうがよいでしょう。
 
 \noindent• 版面のデザインはしばしばページに対する割合で指定されるため、ショートカットとして、\code{width=5\%}を\code{width=0.05 * width(page)}の代わりに、\code{height=50\%}を\code{height=0.5 * height(page)}の代わりに使うことができます。SILEはあなたが垂直・水平どちらの割合指定をおこなうつもりなのか、判断できます。
 
@@ -1358,10 +1356,10 @@ end\});
 
 ひとつのページ上でフレームレイアウトを定義する方法を学んだところで、文書全体でそれを定義する方法へと進みましょう。
 
-文書クラスはLuaファイルで、それはカレントディレクトリ、あるいはSILE検索パス（典型的には\code{/usr/local/share/sile}）の\code{classes/}サブディレクトリにあります。 それでは、マージンと本文領域\footnote{訳注：版面。原文はtypeblockです。}のサイズを変えるだけの、単純なクラスを作成してみましょう。我々はこれを\code{bringhurst.lua}と名付けます。なぜならばこれは、Hartley
+文書クラスはLuaファイルで、それはカレントディレクトリ、あるいはSILE検索パス（典型的には\code{/usr/local/share/sile}）の\code{classes/}サブディレクトリに置きます。 それでは、マージンと本文領域\footnote{訳注：版面。原文はtypeblockです。}のサイズを変えるだけの、単純なクラスを作成してみましょう。我々はこれを\code{bringhurst.lua}と名付けます。なぜならばこれは、Hartley
 & Marks版、Robert Bringhurstによる『The Elements of Typographical Style』のレイアウトを模倣するからです。
 
-我々が設計するのは、本用のクラスです。このためSILEの\code{book}クラス、\code{classes/book.lua}、を継承すると良いでしょう。
+我々が設計するのは、書籍用のクラスです。このためSILEの\code{book}クラス、\code{classes/book.lua}、を継承するとよいでしょう。
 
 ざっと\code{book.lua}の内容を覗いてみましょう。最初のクラス定義の後、\code{masters}パッケージを読み込んでいます。そしてマスタを以下のフレームとして定義します。（可読性のために適宜、改行を入れています）
 
@@ -1409,7 +1407,7 @@ book:mirrorMaster("left", "right")
 \line
 \end{verbatim}
 
-bookクラスはまた、セクショニングのコマンドを提供し、ページの始めと終わりになされるべき様々なことを宣言します。我々はbookクラスから継承しているので、これらはすでに利用可能です。すべきことは我々の新たなクラスをセットアップし、異なる部分を定義するのみです。bookクラスを継承するやり方は、
+bookクラスはまた、セクショニングのコマンドを提供し、ページの始めと終わりになされるべき様々なことを宣言します。我々はbookクラスから継承しているので、これらはすでに利用可能です。我々がすべきことは、我々の新たなクラスをセットアップし、bookクラスとは異なる部分を定義するのみです。bookクラスを継承するやり方は、
 
 \begin{verbatim}
 \line
@@ -1506,20 +1504,20 @@ end)
 
 \section{出力ルーチン}
 
-フレームやパッケージを定義すると共に、クラスではSILEの出力を行うやり方を変更することができます—ページの始めや終わりで何かを行ったり。例えば、マスタフレームを入れ替えたり、ページ番号を表示したり。
+フレームやパッケージを定義する以外にも、クラスではSILEの出力を行うやり方を変更することができます—ページの始めや終わりで何かを行ったり。例えば、マスタフレームを入れ替えたり、ページ番号を表示したり。
 
 
 \em{出力ルーチン}を定義する基本的なメソッドは、
 
 \noindent{}• \code{newPar}と\code{endPar}はパラグラフの始めと終わりで呼び出される。
 
-\noindent{}• \code{newPage}と\code{endPage}はページの始めと終わりで呼び出される。 
+\noindent{}• \code{newPage}と\code{endPage}はページの始めと終わりで呼び出される。
 
-\noindent{}• \code{init}と\code{finish}は文書の始めと終わりで呼び出される。 
+\noindent{}• \code{init}と\code{finish}は文書の始めと終わりで呼び出される。
 
 これはオブジェクト指向的なやり方で行われます。派生クラスはそのスーパークラスのメソッドを、必要であれば書き換えます。
 
-出力ルーチンに影響するパッケージをロードするとき、それらパッケージからクラスが構成されるやり方は、完全には自動化されません。\footnote{イベントの順序が重要だからです。}言い換えると、パッケージのロードそれ自体は、自動的に出力ルーチンを置き換えるわけではありません。あなたは明示的に、これらのパッケージにより提供される機能を、出力ルーチンに組み込んでいく必要があります。
+出力ルーチンに影響するパッケージをロードするとき、それらパッケージからクラスが構成されるやり方は、完全には自動化されません。\footnote{イベントの順序が重要だからです。}言い換えると、パッケージのロードそれ自体は、自動的に出力ルーチンをアレンジし、置き換えるわけではありません。あなたは明示的に、これらのパッケージにより提供される機能を、出力ルーチンに組み込んでいく必要があります。
 
 例えば、\code{footnote}や\code{insertions}パッケージは、\code{outputInsertions}メソッドを提供します。これは各ページの末尾に呼び出される必要があります。もしも\code{plain}クラスから継承を行い、かつ脚注機能を使いたい場合、\code{endPage}メソッドを以下のように定義する必要があるでしょう。
 
@@ -1532,9 +1530,9 @@ end
 \line
 \end{verbatim}
 
-それでは、\code{tableofcontents}パッケージがどのように機能するか、ざっと見てみましょう。我々は、\code{infonodes}パッケージを使って、どのページが目次に載るべきアイテムを持つか調べます。
+\code{tableofcontents}パッケージを例にとり、それがどのように機能するか、ざっと見てみましょう。我々は、\code{infonodes}パッケージを使って、どのページがに目次に記載されるべきアイテムが現れるのかを調べます。
 
-まずは、セクショニング・コマンドから呼び出されるコマンドを作り、情報ノードを設定します。具体的には、\code{\\chapter}や\code{\\section}などのコマンドは、その章・節の開始位置を含むページへの参照を記録するため、\code{\\tocentry}を呼び出すことにします。
+まずは、セクショニング・コマンドから呼び出されるあるコマンドを作ります。この中で情報ノードを設定します。具体的には、\code{\\chapter}や\code{\\section}などのコマンドは、その章・節の開始位置を含むページへの参照を記録するため、\code{\\tocentry}を呼び出すことにします。
 
 \begin{verbatim}
 \line
@@ -1549,9 +1547,9 @@ end)
 \line
 \end{verbatim}
 
-情報ノードはページ単位\footnote{訳注：per-page basis}で機能するため、文書全体に対して有効な情報を保持するためには、それらを各ページの終わりで、何らかの他のテーブルへ移してあげなければなりません。ここでページ番号を記録するのを忘れないようにする必要があります。
+情報ノードのスコープはページ単位\footnote{訳注：per-page basis}であるため、文書全体に対して有効となる情報を保持するためには、それらを各ページの終わりで、何らかのグローバルな他のテーブルへ移してあげなければなりません。ここでページ番号を記録するのを忘れないようにする必要があります。
 
-\note{SILEは\code{SILE.scratch}変数を、グローバルな情報を保持する目的のために提供します。あなたのクラスやパッケージのために、名前空間によって区分化して、このテーブルの一部を使います。}
+\note{SILEは\code{SILE.scratch}変数を、グローバルな情報を保持する目的のために提供します。あなたは自身のクラスやパッケージ用に、その一部を名前空間によって区分化して使います。}
 
 目次ノードを移設するために、ページ末尾で呼び出すルーチンは以下のようなものです。
 
@@ -1570,7 +1568,7 @@ end
 \line
 \end{verbatim}
 
-これらのアイテムを保持するために、LaTeXのように外部ファイルを使いましょう。目次を出力する際には、このファイルを読み込みます。このためには、文書の終わりで\code{SILE.scratch.tableofcontents}をファイルに書き出します。以下のような\code{finish}出力ルーチンを使いましょう。 
+これらのアイテムを保持するために、LaTeXのように外部ファイルを使いましょう。目次を出力する際には、このファイルを読み込みます。このためには、文書の終わりで\code{SILE.scratch.tableofcontents}をファイルに書き出します。以下のような\code{finish}出力ルーチンを使いましょう。
 
 \begin{verbatim}
 \line
@@ -1604,11 +1602,11 @@ end)
 
 \section{エクスポート}
 
-他のクラスやパッケージに機能を提供するために存在するパッケージは、その機能を、それを必要とするクラスやパッケージにそれを供給する方法を必要とします。これは\em{エクスポート機構}と呼ばれます。
+他のクラスやパッケージに機能を提供するパッケージは、その機能を、それを必要とするクラスやパッケージに提供する方法を必要とします。これは\em{エクスポート機構}と呼ばれます。
 
 コマンドを定義するのと同様に、それぞれのパッケージはふたつのエントリ、\code{init}と\code{exports}、からなるLuaテーブルを返すことができます。
 
-\code{init}は初期化の動作を定義し、それはクラスのロード時に与えられるかもしれないオプションを取ることができます。パッケージが\code{class:loadPackage(package, args)}でロードされると、イニシャライザはふたつの引数と共に呼び出されます。 \code{class}と\code{args}です。例えば、\code{twoside}パッケージは、左右のマスタフレームのIDに関する情報を受け取ります。これはページが変わる際に、マスタを切り替えるコードを実装するのに必要です。今の我々の状況では、呼び出し側で\code{infonode}パッケージがロードされるのを確実にする必要があります。 
+\code{init}は初期化の動作を定義し、それはクラスのロード時に（必須ではない）オプションを取ることができます。パッケージが\code{class:loadPackage(package, args)}でロードされると、イニシャライザはふたつの引数と共に呼び出されます。\code{class}と\code{args}です。例えば、\code{twoside}パッケージは、左右のマスタフレームのIDに関する情報を受け取ります。これはページが変わる際に、マスタを切り替えるコードを実装するのに必要です。今の我々の状況では、呼び出し側で\code{infonode}パッケージがロードされるのを確実にする必要があります。
 
 \begin{verbatim}
 \line
@@ -1619,7 +1617,7 @@ return \{
 \line
 \end{verbatim}
 
-パッケージが返すもうひとつのエントリは\code{exports}で、呼び出し側の名前空間に混ぜ込まれる関数とその名前からなります。つまり、
+パッケージが返すもうひとつのエントリは\code{exports}で、呼び出し側の名前空間にインポートされる関数とその名前の対からなります。つまり、
 
 \begin{verbatim}
 \line
@@ -1667,26 +1665,14 @@ return \{
 
 \section{表題を扱う}
 
-So much for simple tags.
-Things get interesting when there is a mismatch between the simple format of
-SILE macros and the complexity of DocBook markup.
+単純なタグのことはこれくらいにして、より興味深い状況に移りましょう。複雑なDocBookマークアップがSILEマクロの単純なフォーマットにすんなりと変換できない場合です。
 
-We have already seen an example of the \code{<link>} tag where we also need to process
-XML attributes, so we will not repeat that here. Let’s look at another area of complexity:
-the apparently-simple \code{<title>} tag. The reason this is complex is that it occurs
-in different contexts, sometimes more than once within a context; it should often be
-rendered differently in different contexts. So for instance \code{<article><title>...}
-will look different to \code{<section><title>...}. Inside an \code{<example>} tag, 
-the title will be preferenced by an example number; inside a \code{<bibliomixed>}
-bibliography entry the title should not be set off as a new block but should be
-part of the running text, and so on.
+我々は既に、\code{<link>}タグにおいて、XML属性を処理する必要に出くわしました。ここではそれを繰り返さず、他の複雑な場面を考えましょう。一見、単純だと思える\code{<title>}タグです。このタグの処理で複雑なところは、それが異なる文脈で、時としてひとつの文脈で一度以上、出現し得るところです。例えば、\code{<article><title>...}は\code{<section><title>...}とは異なる表示になるでしょうし、\code{<example>}タグ中では、番号を振りたいでしょう。 \code{<bibliomixed>}バイオグラフィ・エントリの表題では新たなブロックとしてではなく、一連のテキストとして、などなど。
 
-What we will do to deal with this situation is provide a very simple definition of 
-\code{<title>}, but when processing the containing elements of \code{<title>} 
-(such as \code{<article>}, \code{<example>}), we will process the title ourselves.
+このような状況を扱うために、ここでは\code{<title>}の定義を単純なものにとどめ、\code{<title>}を含む要素（すなわち
+\code{<article>}や\code{<example>}）の内容を処理する際にそれぞれ独立に、表題を処理することにします。
 
-For instance, let’s look at \code{<example>}, which has the added complexity of needed
-to keep track of an article number.
+それでは\code{<example>}の例を見てみましょう。連番を振るという部分がやや複雑です。
 
 \begin{verbatim}
 \line
@@ -1698,36 +1684,24 @@ SILE.registerCommand("example", function(options,content)
     SILE.typesetter:typeset("Example".." ".. SILE.formatCounter(SILE.scratch.counters.Example]))
 \end{verbatim}
 
-\code{\\docbook-line} is a command that we’ve defined in the \code{docbook.sil} macros
-file to draw a line across the width of the page to set off examples and so on.
-\code{\\docbook-titling} is a command similarly defined in \code{docbook.sil} which sets
-the default font for titling and headers; once again, if people want to customize the
-look of the output we make it easier for them by giving them simple, compartmentalized
-commands to override.
+\code{\\docbook-line}は\code{docbook.sil}で定義された、例題部分を分離するための罫線を引くマクロです。\code{\\docbook-titling}も\code{docbook.sil}で定義されたマクロで、表題とヘッダ用にフォントを設定するものです。 もしもユーザが見た目を変えたければ、それを上書きして定義するようにするだけです。
 
-So far so good, but how do we extract the \code{<title>} tag from the \code{content}
-abstract syntax tree? SILE does not provide XPath or CSS-style selectors to locate
-content form within the DOM tree;\footnote{Patches, as they say, are welcome.} instead
-there is a simple one-level function called \code{SILE.findInTree} which looks for
-a particular tag or command name within the immediate children of the current tree:
+ここまでは順調です。しかし、どうやって\code{<title>}タグを\code{content}抽象構文木から取り出すのでしょうか？SILEはDOMツリーからその内容を探索するXPathあるいはCSSスタイルセレクタを実装していません。\footnote{もちろんパッチは大歓迎です。}その代わりに\code{SILE.findInTree}というコマンドで、現在のツリーの直下の子要素に含まれる特定のタグを探し出すことができます。
 
-\begin{verbatim} 
+\begin{verbatim}
     local t = SILE.findInTree(content, "title")
     if t then
       SILE.typesetter:typeset(": ")
       SILE.process(t)
 \end{verbatim}
 
-We’ve output \examplefont{Example 123} so far, and now we need to say \examplefont{: \em{Title}}.
-But we also need to ensure that the \code{<title>} tag doesn’t get processed again
-when we process the content of the example:
+ここまでの処理によって、\examplefont{Example 123}を出力し、それから\examplefont{: \em{Title}}を描画することができました。我々は、\code{<title>}タグが、\code{<example>}の内容を処理する際に、再度処理されないようにする必要があります。
 
 \begin{verbatim}
       docbook.wipe(t)
 \end{verbatim}
 
-\code{docbook.wipe} is a little helper function which nullifies all the content of a
-Lua table:
+\code{docbook.wipe}は与えられたLuaテーブルのすべての要素をnilにするための補助的な関数です。
 
 \begin{verbatim}
 function docbook.wipe(tbl)
@@ -1735,8 +1709,7 @@ function docbook.wipe(tbl)
 end
 \end{verbatim}
 
-Let’s finish off the \code{<example>} example by skipping a big between the title and
-the content, processing the content and drawing a final line across the page:
+それでは、タイトルと内容の間に余白を挿入し、内容を処理し、ページに罫線を引くことで\code{<example>}の例を完了させましょう。
 
 \begin{verbatim}
     end
@@ -1748,18 +1721,11 @@ the content, processing the content and drawing a final line across the page:
 \line
 \end{verbatim}
 
-Now it happens that the \code{<example>}, \code{<table>} and \code{<figure>} tags
-are pretty equivalent: they produce numbered titles and then go on to process their
-content. So in reality we actually define an abstract \code{countedThing} method
-and define these commands in terms of that.
+\code{<example>}、\code{<table>}、および\code{<figure>}タグはその構造がよく似ています。連番付の表題を持ち、その内容が後に続くことです。このため実際には、我々は汎用の\code{countedThing}メソッドを定義し、それを使ってこれらのタグを定義することになります。
 
-\section{Sectioning}
+\section{セクショニング}
 
-DocBook sectioning is a little different to the SILE \code{book} class. \code{<section>}
-tags can be nested; to start a subsection, you place another \code{<section>} tag
-inside the current \code{<section>}. So in order to know what level we are currently on,
-we need a stack; we also need to keep track of what section number we are on at \em{each}
-level. For instance:
+DocBookのセクショニングはSILEの\code{book}クラスとは幾分異なります。\code{<section>}タグは入れ子になることができます。副節を開始するには、別の\code{<section>}タグを現在の\code{<section>}の中に挿入するのです。このため、今現在どのレベルにいるのか判断するために、それを追跡するスタックが必要となります。また、\em{各}レベルにおける、現在の節番号を記憶しておく必要もあります。例えば、
 
 \begin{verbatim}
   <section><title>A</title> : \examplefont{1. A}
@@ -1774,8 +1740,7 @@ level. For instance:
   <section><title>F</title>: \examplefont{2. F}
 \end{verbatim}
 
-So, we will keep two variables: the current level, and the counters for all of the
-levels so far. Each time we enter a \code{section}, we increase the current level counter:
+このため、我々は2種類の変数、現在のレベルとこれまで現れたすべてのレベル用のカウンタ、を保持します。新たな\code{section}に入るごとに、現在のレベルを表すカウンタを増加させます。
 
 \begin{verbatim}
 \line
@@ -1783,34 +1748,31 @@ SILE.registerCommand("section", function (options, content)
   SILE.scratch.docbook.seclevel = SILE.scratch.docbook.seclevel + 1
 \end{verbatim}
 
-We also increment the count at the current level, while at the same time wiping out
-any counts we have for levels above the current level (if we didn’t do that, then
-\examplefont{E} in our example above would be marked \examplefont{1.3.1}):
+現レベルにおけるカウンタも増加させます。それと同時に、現レベルより下位のレベルのカウンタをすべて取り消します。（さもなくば、上の例題における\examplefont{E}は\examplefont{1.3.1}となってしまうでしょう）
 
 \begin{verbatim}
-  SILE.scratch.docbook.seccount[SILE.scratch.docbook.seclevel] = 
+  SILE.scratch.docbook.seccount[SILE.scratch.docbook.seclevel] =
     (SILE.scratch.docbook.seccount[SILE.scratch.docbook.seclevel] or 0) + 1
   while #(SILE.scratch.docbook.seccount) > SILE.scratch.docbook.seclevel do
     SILE.scratch.docbook.seccount[#(SILE.scratch.docbook.seccount)] = nil
   end
 \end{verbatim}
 
-Now we find the title, and prefix it by the concatenation of all the \code{seccount}s:
+そして、表題を探し出し、すべての\code{seccount}を結合した番号を、それに前置して出力します。
 
 \begin{verbatim}
   local title = SILE.findInTree(content, "title")
   local number = table.concat(SILE.scratch.docbook.seccount, '.')
-  if title then 
+  if title then
     SILE.call("docbook-section-"..SILE.scratch.docbook.seclevel.."-title",\{\},function()
       SILE.typesetter:typeset(number.." ")
       SILE.process(title)
-    end) 
+    end)
     docbook.wipe(title)
   end
 \end{verbatim}
 
-Finally we can process the content of the tag, and decrease the level count as we leave the
-\code{</section>} tag:
+最後に、タグの内容を処理し、\code{</section>}タグを出ると共に現在のレベルを抜け出します。
 
 \begin{verbatim}
   SILE.process(content)
@@ -1819,43 +1781,23 @@ end)
 \line
 \end{verbatim}
 
-\section{Other Features}
+\section{その他の機能}
 
-SILE’s DocBook implementation is a work in progress, and there is more that can be
-done. For instance, there is a basic implementation of lists, which equally need to
-be able to handle nesting; we implement another stack to take care of the type of
-list and list counter at each level of nesting.
+SILEのDocBookの実装は継続中で、まだできることがあります。リストの基礎的な実装では、同様に入れ子となる要素を扱う必要があります。そこでは、リストの種類とリストのカウンタを各レベルで追跡する、別のスタックを実装することになります。
 
-How would you handle a tag like \code{<xref>} which renders a cross-reference to
-another part of the document? For instance, \code{<xref linkend="ch02"/>} should
-generate something like \examplefont{Chapter 2, “The Second Chapter”}. This is
-another problem which can be handled using the \code{infonode} package to collect
-and store cross-reference information about chapter numbers and titles.
+では\code{<xref>}のように、文書の別の場所を相互参照するものはどうでしょうか？例えば、\code{<xref linkend="ch02"/>}は\examplefont{Chapter 2, “The Second Chapter”}となるべきです。これは\code{infonode}パッケージを使って、章の番号や表題に関する情報を収集することで実現可能です。
 
-\chapter{Further Tricks}
+\chapter{より進んだ話題}
 
-We’ll conclude our tour of SILE by looking at some tricky situations which require
-further programming.
+それではSILEについての我々の探索を、もっとプログラミングが必要となるような、幾分ひねりのきいた状況を考えることで終わりにしましょう。
 
-\section{Parallel Text}
+\section{並列テキスト}
 
-The file \code{examples/parallel.sil} contains a rendering of chapter 1 of 
-Matthew’s Gospel in English and Greek. It uses the \code{diglot} class to align
-the two texts side-by-side. \code{diglot} provides the \code{\\left} and \code{\\right}
-commands to start entering text on the left column or the right column respectively,
-and the \code{\\sync} command to ensure that the two columns are in sync with each
-other. It’s an instructive example of what can be done in a SILE class, so we
-will take it apart and see how it works.
+ファイル\code{examples/parallel.sil}は、マタイによる福音書の第1章からの、英語とギリシャ語の対訳からなります。これは、ふたつの文章を並列して進めるために、\code{diglot}クラスを用います。\code{diglot}クラスでは、\code{\\left}と\code{\\right}コマンドにより、左段と右段それぞれの文章を開始することができます。そして\code{\\sync}コマンドが、ふたつの並列した文章を互いに同期させるために利用できます。これはSILEクラスで何ができるのかを示すちょうどよい例となっているため、それがどのように実装されているのか詳しく見てみましょう。
 
-The key thing to note is that the SILE typesetter is an object. (in the object-oriented
-programming sense) Normally, it’s a singleton object—i.e. one typesetter is used for
-typesetting everything in a document. But there’s no reason why we can’t have more
-than one. In fact, for typesetting parallel texts, the simplest way to do things is
-to have two typesetters, one for each column, and have them communicate with each
-other at various points in the operation.
+鍵となる事実は、SILEタイプセッタがオブジェクトであるということです。（オブジェクト指向プログラミングの意味で）通常これはシングルトンです—すなわち、ひとつのタイプセッタが文書全体を組み上げるのに用いられます。しかしながら、それはひとつだけでなければならないという理由はありません。事実、並列テキスト処理を実装するための最も単純な方法は、それぞれの段でそれぞれのタイプセッタを持つことです。これらは処理の様々な段階でやりとりを行います。
 
-Let’s begin \code{diglot.lua} as usual by setting up the class and declaring our
-frames:
+それではいつものように、\code{diglot.lua}をフレーム定義とクラスのセットアップから始めましょう。
 
 \begin{verbatim}
 \line
@@ -1872,8 +1814,7 @@ diglot:declareFrame("folio",\{left = "left(a)", right = "right(b)",
             top = "bottom(a)+3\%",bottom = "bottom(a)+8\%" \});
 \end{verbatim}
 
-Now we create two new typesetters, one for each column, and we tell each one
-how to find the other:
+そしてそれぞれの段用に、ふたつの新たなタイプセッタを作成し、やりとりするために互いを見つける方法を与えましょう。
 
 \begin{verbatim}
 diglot.leftTypesetter = SILE.defaultTypesetter \{\}
@@ -1882,11 +1823,7 @@ diglot.rightTypesetter.other = diglot.leftTypesetter
 diglot.leftTypesetter.other = diglot.rightTypesetter
 \end{verbatim}
 
-Each column needs its own font, so we provide commands to store this information.
-The \code{\\leftfont} and \code{\\rightfont} macros simply store their options to
-be passed to the \code{\\font} command every time \code{\\left} and \code{\\right}
-are called. (Because the fonts are controlled by global settings rather than being
-typesetter-specific.)
+それぞれの段は異なるフォントを用います。このため、我々はその情報を保持するコマンドを用意します。\code{\\leftfont}と\code{\\rightfont}マクロは、\code{\\left}と\code{\\right}が実行される際に、\code{\\font}コマンドに渡されるべき情報をオプションとして受け取り、それを保持します。（フォントはタイプセッタ固有の設定としてではなく、グローバル設定として制御されるからです）
 
 \begin{verbatim}
 SILE.registerCommand("leftfont", function(options, content)
@@ -1898,12 +1835,7 @@ SILE.registerCommand("rightfont", function(options, content)
 end, "Set the font for the right side")
 \end{verbatim}
 
-Next come the commands for sending text to the appropriate typesetter. The current
-typesetter object used by the system is stored in the variable \code{SILE.typesetter};
-many commands and packages call methods on this variable, so we need to ensure
-that this is set to the typesetter object that we want to use. We also want to
-turn off paragraph detection, as we will be handling the paragraphing manually
-using the \code{\\sync} command:
+次にテキストを適切なタイプセッタに送るためのコマンドを用意します。現在稼働中のタイプセッタは変数\code{SILE.typesetter}に保持されます。多くのコマンドとパッケージがこの変数のメソッドを呼び出します。このため我々は、この変数が、我々が使用したいタイプセッタに設定されていることを確実にする必要があります。また、\code{\\sync}コマンドを用いてパラグラフを手動で扱うようにするため、パラグラフの自動検出を無効にする必要もあります。
 
 \begin{verbatim}
 SILE.registerCommand("left", function(options, content)
@@ -1913,24 +1845,15 @@ SILE.registerCommand("left", function(options, content)
 end, "Begin entering text on the left side")
 
 SILE.registerCommand("right", function(options, content)
-  SILE.settings.set("typesetter.parseppattern", -1)  
+  SILE.settings.set("typesetter.parseppattern", -1)
   SILE.typesetter = diglot.rightTypesetter;
   SILE.Commands["font"](SILE.scratch.diglot.rightfont, {})
 end, "Begin entering text on the right side")
 \end{verbatim}
 
-The meat of the \code{diglot} package comes in the \code{sync} command,
-which ensures that the two typesetters are aligned. Every time we call
-\code{sync}, we want to ensure that they are both at the same position on
-the page. In other words, if the left typesetter has gone further down the page
-than the right one, we need to insert some blank space onto the right typesetter’s
-output queue to get them back in sync, and vice versa.
+\code{diglot}パッケージの要点は\code{sync}コマンドにあります。このコマンドはふたつのタイプセッタが並んで進むことを保証します。\code{sync}が呼ばれる度に、我々はそれらがページ上の並行した位置にいることを保証する必要があります。具体的に言うと、もしも左段のタイプセッタが右段のそれよりもより下方に進んでいるならば、右段のタイプセッタはいくらかの余白をそのキューに挿入し、同期し直します。その逆も然りです。
 
-SILE’s page builder has a method called \code{SILE.pagebuilder.collateVboxes}
-which bundles a bunch of vertical boxes into one; we can use this to bundle up
-each typesetter’s output queue and measure the height of the combined vbox. 
-(Of course it’s possible to sum the heights of each box on the output queue 
-by hand, but this achieves the same goal a bit more cleanly.)
+SILEのページビルダは\code{SILE.pagebuilder.collateVboxes}と呼ばれるメソッドを持ち、複数の垂直ボックスをひとつにまとめ上げることができます。我々はこれを、それぞれのタイプセッタの出力キューにある垂直ボックスをまとめて、その高さを計るために用いましょう。（出力キューにあるボックスの高さをひとつづつ足しあげて、高さを計算することもできますが、ここで採用する方法ではより簡潔に同じことを成し遂げます）
 
 \begin{verbatim}
 SILE.registerCommand("sync", function()
@@ -1943,8 +1866,7 @@ SILE.registerCommand("sync", function()
   end
 \end{verbatim}
 
-Next we end each paragraph (we do this after adding the glue so that \code{parskips}
-do not get in the way), and go back to handling paragraphing as normal:
+そして次にそれぞれのパラグラフを終了させ（\code{parskips}が邪魔にならないように、グルーを付加した後にこれを行います）、通常のパラグラフ処理に戻ります。
 
 \begin{verbatim}
   diglot.rightTypesetter:leaveHmode();
@@ -1953,9 +1875,7 @@ do not get in the way), and go back to handling paragraphing as normal:
 end)
 \end{verbatim}
 
-Now everything is ready apart from the output routine. In the output routine
-we need to ensure, at the start of each document and the start of each page,
-that each typesetter is linked to the appropriate frame:
+これで出力ルーチン以外はすべて完了です。出力ルーチンでは、文書の開始やページの開始で、それぞれのタイプセッタが適切なフレームに充てられていることを保証する必要があります。
 
 \begin{verbatim}
 diglot.init = function(self)
@@ -1965,18 +1885,14 @@ diglot.init = function(self)
 end
 \end{verbatim}
 
-\noindent{}(\code{SILE.getFrame} retrieves a frame that we have declared.)
+\noindent{}(\code{SILE.getFrame}は宣言されたフレームのオブジェクトを取得します)
 
-The default \code{newPage} routine will do this for one typesetter every
-time we open a new page, but it doesn’t know that we have another typesetter
-object to set up as well; so we need to
-to make sure that, no matter which typesetter causes an new-page
-event, the other typesetter also gets correctly initialised:
+デフォルトの\code{newPage}ルーチンは、一方のタイプセッタに対しては新たなページの開始でこれを行ってくれますが、もう一方に対してはどうしたらよいのか知りません。このため我々は、どちらのタイプセッタが改ページのイベントを発しようとも、もう一方のタイプセッタが適切に初期化されるようにする必要があります。
 
 \begin{verbatim}
 diglot.newPage = function(self)
   plain.newPage(self)
-  if SILE.typesetter == diglot.leftTypesetter then 
+  if SILE.typesetter == diglot.leftTypesetter then
     SILE.typesetter.other:initFrame(SILE.getFrame("b"))
     return SILE.getFrame("a")
   else
@@ -1986,9 +1902,7 @@ diglot.newPage = function(self)
 end
 \end{verbatim}
 
-And finally, when one typesetter causes an end-of-page event, we need to ensure
-that the other typesetter is given the opportunity to output its queue to the
-page as well:
+最後に、一方のタイプセッタがページ終了のイベントを発した時に、もう一方のタイプセッタにキューを処理する機会を与えてあげなければなりません。
 
 \begin{verbatim}
 diglot.endPage = function(self)
@@ -1997,11 +1911,14 @@ diglot.endPage = function(self)
 end
 \end{verbatim}
 
+文書の終わりでも同様の処理を行います。ただし、この場合は\code{leaveHmode}ではなく、緊急の\code{chuck}メソッドを用います。\code{leaveHmode}は「ページビルダーを呼び出し、ページを構築するのに十分なものがあるか見る」のに対し、\code{chuck}は「ここですべてのキューを処理して完了させる」という意味となります。我々は、無限の高さをもつ垂直グルーをもう一方のタイプセッタのキューに与えることでこの過程を補助します。
+
+\note{\notehead{原文}
 Similarly for the end of the document, but in this case we will use the
 emergency \code{chuck} method; whereas \code{leaveHmode} means “call the
 page builder and see there’s enough material to build a page”, \code{chuck}
 means “you must get rid of everything on your queue now.” We add some infinitely
-tall glue to the other typesetter’s queue to help the process along:
+tall glue to the other typesetter’s queue to help the process along:}
 
 \begin{verbatim}
 diglot.finish = function(self)
@@ -2011,29 +1928,19 @@ diglot.finish = function(self)
 end
 \end{verbatim}
 
-And there you have it; a class which produces balanced parallel texts using two
-typesetters at once.
+これで並列テキストを、ふたつのタイプセッタでうまく処理するクラスが完成しました。
 
-\section{Sidenotes}
+\section{傍注}
 
-One SILE project needed two different kinds of sidenotes, margin notes and gutter
-notes. 
+あるSILEプロジェクトはふたつの異なる種類の傍注（サイドノート）を必要としました。マージンノートとガターノートです。\footnote{訳注：小口側ととじしろ側の注の意か。}
 
 \line
 \img[src=documentation/discovery.png,width=width(content)]
 \line
 
-Sidenotes can be seen as a simplified form of
-parallel text. With a true parallel, neither the left or the right typesetter
-is “in charge”—either can fill up the page and then inform the other typesetter
-that they need to catch up. In the case of sidenotes, there’s a well-defined
-main flow of text, with annotations having to work around the pagination of the
-typeblock.
+傍注は並行テキストの単純な形態とみなすことができます。完全に「並行」な場合は、左右どちらのタイプセッタも固有の「役割」を持ちません—どちらの側もページを満タンにして、もう一方に追いついてくるように指示することができます。傍注の場合は、はっきりとした主となる文章の流れがあり、注の部分は本文領域でのページ付けに対処しなければなりません。
 
-There are a variety of ways that we could implement these sidenotes; as it
-happened, I chose a different strategy for the margin notes and the gutter notes.
-Cross-references in the gutter could appear fairly frequently, and so needed to
-“stack up” down the page—they need to be \em{at least} on a level with the verse
+傍注を実装する方法は様々です。たまたまそのプロジェクトでは、マージンノートとガターノートで異なるアプローチをとりました。ガターでは相互参照がごく頻繁に生じ得ます。このため、それらはページに「積み上げ」られる必要があります—they need to be \em{at least} on a level with the verse
 that they relate to, but could end up further down the page if there are a few
 cross-references close to each other. Markings in the margin, on the other hand,
 were guaranteed not to overlap.
@@ -2044,23 +1951,17 @@ typeblock, actually outputs itself by marking the margin at the current vertical
 position in the typeblock. In the example above, there will be a special hbox
 just before the word “there” in the first line.
 
-First we need to find the appropriate margin frame and, find its left boundary:
+まず初めに、我々は適切なマージンフレームを探し出し、その左端を見つける必要があります。
 
 \begin{verbatim}
 \line
 discovery.typesetProphecy = function(symbol)
-  local margin = discovery:oddPage() and 
+  local margin = discovery:oddPage() and
                   SILE.getFrame("rMargin") or SILE.getFrame("lMargin")
   local target = margin:left()
 \end{verbatim}
 
-Next, we call another command to produce the symbol itself; this allows the
-book designer to change the symbols at the SILE level rather than having to
-mess about with the Lua file. We use the \command{\\hbox} command to wrap the
-output of the command into a hbox. \command{\\hbox} returns its output, but also
-puts the box into the typesetter’s output node queue; we don’t want it to appear
-in the main typeblock, so we remove the node again, leaving our private copy
-in the \code{hbox} variable.
+次に、シンボルを置くための別のコマンドを呼び出します。こうすることで、書籍のデザイナがLuaファイルを修正することなしに、SILEレベルでシンボルを変更することを可能にします。ここでは、\command{\\hbox}コマンドにシンボルを出力するコマンドを流し込みます。\command{\\hbox}はその結果を返すと共に、タイプセッタの出力キューにそれを送ります。我々はシンボルを本文領域に出力したくはないので、そのノードをキューから取り除き、\code{hbox}変数にそのローカルなコピーを保持します。
 
 \begin{verbatim}
   local hbox = SILE.call("hbox",\{\}, function()
@@ -2069,30 +1970,26 @@ in the \code{hbox} variable.
   table.remove(SILE.typesetter.state.nodes)
 \end{verbatim}
 
-What we \em{do} want in the output queue is our special hbox node which will
-put the marking into the margin. This special hbox has no impact on the 
-current line—it has no width, height, or depth—and it contains a copy of the
-symbol that we stored in the \code{hbox} variable.
+我々が出力キューで\em{実際に}行いたいことは、マージンに、マーキングをするための特殊な水平ボックスノードを送ることです。この水平ボックスは現在の行になんら影響を与えません—それは幅や高さ、深さを持ちません—そしてそれは\code{hbox}変数に保持された、シンボルのコピーを内部に持ちます。
 
 \begin{verbatim}
-  SILE.typesetter:pushHbox(\{ 
+  SILE.typesetter:pushHbox(\{
     width= 0,
     height = 0,
     depth= 0,
     value= hbox,
 \end{verbatim}
 
+最後に我々は、この水平ボックスを出力するルーチンを用意します。ボックス出力ルーチンは3つのパラメータを取ります。ボックスそのもの、現在のタイプセッタ（これはそれがどのフレーム上で処理を行っているのか知っており、そしてそのフレームは自身がどこにあるのか知っている）、そしてその行のストレッチとシュリンクを表す変数です（この例ではこれは不要）。
+
+\note{\notehead{原文}
 Finally we need to write the routine which outputs this hbox. Box
 output routines receive three parameters: the box itself, the current
 typesetter (which knows the frame it is typesetting into, and the frame
 knows whereabouts it has got to), and a variable representing the stretchability
-or shrinkability of the line. (We don’t need that for this example.)
+or shrinkability of the line. (We don’t need that for this example.)}
 
-What our output routine should do is: save a copy of our horizontal position,
-so that we can restore it later as we carry on outputting other boxes; jump
-across to the left edge of the margin, which we computed previously; tell
-the symbol that we’re carrying with us to output \em{itself}; and then jump
-back to where we were:
+我々の出力ルーチンがすべきことは、現在の水平位置を記録して他のボックスを出力後にそれを回復できるようにし、すでに算出した左マージンの左端にジャンプし、シンボルを出力するルーチンに\em{自らを}出力させ、もと居た位置に戻る、です。
 
 \begin{verbatim}
     outputYourself= function (self, typesetter, line)
@@ -2105,22 +2002,16 @@ back to where we were:
 \line
 \end{verbatim}
 
-This was a quick-and-dirty version of sidenotes (in twenty lines of code!) 
-which works reasonably well
-for individual symbols which are guaranteed not to overlap. For the gutter notes,
-which are closer to true sidenotes, we need to do something a bit more intelligent.
-We’ll take a similar approach to when we made the parallel texts, by employing a
-separate typesetter object.
+これは簡便なバージョンの傍注です。（20行のコードの！）ですが、個々のシンボルが重ならないように保証するには十分です。ガターノートについては—これはより本来の傍注に近いものですが—我々は幾分スマートに処理する必要があります。ここでは並行テキストを扱ったのと同様のアプローチをとりましょう。ふたつのタイプセッタを使用します。
 
-As before we’ll create the object, and ensure that at the start of the document
-and at the start of each page it is populated correctly with the appropriate frame:
+以前と同じように、オブジェクトを生成し、それらを文書の始めで適切なフレームに割り振られるようにします。
 
 \begin{verbatim}
 \line
 discovery.innerTypesetter = SILE.defaultTypesetter \{\}
 
 discovery.init = function()
-  local gutter = discovery:oddPage() and 
+  local gutter = discovery:oddPage() and
                  SILE.getFrame("rGutter") or SILE.getFrame("lGutter")
   discovery.innerTypesetter:init(gutter)
   ...
@@ -2130,7 +2021,7 @@ end
 discovery.newPage = function ()
   ...
   discovery.innerTypesetter:leaveHmode(1)
-  local gutter = discovery:oddPage() and 
+  local gutter = discovery:oddPage() and
                  SILE.getFrame("rGutter") or SILE.getFrame("lGutter")
   discovery.innerTypesetter:init(gutter)
   ...
@@ -2139,9 +2030,7 @@ end
 \line
 \end{verbatim}
 
-Now for the function which actually handles a cross-reference. As with the
-parallels example, we start by totting up the height of the material processed
-on the current page by both the main typesetter and the cross-reference typesetter.
+そして実際に相互参照を扱う関数です。並行テキストの例と同様、ふたつのタイプセッタが処理する出力の高さを計ることから始めます。
 
 \begin{verbatim}
 \line
@@ -2151,24 +2040,15 @@ discovery.typesetCrossReference = function(xref)
   local mainVbox = SILE.pagebuilder.collateVboxes(SILE.typesetter.state.outputQueue)
 \end{verbatim}
 
+ここでは既に出力キューに送られたもの、すなわち完全なパラグラフ、を取り扱う必要があります。問題となる部分は、バース（詩節）の途中でパラグラフを終了させたくないという所です。パラグラフの途中で相互参照を処理する際に、
 This deals with the material which has already been put into the output queue: in
 other words, completed paragraphs. The problem here is that we do not want to
 end a paragraph between two verses; if we are mid-paragraph while typesetting
 a cross-reference, we need to work out what the height of the material \em{would have
 been} if we were to put it onto the output queue at this point. So, we take
-the \code{SILE.typesetter} object on a little excursion. 
+the \code{SILE.typesetter} object on a little excursion.
 
-First we take a copy of the current node queue, and then we call the typesetter’s
-\code{pushState} method. This initializes the typesetter anew, while saving
-its existing state for later. Since we have a new typesetter, its node queue
-is empty, and so we feed it the nodes that represent our paragraph so far. Then
-we tell the typesetter to leave horizontal mode, which will cause it to go away
-and calculate line breaks, leading, paragraph height and so on. We box up its
-output queue, and then return to where we were before. Now we have a box which
-represents what would happen if we set the current paragraph up to the point
-that our cross-reference is inserted; the height of this box is the distance
-we need to add to \code{mainVbox} to get the vertical position of the cross-reference
-mark.
+まず始めに、我々は現在のノードキューのコピーを取ります。そしてタイプセッタの\code{pushState}メソッドを呼び出します。これにより、タイプセッタを再初期化する一方で、その時点までの状態を後に復元するために保存しておきます。これで新たなタイプセッタが出来上がり、そのキューは空です。このタイプセッタに、これまでのパラグラフの内容を与えていきます。そしてそれに水平モードを去るように指示することで、行分割処理を行わせ、行間やパラブラフの高さを計算させます。それから出力キューをボックス化させて、もと居た地点に復帰します。これで我々は、現在のパラグラフを相互参照が挿入される地点まで処理した結果のボックスを得ました。このボックスの高さが、相互参照の垂直位置を得るために、\code{mainVbox}に加えるべき距離となります。
 
 \begin{verbatim}
   local unprocessedNodes = std.tree.clone(SILE.typesetter.state.nodes)
@@ -2180,14 +2060,11 @@ mark.
   mainVbox.height = mainVbox.height + subsidiary.height
 \end{verbatim}
 
-\note{The \code{1} argument to \code{leaveHmode} means “you may not create
-a new page here.”}
+\note{\code{leaveHmode}に与えられた引数\code{1}は、「ここでは改ページは行わない」という意味となります。}
 
-In most cases, the cross-reference typesetter hasn't got as far down the page
-as the body text typesetter, so we tell the cross-reference typesetter to shift itself
-down the page by the difference. Unlike the parallel example, where either typesetter
+たいがい、相互参照を出力するためのタイプセッタは本文のタイプセッタと同じ位置まで下りてきていません。このため我々は相互参照タイプセッタに必要な距離だけ移動するように指示します。どちらのタイプセッタも相手に余分な垂直スペースを挿入するように伝えることができなかった、並行テキストの場合とは異なり、この場合は相互参照がややその本来の位置より低めに来たとしてもよしとしましょう。\footnote{原文：Unlike the parallel example, where either typesetter
 could tell the other to open up additional vertical space, in this case it’s OK if
-the cross-reference appears a bit lower than the verse it refers to.
+the cross-reference appears a bit lower than the verse it refers to.}
 
 \begin{verbatim}
   if (innerVbox.height < mainVbox.height) then
@@ -2195,9 +2072,7 @@ the cross-reference appears a bit lower than the verse it refers to.
   end
 \end{verbatim}
 
-At this point the two typesetters are now either aligned, or the cross-reference 
-typesetter has gone further down the page than the verse it refers to. Now we
-can output the cross-reference itself.
+この時点で、ふたつのタイプセッタは互いに並んでいるか、相互参照タイプセッタはそれが参照する詩句より先に進んでいるかのいずれかです。それでは相互参照そのものを出力しましょう。
 
 \begin{verbatim}
   SILE.settings.temporarily(function()
@@ -2213,28 +2088,16 @@ end
 \line
 \end{verbatim}
 
-\note{We haven’t used \code{SILE.call} here because it performs all its operations
-on the default typesetter. If we wanted to make things cleaner, we could swap
-typesetters by assigning \code{discovery.innerTypesetter} to \code{SILE.typesetter}
-and then calling ordinary commands, rather than doing the settings and glue
-insertion “by hand.”}
+\note{ここでは\code{SILE.call}は呼びません。なぜならそれは、デフォルトのタイプセッタに作用するからです。もしも物事をより見通し良くしたければ、我々は\code{discovery.innerTypesetter}を\code{SILE.typesetter}に割り当てることでタイプセッタを入れ替え、通常のコマンドを呼ぶこともできます。こうすると、設定やグルーの挿入を「手動で」行う必要がなくなります。}
 
-In the future it may make sense for there to be a standard \code{sidenotes}
-package in SILE, but it has been instructive to see a couple of ‘non-standard’
-examples to understand how the internals of SILE can be leveraged to create such a
-package. Your homework is to create one!
+将来的には、SILEに標準\code{sidenote}パッケージを加えてもよいでしょう。ここではあまり
+「標準的ではない」状況をとりあげ、そのようなものを実装するために、SILEの内部処理をどう扱えばよいのか理解するための例題としました。ぜひあなた自身でも何か作ってみましょう！
 
-\section{SILE As A Library}
+\section{ライブラリとしてのSILE}
 
-So far we’ve been assuming that you would want to run SILE as a processor for
-an existing document. But what if you have a program which produces or munges
-data, and you would like to produce PDFs from within your application?
-In that case, it may be easier and provide more flexibility to use SILE as a library.
+これまではSILEを既存の文書を処理する単独のプロセッサとして実行することを前提としてきました。しかしながら、入力データそのものを生成したり、加工するプログラムの場合に、そのプログラムから直接PDFを生成したいときはどうするのでしょう？そのような状況では、SILEをライブラリとして利用することで、柔軟に、かつ簡単に対応できます。
 
-In the \code{examples/} directory of the SILE distribution, you will find an
-example of a Lua script which produces a PDF from SILE. It’s actually fairly
-simple to use SILE from within Lua; the difficult part is setting things up.
-Here’s how to do it.
+SILEの配布物の\code{examples/}ディレクトリには、SILEからPDFを生成するLuaスクリプトの例があります。LuaからSILEを使うことは非常に簡単です。困難な部分があるとすれば、それをセットアップすることです。例えば、このように行います。
 
 \begin{verbatim}
 \line
@@ -2248,58 +2111,38 @@ SILE.typesetter:init(ff)
 \line
 \end{verbatim}
 
-Loading the SILE core library also loads up all the other parts of SILE. We
-need to set the output file name and load the class that we want to use to
-typeset the document with. As with an ordinary SILE document, the \code{papersize}
-option is mandatory, so we call the \code{options.papersize} method of our
-document class to set the paper size. We then need to tell SILE what class
-we are actually using, call \code{init} on the class to get the first frame
-for typesetting, and then initialize the typesetter with this frame. This
-is all that SILE does to get itself ready to typeset.
+SILEのコアライブラリをロードすると、他のすべての部分を同時にロードすることになります。我々は出力ファイル名と、文書を組む際に用いる文書クラスをロードする必要があります。通常のSILE文書と同じく\code{papersize}オプションは必須で、文書クラスの\code{options.papersize}メソッドで用紙サイズを設定します。そしてSILEに、どの文書クラスを実際に使用するのか教える必要があります。文書クラスの\code{init}関数を呼び出して最初のフレームを準備すると、そのフレームでタイプセッタを初期化します。これがSILEに組版処理を行わせるために必要な準備です。
 
-After this, all the usual API calls will work: \code{SILE.call}, \code{SILE.typesetter:typeset} and so on.
+その後はすべてのAPIコールが利用可能です。\code{SILE.call}、\code{SILE.typesetter:typeset}などなど。
 
 \begin{verbatim}
 SILE.typesetter:typeset(data)
 \end{verbatim}
 
-The only thing to be careful is the need to call the \code{finish} method
-on your document class at the end of processing to finish off the final page:
+注意すべき点としては、最後のページの処理を終えるときに、文書クラスの\code{finish}メソッドを呼び出す必要があることでしょうか。
 
 \begin{verbatim}
 plain:finish()
 \line
 \end{verbatim}
 
-\section{Debugging}
+\section{デバッギング}
 
-When you are experimenting with SILE and its API, you may find it necessary
-to get further information about what SILE is up to. SILE has a variety of
-debugging switches that can be turned on by the command line or by Lua code.
+SILEとそのAPIを用いて何かを試みているときには、SILEが何をやっているのかについてのより詳しい情報を知りたくなることがあります。SILEは様々な種類のデバッギング用スイッチを持ち、それらはコマンドラインやLuaコードから有効にすることができます。
 
-Running SILE with the \code{--debug \em{facility}} switch will turn on debugging
-for a particular area of SILE’s operation:
+SILEを\code{--debug \em{facility}}スイッチ付で実行すると、SILEの処理の特定の領域におけるデバッギングを有効にすることができます。ここで\code{\em{facility}}は、
 
-\noindent{}• \code{typesetter} provides general debugging for the typesetter:
-turning characters into boxes, boxes into lines, lines into paragraphs, and 
-paragraphs into pages.
+\noindent{}• \code{typesetter}はタイプセッタの一般的なデバッギング情報を提供します。文字をボックスにしたり、ボックスを行に積み上げたり、行からパラグラフを生成したり、パラグラフを集めてページにしたり。
 
-\noindent{}• \code{pagebuilder} helps to debug problems when determining page
-breaks.
+\noindent{}• \code{pagebuilder}はページ分割を決定する際の問題をデバッグするのに役立ちます。
 
-\noindent{}• \code{break} provides (copious) information about the line breaking
-algorithm.
+\noindent{}• \code{break}は行分割アルゴリズムに関するおびただしい量の情報を提供します。
 
-\noindent{}• Any package may define their own debugging facility; currently only
-\code{insertions} does this.
+\noindent{}• どのパッケージもそれ独自のデバッギング機能を定義することができます。現在は\code{insertions}のみがそれを行っています。
 
-Multiple facilities can be turned on by separating them with commas:
-\code{--debug typesetter,break} will turn on debugging information for the
-typesetter and line breaker.
+複数の機能をコンマで区切って指定することで有効化できます。\code{--debug typesetter,break}はタイプセッタと行分割に関するデバッギングを有効にします。
 
-From Lua, you can add entries to the \code{SILE.debugFlags} table to turn on
-debugging for a given facility. This can be useful for temporarily debugging
-a particular operation:
+Luaからは\code{SILE.debugFlags}テーブルにエントリを加えることで、特定の機能に関するデバッギングを有効にできます。これは一時的に、特定の操作をデバッギングする際に有用です。
 
 \begin{verbatim}
 \line
@@ -2309,9 +2152,7 @@ SILE.debugFlags.typesetter = nil
 \line
 \end{verbatim}
 
-From a package’s point of view, you can write debugging information by 
-calling the \code{SU.debug} function (\code{SU} stands for SILE Utilities,
-and contains a variety of auxiliary functions used throughout SILE):
+パッケージを作成する際には、\code{SU.debug}関数を呼び出すことで、デバッギング情報を書き出すことができます。（\code{SU}はSILE Utilitiesを意味し、これはSILEで使用される様々な補助的関数を提供します）
 
 \begin{verbatim}
 \line
@@ -2319,10 +2160,7 @@ SU.debug("mypackage", "Doing a thing")
 \line
 \end{verbatim}
 
-Sometimes it’s useful for you to try out Lua code within the SILE environment;
-SILE contains a REPL (read-evaluate-print loop) for you to enter Lua code and
-print the results back to you. If you call SILE with no input file name, it
-enters the REPL:
+時として、LuaコードをSILE環境で実行することも助けになるでしょう。SILEはREPL （read-evaluate-print loop）を備えており、ターミナルからLuaコードを入力すると、その実行結果を出力します。SILEを入力ファイルなしで起動すると、REPLに入ります。
 
 \begin{verbatim}
 This is SILE 0.9.0
@@ -2331,15 +2169,10 @@ This is SILE 0.9.0
 62.3622054
 \end{verbatim}
 
-At any point during the evaluation of Lua commands, you can call \code{SILE.repl()}
-to enter the REPL and poke around; hitting Ctrl-D will end the REPL and 
-return to processing the document.
+Luaコマンドの実行中はいつでも、\code{SILE.repl()}を呼び出すことでREPLに入り、いろいろと試すことができます。\code{Ctrl-D}を入力することでREPLを抜け出し、文書の処理に戻ります。
 
-\section{Conclusion}
+\section{結論}
 
-We’ve seen not just the basic functionality of SILE but also given you some
-examples of how to extend it in new directions; how to use the SILE API to
-solve difficult problems in typesetting. Go forth and create your own SILE
-packages!
+我々はSILEの基本的な機能だけでなく、SILE APIを使って組版上の困難な問題を解決するために、新たな方向にそれを拡張する例まで見てきました。この調子でさらに続けて、自身のSILEパッケージを作ってみましょう！
 
 \end{document}
