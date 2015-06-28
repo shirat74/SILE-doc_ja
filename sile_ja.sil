@@ -214,7 +214,7 @@ Hello SILE!
 文書は\code{\\begin\{document\}}コマンドで始まります。それには用紙サイズの指定が\em{必須}です。そして文書は\code{\\end\{document\}}で終わります。その間には2種類のSILE文書を構成する要素が来ます。ページ上に出力されるテキスト、ここでは“Hello SILE!”、とコマンドです。
 
 \note{\notehead{用紙サイズ}
-SILEは国際規格ISOのA・B・Cシリーズの用紙サイズを認識します。これに加えて次の伝統的によく用いられる用紙サイズも利用可能です。letter、note、legal、executive、halfletter、halfexecutive、statement、folio、quarto、ledger、tabloid。
+SILEは国際規格ISOのA・B・Cシリーズの用紙サイズを認識します。これに加えて次の伝統的によく用いられる用紙サイズも利用可能です。letter、note、legal、executive、halfletter、\goodbreak{}halfexecutive、\goodbreak{}statement、folio、quarto、ledger、tabloid。
 
 もしも標準的でない用紙サイズを指定したければ、具体的なサイズを直接指定することも可能です。\code{papersize=\em{<basic length> x <basic length>}}。
 
@@ -272,7 +272,7 @@ This is paragraph three.
 
 注意点として挙げられるふたつ目は、いくつかの（４つです）文字はSILEでは特別な意味を持つことです。これらはTeXユーザにとっては馴染み深いものでしょう。
 
-\em{バックスラッシュ}はコマンドの開始に用いられます。（コマンドの詳細については後ほどすぐに述べましょう）\em{波括弧} （\code{\{}、\code{\}}）はグループ化に、特にコマンドの引数を扱う際に、用いられます。最後に\em{パーセント記号}はコメント行の開始として用いられます。パーセント記号から次の改行文字まではSILEによって無視されます。これらの文字を出力したければ、バックスラッシュを前に付けましょう。\code{\\\\}は‘\\’\footnote{訳注：フォントによっては円記号になってしまいます。}を、\code{\\\{}は‘\{’を、\code{\\\}}は‘\}’を、そして\code{\\\%}は‘\%’を出力します。
+\em{バックスラッシュ}はコマンドの開始に用いられます。（コマンドの詳細については後ほどすぐに述べましょう）\em{波括弧} （\code{\{}と\code{\}}）はグループ化に、特にコマンドの引数を扱う際に用いられます。最後に\em{パーセント記号}はコメント行の開始として用いられます。パーセント記号から次の改行文字まではSILEによって無視されます。これらの文字を出力したければ、バックスラッシュを前に付けましょう。\code{\\\\}は‘\\’\footnote{訳注：フォントによっては円記号になってしまいます。}を、\code{\\\{}は‘\{’を、\code{\\\}}は‘\}’を、そして\code{\\\%}は‘\%’を出力します。
 
 3つ目の点はハイフネーションです。SILEはそれによってパラグラフ全体の見た目が良くなると判断できるときはいつでも、自動的に語をハイフネートして改行します。ハイフネーションはその時の言語の設定が反映されます。特に指定がなければ、SILEはデフォルトで英語を仮定し、ハイフネーション処理を行います。上記のラテン語のテキストの例ではハイフネーションは無効化されています。
 
@@ -1791,6 +1791,8 @@ SILEのDocBookの実装は継続中で、まだできることがあります。
 
 それではSILEについての我々の探索を、もっとプログラミングが必要となるような、幾分ひねりのきいた状況を考えることで終わりにしましょう。
 
+\note{\notehead{訳注}この章ではやや難解な部分が多いため、適宜原文を脚注に載せることにします。}
+
 \section{並列テキスト}
 
 ファイル\code{examples/parallel.sil}は、マタイによる福音書の第1章からの、英語とギリシャ語の対訳からなります。これは、ふたつの文章を並列して進めるために、\code{diglot}クラスを用います。\code{diglot}クラスでは、\code{\\left}と\code{\\right}コマンドにより、左段と右段それぞれの文章を開始することができます。そして\code{\\sync}コマンドが、ふたつの並列した文章を互いに同期させるために利用できます。これはSILEクラスで何ができるのかを示すちょうどよい例となっているため、それがどのように実装されているのか詳しく見てみましょう。
@@ -1911,10 +1913,7 @@ diglot.endPage = function(self)
 end
 \end{verbatim}
 
-文書の終わりでも同様の処理を行います。ただし、この場合は\code{leaveHmode}ではなく、緊急の\code{chuck}メソッドを用います。\code{leaveHmode}は「ページビルダーを呼び出し、ページを構築するのに十分なものがあるか見る」のに対し、\code{chuck}は「ここですべてのキューを処理して完了させる」という意味となります。我々は、無限の高さをもつ垂直グルーをもう一方のタイプセッタのキューに与えることでこの過程を補助します。
-
-\note{\notehead{原文}
-Similarly for the end of the document, but in this case we will use the
+文書の終わりでも同様の処理を行います。ただし、この場合は\code{leaveHmode}ではなく、緊急の\code{chuck}メソッドを用います。\code{leaveHmode}は「ページビルダーを呼び出し、ページを構築するのに十分なものがあるか見る」のに対し、\code{chuck}は「ここですべてのキューを処理して完了させる」という意味となります。我々は、無限の高さをもつ垂直グルーをもう一方のタイプセッタのキューに与えることでこの過程を補助します。\footnote{訳注：原文はSimilarly for the end of the document, but in this case we will use the
 emergency \code{chuck} method; whereas \code{leaveHmode} means “call the
 page builder and see there’s enough material to build a page”, \code{chuck}
 means “you must get rid of everything on your queue now.” We add some infinitely
@@ -1940,16 +1939,9 @@ end
 
 傍注は並行テキストの単純な形態とみなすことができます。完全に「並行」な場合は、左右どちらのタイプセッタも固有の「役割」を持ちません—どちらの側もページを満タンにして、もう一方に追いついてくるように指示することができます。傍注の場合は、はっきりとした主となる文章の流れがあり、注の部分は本文領域でのページ付けに対処しなければなりません。
 
-傍注を実装する方法は様々です。たまたまそのプロジェクトでは、マージンノートとガターノートで異なるアプローチをとりました。ガターでは相互参照がごく頻繁に生じ得ます。このため、それらはページに「積み上げ」られる必要があります—they need to be \em{at least} on a level with the verse
-that they relate to, but could end up further down the page if there are a few
-cross-references close to each other. Markings in the margin, on the other hand,
-were guaranteed not to overlap.
+傍注を実装する方法は様々です。たまたまそのプロジェクトでは、マージンノートとガターノートで異なるアプローチをとりました。ガターでは相互参照がごく頻繁に生じ得ます。このため、それらはページに「積み上げ」られる必要があります—ガターノートは\em{少なくとも}それが関連付けられた節（バース）\footnote{訳注：ここでは聖書といった特定の例を想定していると思われる。バースやマーキング等については図を参照。}とは同じレベルにある必要がありますが、相互参照が密集していれば、それはややページの下方に表示される場合があります。マージンにおけるマーキングはその一方で、重ならないように保証される必要があります。
 
-We’ll look at the margin marking first. We’ll implement this as a special
-zero-width hbox (what TeX would call a \code{\\special}) which, although it lives in the output stream of the main
-typeblock, actually outputs itself by marking the margin at the current vertical
-position in the typeblock. In the example above, there will be a special hbox
-just before the word “there” in the first line.
+我々はまず、マージンマーキングを見ていきます。ここではそれをゼロ幅の水平ボックス（TeXでは\code{\\special}と呼ばれるもの）として実装します。それは本文の出力ストリームには存在しますが、本文領域の代わりにマージン領域の同じ高さの位置にマーキングとして現れます。図の例では、最初の行の「there」という語の直前に、この特殊な水平ボックスがあります。
 
 まず初めに、我々は適切なマージンフレームを探し出し、その左端を見つける必要があります。
 
@@ -1961,7 +1953,7 @@ discovery.typesetProphecy = function(symbol)
   local target = margin:left()
 \end{verbatim}
 
-次に、シンボルを置くための別のコマンドを呼び出します。こうすることで、書籍のデザイナがLuaファイルを修正することなしに、SILEレベルでシンボルを変更することを可能にします。ここでは、\command{\\hbox}コマンドにシンボルを出力するコマンドを流し込みます。\command{\\hbox}はその結果を返すと共に、タイプセッタの出力キューにそれを送ります。我々はシンボルを本文領域に出力したくはないので、そのノードをキューから取り除き、\code{hbox}変数にそのローカルなコピーを保持します。
+次に、マーキング・シンボルを置くための別のコマンドを呼び出します。こうすることで、書籍のデザイナがLuaファイルを修正することなしに、SILEレベルでシンボルを変更することを可能にします。ここでは、\command{\\hbox}コマンドにシンボルを出力するコマンドを流し込みます。\command{\\hbox}はその結果を返すと共に、タイプセッタの出力キューにそれを送ります。我々はシンボルを本文領域には出力したくはないので、そのノードをキューから取り除き、\code{hbox}変数にそのローカルなコピーを保持します。
 
 \begin{verbatim}
   local hbox = SILE.call("hbox",\{\}, function()
@@ -1982,14 +1974,13 @@ discovery.typesetProphecy = function(symbol)
 
 最後に我々は、この水平ボックスを出力するルーチンを用意します。ボックス出力ルーチンは3つのパラメータを取ります。ボックスそのもの、現在のタイプセッタ（これはそれがどのフレーム上で処理を行っているのか知っており、そしてそのフレームは自身がどこにあるのか知っている）、そしてその行のストレッチとシュリンクを表す変数です（この例ではこれは不要）。
 
-\note{\notehead{原文}
-Finally we need to write the routine which outputs this hbox. Box
+\footnote{訳注：原文はFinally we need to write the routine which outputs this hbox. Box
 output routines receive three parameters: the box itself, the current
 typesetter (which knows the frame it is typesetting into, and the frame
 knows whereabouts it has got to), and a variable representing the stretchability
 or shrinkability of the line. (We don’t need that for this example.)}
 
-我々の出力ルーチンがすべきことは、現在の水平位置を記録して他のボックスを出力後にそれを回復できるようにし、すでに算出した左マージンの左端にジャンプし、シンボルを出力するルーチンに\em{自らを}出力させ、もと居た位置に戻る、です。
+我々の出力ルーチンがすべきことは、現在の水平位置を記録することで他のボックスを出力した後に復帰できるようにしておき、すでに算出した左マージンの左端にジャンプし、シンボルを出力するルーチンに\em{自らを}出力させ、もと居た位置に戻る、です。
 
 \begin{verbatim}
     outputYourself= function (self, typesetter, line)
@@ -2002,7 +1993,7 @@ or shrinkability of the line. (We don’t need that for this example.)}
 \line
 \end{verbatim}
 
-これは簡便なバージョンの傍注です。（20行のコードの！）ですが、個々のシンボルが重ならないように保証するには十分です。ガターノートについては—これはより本来の傍注に近いものですが—我々は幾分スマートに処理する必要があります。ここでは並行テキストを扱ったのと同様のアプローチをとりましょう。ふたつのタイプセッタを使用します。
+これはごく簡便なバージョンの傍注（20行のコードの！）ですが、個々のシンボルが重ならないように保証するには十分です。ガターノートについては—これはより本来の傍注に近いものですが—我々は幾分スマートに処理する必要があります。ここでは並行テキストを扱ったのと同様のアプローチをとりましょう。ふたつのタイプセッタを使用します。
 
 以前と同じように、オブジェクトを生成し、それらを文書の始めで適切なフレームに割り振られるようにします。
 
@@ -2030,7 +2021,7 @@ end
 \line
 \end{verbatim}
 
-そして実際に相互参照を扱う関数です。並行テキストの例と同様、ふたつのタイプセッタが処理する出力の高さを計ることから始めます。
+そして実際に相互参照を扱う関数です。並行テキストの例と同様、ふたつのタイプセッタが出力する内容の高さを計ることから始めます。
 
 \begin{verbatim}
 \line
@@ -2040,15 +2031,11 @@ discovery.typesetCrossReference = function(xref)
   local mainVbox = SILE.pagebuilder.collateVboxes(SILE.typesetter.state.outputQueue)
 \end{verbatim}
 
-ここでは既に出力キューに送られたもの、すなわち完全なパラグラフ、を取り扱う必要があります。問題となる部分は、バース（詩節）の途中でパラグラフを終了させたくないという所です。パラグラフの途中で相互参照を処理する際に、
-This deals with the material which has already been put into the output queue: in
-other words, completed paragraphs. The problem here is that we do not want to
-end a paragraph between two verses; if we are mid-paragraph while typesetting
+ここでは既に出力キューに送られたもの–すなわち完全なパラグラフ–を取り扱う必要があります。問題となる部分は、ふたつの節の間でパラグラフを終了させたくないという所です。パラグラフの途中で相互参照を処理する際には、我々はその時点での本文の高さが\em{どうなっているべき}かを知る必要があります。\footnote{訳注：原文はif we are mid-paragraph while typesetting
 a cross-reference, we need to work out what the height of the material \em{would have
-been} if we were to put it onto the output queue at this point. So, we take
-the \code{SILE.typesetter} object on a little excursion.
+been} if we were to put it onto the output queue at this point.}このため、我々は\code{SILE.typesetter}オブジェクトにいくらか回り道をさせます。
 
-まず始めに、我々は現在のノードキューのコピーを取ります。そしてタイプセッタの\code{pushState}メソッドを呼び出します。これにより、タイプセッタを再初期化する一方で、その時点までの状態を後に復元するために保存しておきます。これで新たなタイプセッタが出来上がり、そのキューは空です。このタイプセッタに、これまでのパラグラフの内容を与えていきます。そしてそれに水平モードを去るように指示することで、行分割処理を行わせ、行間やパラブラフの高さを計算させます。それから出力キューをボックス化させて、もと居た地点に復帰します。これで我々は、現在のパラグラフを相互参照が挿入される地点まで処理した結果のボックスを得ました。このボックスの高さが、相互参照の垂直位置を得るために、\code{mainVbox}に加えるべき距離となります。
+まず始めに、我々は現在のノードキューのコピーを取ります。そしてタイプセッタの\code{pushState}メソッドを呼び出します。これにより、タイプセッタを再初期化する一方で、その時点までの状態を後に復元するために保存しておきます。これで新たなタイプセッタが出来上がり、そのキューは空です。このタイプセッタに、これまでのパラグラフの内容を与えていきます。そして水平モードを去るように指示することで、行分割処理を行わせ、行間やパラブラフの高さを計算させます。それから出力キューをボックス化させて、もと居た地点に復帰します。これで我々は、現在のパラグラフを相互参照が挿入される地点まで処理した結果としてのボックスを得ました。このボックスの高さが、相互参照の垂直位置を得るために、\code{mainVbox}に加えるべき距離となります。
 
 \begin{verbatim}
   local unprocessedNodes = std.tree.clone(SILE.typesetter.state.nodes)
@@ -2062,9 +2049,7 @@ the \code{SILE.typesetter} object on a little excursion.
 
 \note{\code{leaveHmode}に与えられた引数\code{1}は、「ここでは改ページは行わない」という意味となります。}
 
-たいがい、相互参照を出力するためのタイプセッタは本文のタイプセッタと同じ位置まで下りてきていません。このため我々は相互参照タイプセッタに必要な距離だけ移動するように指示します。どちらのタイプセッタも相手に余分な垂直スペースを挿入するように伝えることができなかった、並行テキストの場合とは異なり、この場合は相互参照がややその本来の位置より低めに来たとしてもよしとしましょう。\footnote{原文：Unlike the parallel example, where either typesetter
-could tell the other to open up additional vertical space, in this case it’s OK if
-the cross-reference appears a bit lower than the verse it refers to.}
+たいがい、相互参照を出力するためのタイプセッタは本文のタイプセッタと同じ位置まで下りてきていません。このため我々は相互参照タイプセッタに必要な距離だけ移動するように指示します。どちらのタイプセッタも相手に余分な垂直スペースを挿入するように伝えることができた、並行テキストの場合とは状況は異なるため、今回は相互参照がややその本来の位置より低めに来たとしてもよしとしましょう。
 
 \begin{verbatim}
   if (innerVbox.height < mainVbox.height) then
