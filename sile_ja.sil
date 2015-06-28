@@ -1868,7 +1868,7 @@ SILE.registerCommand("sync", function()
   end
 \end{verbatim}
 
-そして次にそれぞれのパラグラフを終了させ（\code{parskips}が邪魔にならないように、グルーを付加した後にこれを行います）、通常のパラグラフ処理に戻ります。
+そして次にそれぞれのパラグラフを終了させ（\code{parskips}が邪魔にならないように、グルーを付加した後にこれを行います）、パラグラフ処理を通常のものに戻します。
 
 \begin{verbatim}
   diglot.rightTypesetter:leaveHmode();
@@ -1972,15 +1972,13 @@ discovery.typesetProphecy = function(symbol)
     value= hbox,
 \end{verbatim}
 
-最後に我々は、この水平ボックスを出力するルーチンを用意します。ボックス出力ルーチンは3つのパラメータを取ります。ボックスそのもの、現在のタイプセッタ（これはそれがどのフレーム上で処理を行っているのか知っており、そしてそのフレームは自身がどこにあるのか知っている）、そしてその行のストレッチとシュリンクを表す変数です（この例ではこれは不要）。
-
-\footnote{訳注：原文はFinally we need to write the routine which outputs this hbox. Box
+最後に我々は、この水平ボックスを出力するルーチンを用意します。ボックス出力ルーチンは3つのパラメータを取ります。ボックスそのもの、現在のタイプセッタ（これはそれがどのフレーム上で処理を行っているのか知っており、そしてそのフレームは自身がどこにあるのか知っている）、そしてその行のストレッチとシュリンクを表す変数です（この例ではこれは不要）。\footnote{訳注：原文はFinally we need to write the routine which outputs this hbox. Box
 output routines receive three parameters: the box itself, the current
 typesetter (which knows the frame it is typesetting into, and the frame
 knows whereabouts it has got to), and a variable representing the stretchability
 or shrinkability of the line. (We don’t need that for this example.)}
 
-我々の出力ルーチンがすべきことは、現在の水平位置を記録することで他のボックスを出力した後に復帰できるようにしておき、すでに算出した左マージンの左端にジャンプし、シンボルを出力するルーチンに\em{自らを}出力させ、もと居た位置に戻る、です。
+我々の出力ルーチンがすべきことは、⑴現在の水平位置を記録し他のボックスを出力した後にそこに復帰できるようにしておき、⑵すでに算出しておいた左マージンの左端にジャンプし、⑶シンボルを出力するルーチンに\em{自らを}出力させ、⑷もと居た位置に戻る、です。
 
 \begin{verbatim}
     outputYourself= function (self, typesetter, line)
@@ -2021,7 +2019,7 @@ end
 \line
 \end{verbatim}
 
-そして実際に相互参照を扱う関数です。並行テキストの例と同様、ふたつのタイプセッタが出力する内容の高さを計ることから始めます。
+そして実際に相互参照を扱う関数です。並行テキストの例と同様、ふたつのタイプセッタの出力内容の高さを計ることから始めます。
 
 \begin{verbatim}
 \line
@@ -2031,11 +2029,11 @@ discovery.typesetCrossReference = function(xref)
   local mainVbox = SILE.pagebuilder.collateVboxes(SILE.typesetter.state.outputQueue)
 \end{verbatim}
 
-ここでは既に出力キューに送られたもの–すなわち完全なパラグラフ–を取り扱う必要があります。問題となる部分は、ふたつの節の間でパラグラフを終了させたくないという所です。パラグラフの途中で相互参照を処理する際には、我々はその時点での本文の高さが\em{どうなっているべき}かを知る必要があります。\footnote{訳注：原文はif we are mid-paragraph while typesetting
+ここでは既に出力キューに送られたもの—すなわち完全なパラグラフ—を取り扱う必要があります。問題となる部分は、ふたつの節の間でパラグラフを終了させたくないという所です。パラグラフの途中で相互参照を処理する際には、我々はその時点での本文の高さが\em{どうなっているべき}かを知る必要があります。\footnote{訳注：原文はif we are mid-paragraph while typesetting
 a cross-reference, we need to work out what the height of the material \em{would have
 been} if we were to put it onto the output queue at this point.}このため、我々は\code{SILE.typesetter}オブジェクトにいくらか回り道をさせます。
 
-まず始めに、我々は現在のノードキューのコピーを取ります。そしてタイプセッタの\code{pushState}メソッドを呼び出します。これにより、タイプセッタを再初期化する一方で、その時点までの状態を後に復元するために保存しておきます。これで新たなタイプセッタが出来上がり、そのキューは空です。このタイプセッタに、これまでのパラグラフの内容を与えていきます。そして水平モードを去るように指示することで、行分割処理を行わせ、行間やパラブラフの高さを計算させます。それから出力キューをボックス化させて、もと居た地点に復帰します。これで我々は、現在のパラグラフを相互参照が挿入される地点まで処理した結果としてのボックスを得ました。このボックスの高さが、相互参照の垂直位置を得るために、\code{mainVbox}に加えるべき距離となります。
+まず始めに、我々は⑴現在のノードキューのコピーを取ります。そして⑵タイプセッタの\code{pushState}メソッドを呼び出します。これにより、タイプセッタを再初期化する一方で、その時点までの状態を後に復元するために保存しておきます。これで新たなタイプセッタが出来上がり、そのキューは空です。このタイプセッタに、⑶これまでのパラグラフの内容を与えてやります。そして⑷水平モードを去るように指示することで、行分割処理を行わせ、行間やパラブラフの高さを計算させます。それから⑸出力キューをボックス化させて、⑹もと居た地点に復帰します。これで我々は、現在のパラグラフを相互参照が挿入される地点まで処理した結果としてのボックスを得ました。⑺このボックスの高さが、相互参照の垂直位置を得るために、\code{mainVbox}に加えるべき距離となります。
 
 \begin{verbatim}
   local unprocessedNodes = std.tree.clone(SILE.typesetter.state.nodes)
@@ -2049,7 +2047,7 @@ been} if we were to put it onto the output queue at this point.}このため、�
 
 \note{\code{leaveHmode}に与えられた引数\code{1}は、「ここでは改ページは行わない」という意味となります。}
 
-たいがい、相互参照を出力するためのタイプセッタは本文のタイプセッタと同じ位置まで下りてきていません。このため我々は相互参照タイプセッタに必要な距離だけ移動するように指示します。どちらのタイプセッタも相手に余分な垂直スペースを挿入するように伝えることができた、並行テキストの場合とは状況は異なるため、今回は相互参照がややその本来の位置より低めに来たとしてもよしとしましょう。
+たいがい、相互参照を出力するためのタイプセッタは本文のタイプセッタと同じ位置まで下りてきていません。このため我々は相互参照タイプセッタに必要な距離だけ移動するように指示します。どちらのタイプセッタも相手に余分な垂直スペースを挿入させ同期することができた、並行テキストの場合とは状況は異なるため、今回は相互参照がややその本来の位置より低めに来たとしてもよしとしましょう。
 
 \begin{verbatim}
   if (innerVbox.height < mainVbox.height) then
@@ -2057,7 +2055,7 @@ been} if we were to put it onto the output queue at this point.}このため、�
   end
 \end{verbatim}
 
-この時点で、ふたつのタイプセッタは互いに並んでいるか、相互参照タイプセッタはそれが参照する詩句より先に進んでいるかのいずれかです。それでは相互参照そのものを出力しましょう。
+この時点で、ふたつのタイプセッタは互いに並んでいるか、相互参照タイプセッタはそれが参照する節より先に進んでいるかのいずれかです。それでは相互参照そのものを出力しましょう。
 
 \begin{verbatim}
   SILE.settings.temporarily(function()
