@@ -127,6 +127,7 @@ SILEにはそれ自身のPDF生成ライブラリが付属しており、それ�
 
 \listitem{\code{luarocks install lpeg}}
 \listitem{\code{luarocks install luaexpat}}
+\listitem{\code{luarocks install luafilesystem}}
 
 以上のことが済めばようやく本題に移れます。SILEのホームページからダウンロードしたファイルを解凍し、ディレクトリを移動してから以下を実行します。
 
@@ -1402,7 +1403,7 @@ book:defineMaster(\{
 
 \begin{verbatim}
 \line
-book:loadPackage("twoside", { oddPageMaster = "right", evenPageMaster = "left" });
+book:loadPackage("twoside", \{ oddPageMaster = "right", evenPageMaster = "left" \});
 book:mirrorMaster("left", "right")
 \line
 \end{verbatim}
@@ -1412,7 +1413,7 @@ bookクラスはまた、セクショニングのコマンドを提供し、ペ�
 \begin{verbatim}
 \line
 local book = SILE.require("classes/book")
-local bringhurst = book { id = "bringhurst" }
+local bringhurst = book \{ id = "bringhurst" \}
 ...
 return bringhurst
 \line
@@ -1491,7 +1492,7 @@ SILE.registerCommand("link", function(options, content)
   SILE.process(content)
   if (options["xl:href"]) then
     SILE.typesetter:typeset(" (")
-    SILE.call("code", {}, {options["xl:href"]})
+    SILE.call("code", \{\}, \{options["xl:href"]\})
     SILE.typesetter:typeset(")")
   end
 end)
@@ -1677,10 +1678,10 @@ return \{
 \begin{verbatim}
 \line
 SILE.registerCommand("example", function(options,content)
-  SILE.call("increment-counter", {id="Example"})
+  SILE.call("increment-counter", \{id="Example"\})
   SILE.call("bigskip")
   SILE.call("docbook-line")
-  SILE.call("docbook-titling", {}, function()
+  SILE.call("docbook-titling", \{\}, function()
     SILE.typesetter:typeset("Example".." ".. SILE.formatCounter(SILE.scratch.counters.Example]))
 \end{verbatim}
 
@@ -1862,9 +1863,9 @@ SILE.registerCommand("sync", function()
   local lVbox = SILE.pagebuilder.collateVboxes(diglot.leftTypesetter.state.outputQueue)
   local rVbox = SILE.pagebuilder.collateVboxes(diglot.rightTypesetter.state.outputQueue)
   if (rVbox.height > lVbox.height) then
-    diglot.leftTypesetter:pushVglue({ height = rVbox.height - lVbox.height })
+    diglot.leftTypesetter:pushVglue(\{ height = rVbox.height - lVbox.height \})
   elseif (rVbox.height < lVbox.height) then
-    diglot.rightTypesetter:pushVglue({ height = lVbox.height - rVbox.height })
+    diglot.rightTypesetter:pushVglue(\{ height = lVbox.height - rVbox.height \})
   end
 \end{verbatim}
 
@@ -2051,7 +2052,7 @@ been} if we were to put it onto the output queue at this point.}このため、�
 
 \begin{verbatim}
   if (innerVbox.height < mainVbox.height) then
-    discovery.innerTypesetter:pushVglue({ height = mainVbox.height - innerVbox.height })
+    discovery.innerTypesetter:pushVglue(\{ height = mainVbox.height - innerVbox.height \})
   end
 \end{verbatim}
 
@@ -2060,12 +2061,12 @@ been} if we were to put it onto the output queue at this point.}このため、�
 \begin{verbatim}
   SILE.settings.temporarily(function()
     SILE.settings.set("document.baselineskip", SILE.nodefactory.newVglue("7pt"))
-    SILE.Commands["font"]({size = "6pt", family="Helvetica", weight="800"}, {})
+    SILE.Commands["font"](\{size = "6pt", family="Helvetica", weight="800"\}, \{\})
     discovery.innerTypesetter:typeset(SILE.scratch.chapter..":"..SILE.scratch.verse.." ")
-    SILE.Commands["font"]({size = "6pt", family="Helvetica", weight="200"}, {})
+    SILE.Commands["font"](\{size = "6pt", family="Helvetica", weight="200"\}, \{\})
     discovery.innerTypesetter:typeset(xref)
     discovery.innerTypesetter:leaveHmode()
-    discovery.innerTypesetter:pushVglue({ height = SILE.length.new({length = 4}) })
+    discovery.innerTypesetter:pushVglue(\{ height = SILE.length.new(\{length = 4\}) \})
   end)
 end
 \line
