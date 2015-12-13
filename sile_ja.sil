@@ -99,8 +99,7 @@ SILE\footnote{一応言っておくと、著者は/saɪəl/と発音します。
 
 \section{基本的なSILE文書}
 
-SILEをどうやって使用するのか示す前に、SILE文書がどのようなものなのかひとつ例を示しましょう。
-これはSILEに対する入力であり、SILEによって処理されPDFファイルへと変換されるものです。
+SILEをどうやって使用するのか示す前に、SILE文書がどのようなものなのかひとつ例を示しましょう。これはSILEに対する入力であり、SILEによって処理されPDFファイルへと変換されるものです。
 
 \note{これらの文書はプレーンテキストです。あなたがあなた自身のSILE文書を作成するにはテキストエディタが必要です。Wordのようなワープロソフトでこれらのファイルを作成しても、うまくいきません。この場合、プレーンテキストではなく、ワープロソフトの独自フォーマットで保存されてしまうからです。AtomやSublime TextのようなクロスプラットフォームのGUI指向の良いテキストエディタがあります。また、\em{Vim}や\em{Emacs}などのキーボードコマンド中心で操作するものも良いでしょう。環境によってはほかにも良い選択肢があります。WindowsではNotepad+、OS XではTextMate、GnomeのGedit、KDEではKateなどです。テキストエディタの比較については、\url{http://alternativeto.net/tag/text-editor/}を参照してください。}
 
@@ -218,15 +217,25 @@ Hello SILE!
 \line
 \end{verbatim}
 
+\section{用紙サイズを定義する}
+
 文書は\code{\\begin\{document\}}コマンドで始まります。それには用紙サイズの指定が\em{必須}です。そして文書は\code{\\end\{document\}}で終わります。その間には2種類のSILE文書を構成する要素が来ます。ページ上に出力されるテキスト、ここでは“Hello SILE!”、とコマンドです。
 
-\note{\notehead{用紙サイズ}
-SILEは国際規格ISOのA・B・Cシリーズの用紙サイズを認識します。これに加えて次の伝統的によく用いられる用紙サイズも利用可能です。letter、note、legal、executive、halfletter、\goodbreak{}halfexecutive、\goodbreak{}statement、folio、quarto、ledger、tabloid。
+デフォルトの用紙サイズはA4です。ただし、それぞれの文書クラスはこの値を上書きする場合もあります。用紙サイズを変更するには、文書宣言にオプションでこれを指定します。
 
-もしも標準的でない用紙サイズを指定したければ、具体的なサイズを直接指定することも可能です。\code{papersize=\em{<basic length> x <basic length>}}。
+\begin{verbatim}
+\line
+\\begin[papersize=letter]\{document\}
+\line
+\end{verbatim}
 
-\smallskip\notehead{単位}\par
-SILEでは長さを指定するいくつかの方法があります。上記\code{<basic length>}は数と単位（の省略記号）の指定からなります。認識される単位はポイント（\code{pt}）、ミリメートル（\code{mm}）、センチメートル（\code{cm}）、インチ（\code{in}）です。例えば、ペーパーバックサイズのB-formatは\code{papersize=198mm x 129mm}のように指定されます。後ほど長さを指定する別の方法についてもみることとなるでしょう。}
+SILEは国際規格ISOのA・B・Cシリーズの用紙サイズを認識します。これに加えて次の伝統的によく用いられる用紙サイズも利用可能です。letter、note、legal、executive、halfletter、\goodbreak{}halfexecutive、\goodbreak{}statement、folio、quarto、ledger、tabloid、\goodbreak{}archAからarchEシリーズ、DI、Common10、Monarch、flsa、\goodbreak{}flse、csheet、dsheet、esheet
+
+もしも標準的でない用紙サイズを指定したければ、具体的なサイズを直接指定することも可能です。
+
+\code{papersize=<basic length> x <basic length>}
+
+SILEでは長さを指定するいくつかの方法があります。上記\code{<basic length>}は数と単位（の省略記号）の指定からなります。認識される単位はポイント（\code{pt}）、ミリメートル（\code{mm}）、センチメートル（\code{cm}）、インチ（\code{in}）です。例えば、ペーパーバックサイズのB-formatは\code{papersize=198mm x 129mm}のように指定されます。後ほど長さを指定する別の方法についてもみることとなるでしょう。
 
 \section{テキスト}
 
@@ -234,7 +243,7 @@ SILEでは長さを指定するいくつかの方法があります。上記\cod
 
 \note{TeXユーザーはSILEがテキストについても何らかの処理を行うものと期待するかもしれません。例えば、あなたがTeXにおいて、ふたつの連続したバッククォート（\code{``}）を入力すると、TeXはそれを開始用のダブルクォート（“）に置き換えてくれます。SILEはそのようなことは行いません。ダブルクォートを入力してください。同様にenダッシュとemダッシュでも、\code{--}や\code{---}ではなく、Unicodeで該当する文字を入力してください。}
 
-テキスト処理においていくつか挙げる点があるとすれば以下のものでしょうか。
+\noindent{}テキスト処理においていくつか挙げる点があるとすれば以下のものでしょうか。
 
 まずひとつ目は、スペースの扱いについてです。もしあなたがスペース3つを用いて\code{Hello {} {} SILE!}と書いたとしても、それはスペース1つ分、\code{Hello SILE!}と同じ結果になります。また、行の先頭にあるスペースは無視されます。
 
@@ -242,16 +251,16 @@ SILEでは長さを指定するいくつかの方法があります。上記\cod
 
 \begin{verbatim}
 \line
-Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
+incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
+nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
+fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
+culpa qui officia deserunt mollit anim id est laborum.
 \line
 \end{verbatim}
 
-\noindent{}だったとしても、SILEの出力において‘eiusmod’で改行が起こるとは限りません。改行は常に、適切な位置で行われます。実際の出力は以下のようなものとなるでしょう。
+\noindent{}だったとしても、SILEの出力において‘tempor’で改行が起こるとは限りません。改行は常に、適切な位置で行われます。実際の出力は以下のようなものとなるでしょう。
 
 \line
 \nohyphenation{\examplefont{\quad{}Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
@@ -262,7 +271,8 @@ cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
 proident, sunt in culpa qui officia deserunt mollit anim id est laborum.}}
 \line
 
-言うならば、改行文字はスペースに変換されます。（場合によってはこれは望ましいことではありません。もし行の終わりに余分なスペースを加えたくなければ、行の末尾でコメント文字\code{\%}を使います）
+言うならば、改行文字はスペースに変換されます。
+\note{場合によってはこれは望ましいことではありません。もし行の終わりに余分なスペースを加えたくなければ、行の末尾でコメント文字\code{\%}を使います}
 
 パラグラフを終了する場合は、改行を2個続けて入れてください。例えば、
 
@@ -308,11 +318,11 @@ SILEはコマンド直後のスペースや改行文字を無視します。
 
 \begin{verbatim}
 \line
-\\eject                                 \% A command with no parameters or argument
+\\eject \% A command with no parameters or argument
 
-\\font[family=Times,size=10pt]          \% Parameters, but no argument
+\\font[family=Times,size=10pt] \% Parameters, but no argument
 
-\\chapter\{Introducing SILE\}               \% Argument but no parameters
+\\chapter\{Introducing SILE\} \% Argument but no parameters
 
 \\font[family=Times,size=10pt]\{Hi there!\} \% Parameters and argument
 \line
@@ -366,7 +376,7 @@ XML書式は人間が直接書くことを想定しているわけではあり�
 
 最後の2章では、SILEコマンドを定義とXML文書を処理する例を示しましょう。
 
-\chapter{SILEコマンド}
+\chapter{いくつかの有用なSILEコマンド}
 
 さて、それではSILEの具体的な使用法について見ていきましょう。まずはあなたがSILEで文書を作成し始めるのに最も役立つコマンドから始め、次第により細かな点について進んでいきます。
 
@@ -421,17 +431,19 @@ Big text!
 
 \medskip
 
-\noindent{}• \em{size}－先に述べたとおりです。
+\noindent{}• \em{size}:先に述べたとおりです。
 
-\noindent{}• \em{family}－使用するフォント名が来ます。フォントをその名前で指定するには、SILEはシステムにインストールされたすべてのフォントについて知る必要があります。SILEのXML書式では、フォントファミリーはCSS形式のコンマで分離された‘スタック’として指定可能です。
+\noindent{}• \em{family}:使用するフォント名が来ます。フォントをその名前で指定するには、SILEはシステムにインストールされたすべてのフォントについて知る必要があります。SILEのXML書式では、フォントファミリーはCSS形式のコンマで分離された‘スタック’として指定可能です。
 
-\noindent{}• \em{style}－\code{normal}または\code{italic}です。
+\noindent{}• \em{filename}:もしファイル名が与えられたら、SILEはシステムフォントではなく、指定されたフォントを使用します。
 
-\noindent{}• \em{weight}－CSS形式のウェイトを表す数値が来ます。有効な値は\font[weight=100]{100}と\font[weight=200]{200}から\font[weight=300]{300}、\font[weight=400]{400}、\font[weight=500]{500}、\goodbreak\font[weight=600]{600}、\goodbreak\font[weight=700]{700}、\font[weight=800]{800}、\font[weight=900]{900}までです。フォントによっては全てのウェイトがサポートされているとは限りませんが（ふたつ程度かもしれません)、SILEは最も近いものを選択します。
+\noindent{}• \em{style}:\code{normal}または\code{italic}です。
 
-\noindent{}• \em{language}－2文字からなる（ISO639-1）言語コードです。これはスペーシングとハイフネーションの両方に影響を与えます。
+\noindent{}• \em{weight}:CSS形式のウェイトを表す数値が来ます。有効な値は\font[weight=100]{100}と\font[weight=200]{200}から\font[weight=300]{300}、\font[weight=400]{400}、\font[weight=500]{500}、\goodbreak\font[weight=600]{600}、\goodbreak\font[weight=700]{700}、\font[weight=800]{800}、\font[weight=900]{900}までです。フォントによっては全てのウェイトがサポートされているとは限りませんが（ふたつ程度かもしれません)、SILEは最も近いものを選択します。
 
-\noindent{}• \em{script}－スクリプト（文字体系、用字系）の指定です。後で述べる「言語とハイフネーション」の節を参照してください。
+\noindent{}• \em{language}－:文字からなる（ISO639-1）言語コードです。これはスペーシングとハイフネーションの両方に影響を与えます。
+
+\noindent{}• \em{script}:スクリプト（文字体系、用字系）の指定です。後で述べる「言語とハイフネーション」の節を参照してください。
 \medskip
 
 手動で陽にフォント指定を行うのは非常に面倒ですね。後ほどこれを自動化する方法についても見てみましょう。SILEは\code{\\em\{\dots\}}コマンドを\code{\\font[style=italic]\{\dots\}}のショートカットとして提供します。ボールド体に対するショートカットはありません。なぜならそれはあまり良い習慣とは言えないからです。そのようなものを簡単に行う方法は与えないことにしましょう。
@@ -476,7 +488,7 @@ SILEは行とページの分割を自ら決定します。後の章ではこの�
 パラグラフの\em{中}では、これらのコマンドは全く別の意味を持ちます。\code{\\break}コマンドは改\em{行}を指示し、\em{同様に}、\code{\\goodbreak}、\code{\\nobreak}、および\code{\\allowbreak}も行分割に対応します。もしも\em{ページ分割}を特に禁止したければ、\code{\\novbreak}を使います。
 
 \begin{raggedright}
-SILEは通常、両端揃えを行います—すなわち、SILEは一行がちょうど与えられた行長でぴったり収まるように単語間のスペースを調整します。\footnote{これはSILEが、常に一行の長さを行長に厳密に合うようにするということを意味しません。SILEはある程度の調整を行いますが、最善を尽くした後、最も悪くないと思われる結果を出力します。いくつかの語がわずかに余白に突き出る結果となることもあります。}両端揃え以外には左揃えがあります。左揃えでは単語間のスペースは均等になるかわり、パラグラフの右端はきれいに揃いません。左揃えはしばしば子供向けの本に用いられたり、新聞のような一行の幅が狭い状況でも用いられます。左揃えを行うには、文章を\code{\\begin\break\{raggedright\}}環境を囲います。このパラグラフは左揃えで組まれています。
+SILEは通常、両端揃えを行います—すなわち、SILEは一行がちょうど与えられた行長でぴったり収まるように単語間のスペースを調整します。\footnote{これはSILEが、常に一行の長さを行長に厳密に合うようにするということを意味しません。SILEはある程度の調整を行いますが、最善を尽くした後、最も悪くないと思われる結果を出力します。いくつかの語がわずかに余白に突き出る結果となることもあります。}両端揃え以外には左揃えがあります。左揃えでは単語間のスペースは均等になるかわり、パラグラフの右端はきれいに揃いません。左揃えはしばしば子供向けの本に用いられたり、新聞のような一行の幅が狭い状況でも用いられます。左揃えを行うには、文章を\code{\\begin\{raggedright\}}環境を囲います。このパラグラフは左揃えで組まれています。
 \end{raggedright}
 
 \begin{raggedleft}
@@ -485,7 +497,7 @@ SILEは通常、両端揃えを行います—すなわち、SILEは一行がち
 
 \section{言語とハイフネーション}
 
-SILEは現在選択されている言語の設定に基づいてハイフネーションを行います。（言語設定は前に見たように\code{\\font}コマンドで行います）SILEは様々な言語のハイフネーションをサポートしています。また、その言語特有の組版ルールについてもサポートすることを目的としています。
+SILEは現在選択されている言語の設定に基づいてハイフネーションを行います。（言語設定は前に見たように\code{\\font}コマンドで行います）SILEは様々な言語のハイフネーションをサポートしており、各言語特有の組版ルールについてもサポートすることを目的としています。
 
 SILEはまた、\code{xx}という特別な「言語」、を理解します。これはなんのハイフネーションパターンもないものです。この言語に切り替えると、ハイフネーションは行われません。コマンド\code{\\nohyphenation\{\dots\}}が\code{\\font[language=xx]\{\dots\}}のショートカットとして利用できます。
 
