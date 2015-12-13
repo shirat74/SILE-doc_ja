@@ -12,9 +12,10 @@
 \script[src=packages/lorem]
 \script[src=packages/bidi]\bidi-off
 \script[src=packages/pdf]
+%\script[src=packages/pullquote]
 \include[src=documentation/macros.sil]
 \define[command=silehp]{\url{http://www.sile-typesetter.org/}}
-\define[command=sileversion]{0.9.2}
+\define[command=sileversion]{\script{SILE.typesetter:typeset(SILE.version)}}
 \font[size=10pt, language="ja", family="Yu Mincho", weight="300"]
 \nofolios
 %\set[parameter=document.lskip,value=5em]
@@ -42,9 +43,9 @@ SILEは組版システムです。その目的は美しい文書を生成する�
 
 \section{SILEとWord}
 
-多くの人たちはパソコンを使って印刷用の文書を作成するとき、Microsoft WordやiWork Pages、あるいはLibreOffice Writerといった、デスクトップ向けのワープロソフトを利用します。SILEはこれらワープロソフトとは異なります。それは組版システムです。そこにはいくつかの重要な違いがあります。
+多くの人たちはパソコンを使って印刷用の文書を作成するとき、Microsoft Word、iWork Pages、あるいはLibreOffice Writerといった、デスクトップ向けのワープロソフトを利用します。SILEはこれらワープロソフトとは異なります。それは組版システムです。そこにはいくつかの重要な違いがあります。
 
-ワープロソフトの目的は、あなたがスクリーン上で入力したものと、そっくり同じに見える文書を作成することにあります。これに対して、組版システムの仕事は、ユーザの生の入力データから、可能な限り見栄えの良い文書を生成することにあります。SILEに対する入力データは、その内容がどのようにページ上にレイアウトされるべきかの指示を含む、テキスト文書です。
+ワープロソフトの目的は、あなたがスクリーン上で入力しているものと、そっくりそのまま同じ見た目の文書を作成することにあります。これに対して、組版システムの仕事は、ユーザの生の入力データから、可能な限り見栄えの良い文書を生成することにあります。SILEに対する入力データは、その内容がどのようにページ上にレイアウトされるべきかの指示を含む、テキスト文書です。
 
 ワープロソフトはしばしばWYSIWYG—What You See Is What You Get（見たままが得られる）—であると言われますが、SILEは全くWYSIWYGでは\em{ありません}。実際、結果はそれが得られるまで分からないのです。むしろ、SILE文書は\em{テキストエディタ}—その見栄えではなく、テキストそのものを編集するためのソフトウェア—を用いて準備され、PDF文書を生成するためにSILEによって処理されます。
 
@@ -58,15 +59,15 @@ SILEは組版システムです。その目的は美しい文書を生成する�
 
 いくらかの人たちは、なんだかTeXのようだ、と思うかもしれません。\footnote{ひとりのTeXユーザとして言わせれば「なんだかT\glue[width=-.1667em]\lower[height=0.5ex]{E}\glue[width=-.125em]Xのようだ」だろうか。}もしあなたがTeXについてよく知らない、あるいは関心がないのであれば、このセクションは読み飛ばしてもらっても構いません。
 
-実際、TeXのようだというのは正しい意見です。SILEはTeXからかなりのものを引き継いでいます。SILEのような小さなプロジェクトが、TeXという、『The Art of Computer Programming』の著者たる某教授の、偉大な創造物の後継者だと名乗るのはおこがましいかもしれませんが\dots{}SILEはTeXの現代的な再創生です。
+実際、TeXのようだというのは正しい意見です。SILEはTeXからかなりのものを引き継いでいます。SILEのような小さなプロジェクトが、TeXという、『The Art of Computer Programming』の著者たるあの教授の、偉大な創造物の後継者だと名乗るのはおこがましいかもしれませんが\dots{}SILEはTeXの現代的な再実装です。
 
-TeXは組版システムのなかでも最初期のもののうちのひとつで、それゆえほとんど何もないところから設計されなければなりませんでした。そのときなされた、デザイン上の決定のいくつかは時の試練に耐えました。そしてTeXはその創造から30年以上たった今でも最もよく利用される組版システムのうちのひとつであり、それはその設計とパフォーマンスの証でもあります。しかしながら、残りの多くの部分に関してはそうではありませんでした。実際、Knuthの時代より続くTeXの発展の歴史の大半は、彼の元々の設計を取り除き、新たな業界標準技術で置き換えることでした。例えば、我々はMETAFONTではなくTrueTypeフォントを使い（xetexのように）、DVIではなくPDFを使い（pstexやpdftex）、7ビットのASCIIではなくUnicodeを使い（これもxetex）、マクロ言語ではなくマークアップ言語や組込みのプログラミング言語を使います（xmltexやluatex）。現在、我々が\em{依然として利用する}TeXのオリジナルの部分は、⑴ボックスとグルー・モデル、⑵ ハイフネーション・アルゴリズム、⑶改行（行分割）処理アルゴリズムです。
+TeXは組版システムのなかでも最初期のもののうちのひとつで、それゆえほとんど何もないところから設計されなければなりませんでした。そのときなされた、設計上の決定のいくつかは時の試練に耐えました。そしてTeXはその創造から30年以上たった今でも最もよく利用される組版システムのうちのひとつであり、それはその設計とパフォーマンスの証でもあります。しかしながら、その設計の残りの多くの部分は生き残りませんでした。実際、Knuthの時代より続くTeXの発展の歴史の大半は、彼の元々の設計を取り除き、新たな業界標準技術で置き換えることでした。例えば、我々はMETAFONTではなくTrueTypeフォントを使い（xetexのように）、DVIではなくPDFを使い（pstexやpdftex）、7ビットのASCIIではなくUnicodeを使い（これもxetex）、マクロ言語ではなくマークアップ言語や組込みのプログラミング言語を使います（xmltexやluatex）。現在、我々が\em{依然として利用する}TeXのオリジナルの部分は、⑴ボックスとグルー・モデル、⑵ ハイフネーション・アルゴリズム、⑶改行（行分割）処理アルゴリズムです。
 
 SILEは時の試練に耐え抜いた上記3つの点をTeXからしっかりと受け継いでいます。SILEはTeXの改行処理アルゴリズムのほぼ丸写しな移植を含み、それは同じ入力が与えられたとき、TeXと全く同じ出力が得られるようにテストされています。しかしながら、SILE自身がスクリプト言語で書かれているため、\footnote{もしもあなたが\code{TeX capacity exceeded}というメッセージに馴染んでいるならば、これはさぞかし興味深いことでしょう。}SILEの組版エンジンの動作を拡張したり、変更したりすることが容易にできます。
 
 例えばTeXが苦手とすることのひとつとして、グリッド上での組版があります。この機能は聖書を組むような人にとっては重要なものです。グリッド上での組版では、紙の両面で行が同じ位置に揃います。これは薄い紙に印刷されるときの、インクの滲みによる影響を抑えるために有効です。TeX上でこれを行う試みはなされてきましたが、どれもひどいものでした。SILEでは組版エンジンの動作を変更し、ごく簡単なアドオンパッケージを用意することでグリッド上での組版を可能にします。
 
-もちろん、いまどきだれもplain TeXを使いません—だれもがLaTeXで同様のことを行い、そのうえCTANから入手可能な巨大なパッケージ群を活用しています。SILEは未だTeXが持つような巨大なコミュニティやリソースを持たず、そのようなものを活用することができません。この点においてTeXはSILEよりもずっと先を行っています。しかし、\em{可能性}という点において、TeXと同等か、あるいはもっと進んでいるとも言えるところがあるかもしれません。
+もちろん、いまどきだれもplain TeXを使いません—だれもがLaTeXで同様のことを行い、そのうえCTANから入手可能な巨大なパッケージ群を活用しています。SILEは未だTeXが持つような巨大なコミュニティやリソースを持たず、そのようなものを活用することができません。この点においてTeXはSILEよりもずっと先を行っています。しかし、\em{中核となる能力}という点において、TeXと同等か、あるいはもっと進んでいるとも言えるところがあるかもしれません。
 \supereject
 
 \section{SILEとInDesign}
@@ -74,7 +75,9 @@ SILEは時の試練に耐え抜いた上記3つの点をTeXからしっかりと
 人々が出版物をデザインするとき辿りつくツールとして、InDesign（あるいはそれと似たDTPソフト、例えばScribus）があります。
 
 \float[rightboundary=7pt, bottomboundary=15pt]{\img[src=documentation/fig1.png,width=150]}
-InDesignは複雑で高価な商用出版ツールです。それは非常にグラフィカルです—クリックやドラッグといったマウス操作でテキストや画像をスクリーン上で移動させます。SILEは自由なオープンソースの組版ツールで、完全にテキストベースです。SILEではエディタでコマンドを入力し、それらのコマンドをファイルに保存し、SILEに組版させるために渡します。これらの根本的な違いにかかわらず、この2つには共通した特徴があります。
+DTPソフトとワープロソフトは、どちらもグラフィカルでWYSIWYGである点ではよく似ています。しかし、そのパラダイムは異なります。DTPソフトでは通常、文書の内容を準備することよりも、ページ上でそれをレイアウトすることに焦点が置かれます—クリックやドラッグといったマウス操作でテキストや画像をスクリーン上で移動させます。
+
+InDesignは複雑で高価な商用出版ツールですが、SILEは自由なオープンソースの組版ツールで、完全にテキストベースです。SILEではエディタでコマンドを入力し、それらのコマンドをファイルに保存し、SILEに組版させるために渡します。これらの根本的な違いにかかわらず、この2つには共通した特徴があります。
 
 InDesignでは文章はページ上の\em{フレーム}に流しこまれます。左の図はInDesignでよくあるレイアウトがどのようなものかを示しています。
 
@@ -88,7 +91,7 @@ InDesignで有用な機能として、構造化されたXMLデータ形式を用
 
 \section{結論}
 
-SILEは入力として与えられたテキストの指示をもとにPDFを出力します。SILEはTeXとInDesignにインスパイアされた機能を持ち、かつより柔軟で拡張可能、プログラム可能なものを目指しています。この文書（これはSILEで書かれています）のようなものを作成したり、構造化されたデータを整形して出力するシステムとして有用です。
+SILE\footnote{一応言っておくと、著者は/saɪəl/と発音します。「trial」と韻を踏んで。}は入力として与えられたテキストの指示をもとにPDFを出力します。SILEはTeXとInDesignにインスパイアされた機能を持ち、かつより柔軟で拡張可能、プログラム可能なものを目指しています。この文書（これはSILEで書かれています）のようなものを作成したり、構造化されたデータを整形して出力するシステムとして有用です。
 
 \chapter{さあ始めよう}
 
@@ -99,7 +102,7 @@ SILEは入力として与えられたテキストの指示をもとにPDFを出�
 SILEをどうやって使用するのか示す前に、SILE文書がどのようなものなのかひとつ例を示しましょう。
 これはSILEに対する入力であり、SILEによって処理されPDFファイルへと変換されるものです。
 
-\note{これらの文書はプレーンテキストです。あなたがあなた自身のSILE文書を作成するにはテキストエディタが必要です。Unix上では例えば、\em{vi}や\em{emacs}、Mac OS XではSublime Text、TextMate、あるいはTextEditなど、WindowsではNotepadやNotepad+などです。SILEの入力として用いるにはテキストファイルとして保存する必要があります。Wordのようなワープロソフトでは作成できません。それらは文書をプレーンテキストではなく独自のフォーマットで保存するからです。}
+\note{これらの文書はプレーンテキストです。あなたがあなた自身のSILE文書を作成するにはテキストエディタが必要です。Wordのようなワープロソフトでこれらのファイルを作成しても、うまくいきません。この場合、プレーンテキストではなく、ワープロソフトの独自フォーマットで保存されてしまうからです。AtomやSublime TextのようなクロスプラットフォームのGUI指向の良いテキストエディタがあります。また、\em{Vim}や\em{Emacs}などのキーボードコマンド中心で操作するものも良いでしょう。環境によってはほかにも良い選択肢があります。WindowsではNotepad+、OS XではTextMate、GnomeのGedit、KDEではKateなどです。テキストエディタの比較については、\url{http://alternativeto.net/tag/text-editor/}を参照してください。}
 
 とりあえず、もっとも簡単なSILE文書から始めましょう。
 
@@ -119,17 +122,43 @@ Hello SILE!
 
 なにはともあれ、あなたはSILEを手に入れ、あなたのパソコンで走らせなければなりません。SILEはホームページ\silehpから入手できます。
 
-SILEをインストールし、実行するにはいくつか他のソフトウェアが必要です—Luaプログラミング言語のインタプリタとHarfbuzzテキストシェーピング・ライブラリです。
+\subsection{パッケージのインストール}
 
-SILEにはそれ自身のPDF生成ライブラリが付属しており、それもまたいくつかのソフトウェアを要求します。\code{freetype}、\code{fontconfig}、\code{libz}、そして\code{libpng}です。\footnote{代わりにPangoとCairoを使うようにもできますが、その出力は特にLinuxにおいて劣ります。 あえてそうする場合は\code{libcairo-gobject2}と\code{libpango1.0-0}パッケージをシステムにインストールし、\code{lgi} Luaモジュールを追加する必要があります。}
+OS Xでは推奨されるSILEのインストール方法は、Homebrewパケージマネージャを利用することです。Homebrewが利用できる環境では（\url{http://brew.sh}を参照）、SILEをインストールするのはごく簡単です。
 
-これらの依存ライブラリがインストールされれば、次はLuaライブラリをそろえる必要があります。
+\listitem{\code{brew install sile}}
+
+もし、あなたがこれまでLuaプログラムを使ったことがないのであれば、いくつかの依存するソフトウェアを手動で導入するように求められることでしょう。この場合、提示されたコマンドを実行した後、上記のインストールコマンドを再び実行するとインストールは完了です。
+
+SILEのパッケージでは、最新のGit HEADバージョンをコンパイルして導入することも可能です。最新のリリースされていないコードを試すには、
+
+\listitem{\code{brew install sile --HEAD}}
+
+Linuxユーザには、Arch Linux用のパッケージ構築用のファイルが利用可能です。\code{sile}パッケージは最新の安定版で、\code{sile-git}はリリースされていない最新のコードをGitレポジトリから取得し、構築します。もし、あなたが、AURをサポートしたパッケージマネージャを利用しているのであれば、いつものように、いずれかのパッケージを導入できます。
+
+\listitem{\code{yaourt -S sile}}
+
+その他のシステムでは、あなた自身でソースコードをダウンロードし、コンパイルする必要があります。
+
+\subsection{ソースからのインストール}
+
+SILEをインストールし、実行するにはいくつか他のソフトウェアが必要です—Luaプログラミング言語のインタプリタとHarfbuzzテキストシェーピング・ライブラリです。SILEにはそれ自身のPDF生成ライブラリが付属しており、それもまたいくつかのライブラリを要求します。\code{freetype}、\code{fontconfig}、\code{libz}、そして\code{libpng}です。
+
+これらの依存ライブラリをそろえる際には、あなたが利用しているディストリビューションのパッケージマネージャを極力使うようにしてください。DebianやUbuntuのようなDEBベースのLinuxマシンでは、以下のコマンドで必要なものを一式導入することができるでしょう。
+
+\listitem{\code{apt-get install liblua5.2-dev lua-expat lua-lpeg libharfbuz-dev libfreetype6-dev libfontconfig-dev libpng-dev}}
+
+RedHat系のLinuxディストリビューションでは、
+
+\listitem{\code{yum install harfbuzz-devel make automake gcc freetype-devel fontconfig-devel lua-devel lua-lpeg lua-expat libpng-devel}}
+
+これらの依存ライブラリがインストールされれば、次はLuaライブラリをそろえる必要があります。まだインストールされていない場合は入れましょう。
 
 \listitem{\code{luarocks install lpeg}}
 \listitem{\code{luarocks install luaexpat}}
 \listitem{\code{luarocks install luafilesystem}}
 
-以上のことが済めばようやく本題に移れます。SILEのホームページからダウンロードしたファイルを解凍し、ディレクトリを移動してから以下を実行します。
+以上のことが済めばようやく本題に移れます。SILEのホームページからダウンロードしたファイルを解凍し、ディレクトリを移動してから\footnote{もしあなたが、リリースされた配布物を取得したのではなく、Gitレポジトリをクローンしたのであれば、次のステップに進む前に\code{./bootstrap.sh}を実行する必要があるでしょう。}、以下を実行します。
 
 \listitem{\code{./configure; make}}
 
@@ -144,29 +173,6 @@ SILEを本格的に使うには\code{sile}コマンドとSILEライブラリ・�
 \listitem{\code{make install}}
 
 これで\code{sile}コマンドがどのディレクトリからも利用可能になりました。
-
-\subsection{OS Xユーザためのノート}
-
-Homebrew（Mac OS Xではおすすめです）を利用するMac OS X上でこれらをインストールするには、
-
-\listitem{\code{brew install automake libtool harfbuzz fontconfig libpng lua luarocks freetype}}
-
-もしも OS XでHomebrewを利用しているのであれば、環境変数\code{PKG_CONFIG_PATH}を適切に設定する必要があるかもしれません。 （\code{PKG_CONFIG_PATH=/usr/local/lib/pkgconfig:/usr/local/lib}）あるいはライブラリ依存関係参照のための\code{pkgconfig}ファイルを提供する\code{brew link}を使用してください。configureスクリプトはどのライブラリが見つからなかったか警告してくれるでしょう。
-
-SILEをシステムにインストールせずに実行するには、環境変数を次のように設定する必要があります。
-
-\code{DYLD_LIBRARY_PATH=./libtexpdf/.libs ./sile examples/simple.sil}
-
-\subsection{Linuxユーザのためのノート}
-
-DebianやUbuntuなどのDebian系Linux OSでは、
-
-\listitem{\code{apt-get install lua5.1 luarocks libharfbuzz-dev libfreetype6-dev libfontconfig1-dev libpng-dev}}
-
-Redhat系Linuxでは次のようになるでしょう。
-
-\listitem{\code{yum install harfbuzz-devel make automake gcc freetype-devel fontconfig-devel
-lua-devel lua-lpeg lua-expat libpng-devel}}
 
 \subsection{Windowsユーザのためのノート}
 Windowsでも\code{mingw32}環境でSILEを動作させることができたとのユーザからの報告があります。現在のところ、確実な方法はありませんが、\url{https://github.com/simoncozens/sile/issues/82}での議論が参考になるでしょう。
