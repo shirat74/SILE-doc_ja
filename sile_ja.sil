@@ -12,7 +12,7 @@
 \script[src=packages/lorem]
 \script[src=packages/bidi]\bidi-off
 \script[src=packages/pdf]
-%\script[src=packages/pullquote]
+\script[src=packages/pullquote]
 \include[src=documentation/macros.sil]
 \define[command=silehp]{\url{http://www.sile-typesetter.org/}}
 \define[command=sileversion]{\script{SILE.typesetter:typeset(SILE.version)}}
@@ -704,6 +704,24 @@ SILEはUnicode対応であり、その入力はUTF-8エンコーディングで�
 
 \code{bidi}パッケージはふたつのコマンド、\command{\\thisframeLTR}と\command{\\thisframeRTL}、これらは現在のフレームのデフォルトの書字方向を設定する、を提供します。すなわち、もしあなたがSILEにフレームがRTLであると指示するならば、文章は右端から始まり、左に進みます。このパッケージはまた、\command{\\bidi-off}と\command{\\bidi-on}コマンドを提供します。bidirectionalサポートを無効にすることで、もしかしたら処理速度を向上させることができるかもしれません。
 
+\section{pullquote}
+
+\code{pullquote}コマンドはより長い引用文を、装飾された引用符とともに、インデント付きでブロック引用します。
+例を示してみましょう。
+
+\begin[author=Anatole France]{pullquote}
+An education is not how much you have committed to memory, or even how much you
+know. It is being able to differentiate between what you do know and what you
+do not know.
+\end{pullquote}
+
+\noindent{}オプションとして、
+\listitem{\code{author}は引用元の人物の名前を追加します。}
+\listitem{\code{setback}はブロックの左右両側にマージンを設定します。}
+\listitem{\code{color}は引用符の色を変えます。}
+\listitem{\code{scale}は引用符の相対的なサイズを変えます。}
+もしも\code{pullquote}環境内でどのフォントを使用するのか指定したければ、\code{pullquote:font}コマンドを再定義します。デフォルトでは、これはそれを取り囲む文章のフォントと同じです。引用元の行も同様に、\code{pullquote:author-font}で、引用符のフォントは\code{pullquote:mark-font}を設定することで変えることができます。
+
 \section{raiselower}
 
 もしあなたが、画像や罫線、テキストなどがベースライン上に沿って配置させてくないならば、\code{raiselower}パッケージを使ってそれらを上げ下げすることができます。（\code{footnote}パッケージは脚注の参照番号を、上付き数字として表示するため、このパッケージを利用しています。）
@@ -1209,7 +1227,7 @@ SILEのラインブレーキング（行分割）アルゴリズムはTeXから�
 \noindent• \code{SILE.settings.set(\em{<parameter>}, \em{value})}：パラメータの設定を行います。
 
 \note{
-SILEレイヤでは、\code{\\set}コマンドは文字列による表現を、可能な限り適切なLua型に変換してくれますが、\code{SILE.settings.set}はそれを行いません。Luaではパラメータは適切な型で与えられることが想定されています。例えば、長さは\code{SILE.Length}オブジェクトでグルーは\code{Glue}でなければなりません。}
+SILEレイヤでは、\code{\\set}コマンドは文字列による表現を、可能な限り適切なLua型に変換してくれますが、\code{SILE.settings.set}はそれを行いません。Luaではパラメータは適切な型で与えられることが想定されています。例えば、長さは\code{SILE.Length}オブジェクトでグルーは\code{SILE.Glue}でなければなりません。}
 
 \noindent• \code{SILE.settings.get(\em{<parameter>})}：現在のパラメータの設定を取得します。
 
@@ -1283,7 +1301,7 @@ SILE.typesetter:pushHbox(\{
       typesetter.frame.state.cursorX, typesetter.frame.state.cursorY-this.height,
       this.width,this.height
     );
-    typesetter.frame:moveX(this.width)
+    typesetter.frame:advanceWritingDirection(this.width)
 end\});
 \line
 \end{verbatim}
@@ -1370,8 +1388,6 @@ end\});
 \lorem[words=500]
 
 \chapter{文書クラスの設計}
-
-\changed
 
 ひとつのページ上でフレームレイアウトを定義する方法を学んだところで、文書全体でそれを定義する方法へと進みましょう。
 
@@ -1593,7 +1609,7 @@ end
 \line
 local writeToc = function (self)
   local t = std.string.pickle(SILE.scratch.tableofcontents)
-  saveFile(t, SILE.masterFileName .. '.toc')
+  saveFile(t, SILE.masterFilename .. '.toc')
 end
 \line
 \end{verbatim}
@@ -1603,7 +1619,7 @@ end
 \begin{verbatim}
 \line
 SILE.registerCommand("tableofcontents", function (options, content)
-  local toc = loadFile(SILE.masterFileName .. '.toc')
+  local toc = loadFile(SILE.masterFilename .. '.toc')
   if not toc then
     SILE.call("tableofcontents:notocmessage")
     return
