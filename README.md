@@ -1,8 +1,6 @@
 # SILE-doc_ja
 The SILE Book の日本語訳
 
-**70ページある PDF ファイルですので GitHub 上で PDF プレビュー機能を使ってブラウザ上で開くとまず固まります。**
-
 PDF のみダウンロードする場合は、
 
   http://shirat74.github.io/SILE-doc_ja/sile_ja.pdf
@@ -23,4 +21,4 @@ SILE については、[sile_ja.pdf](http://shirat74.github.io/SILE-doc_ja/sile_
 
 を参照してください。
 
-現在、SILE version 0.9.2 付属の The SILE Book の翻訳がほぼ完了しています。フォント関連は Windows 8 向けに調整してあります。
+現在、SILE version 0.9.2/0.9.3 付属の The SILE Book の翻訳がほぼ完了しています。フォント関連は Windows 10 向けに調整してあります。
