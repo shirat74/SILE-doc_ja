@@ -791,7 +791,7 @@ proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 \section{linespacing}
 \linespacing-on
 
-SILEにおける行送りのデフォルトの挿入方法はTeXyユーザーにとっては馴染み深いものであるかもしれませんが、多くの場合には扱いやすいものではないでしょう。\code{lonespacing}パッケージは行送りに関してはより良い選択となり得ます。
+SILEにおける行送りのデフォルトの処理方法は、TeXユーザーにとっては馴染み深いものであるかもしれませんが、多くの場合には扱いやすいものとは言えないでしょう。\code{linespacing}パッケージは行送りに関してはより良い選択となり得ます。
 
 パッケージを読み込んだ後（\code{\\script[src=packages/linespacing]}によって）、あなたは行間調整モードを\code{linespacing.method}パラメータにより調整することができます。以下の例では、幾分おかしなサイズの単語が挿入されていますが、行間調整によってどのような結果がもたらされるかが見て取れます。
 
