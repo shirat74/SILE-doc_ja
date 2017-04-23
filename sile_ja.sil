@@ -13,7 +13,7 @@
 \script[src=packages/bidi]\bidi-off
 \script[src=packages/pdf]
 \script[src=packages/pullquote]
-\include[src=documentation/macros.sil]
+\include[src=documentation/macros.xml]
 \define[command=silehp]{\url{http://www.sile-typesetter.org/}}
 \define[command=sileversion]{\script{SILE.typesetter:typeset(SILE.version)}}
 \font[size=10pt, language="ja", family="Yu Mincho", weight="300"]
@@ -754,7 +754,7 @@ SILE は通常、以下に示すふたつのルールに従って行と行の間
 
 \noindent• もしも最初のルールによる結果によって、行間の距離が2ポイント以下になるならば、それを2ポイントとなるように強制する。（この量は\code{lineskip}の設定で調整可能)
 
-2番目のルールは、前の行が大きなディセンダー（例えば、g、q、j、pなどの文字が含まれる）場合に、高いアセンダーを持つ（k、l、と大文字など）次の行とぶつかるのを防ぐためにあります。
+2番目のルールは、前の行が大きなディセンダ（例えば、g、q、j、pなどの文字が含まれる）場合に、高いアセンダを持つ（k、l、と大文字など）次の行とぶつかるのを防ぐためにあります。
 
 これに加えて、\code{baselineskip}はある量の「伸張性」（‘stretch’）を持ちます。これはページ分割処理を最適化させるために役に立つ場合に、行間を広げたり、同様にパラグラフ間の距離を伸縮させたりします。
 
