@@ -808,7 +808,7 @@ SILEにおける行送りのデフォルトの挿入方法はTeXyユーザーに
 
 \set[parameter=linespacing.fit-glyph.extra-space,value=5pt]
 
-実際上は、ある（絶対値または相対値の）固定量のアキ（s\font[size=20pt]{p}ace）を行間に挿入するでしょう。これは、パラメータ\code{linespacing.fit-glyph.extra-space}により設定でいます。\font[size=20pt]{T}his（この）パラグラフでは5ポイントのアキが挿入されています。
+実際上は、ある（絶対値または相対値の）固定量のアキ（s\font[size=20pt]{p}ace）を行間に挿入するでしょう。これは、パラメータ\code{linespacing.fit-glyph.extra-space}により設定できます。\font[size=20pt]{T}his（この）パラグラフでは5ポイントのアキが挿入されています。
 
 \medskip
 \set[parameter=linespacing.method,value=fit-font]
@@ -821,7 +821,7 @@ SILEにおける行送りのデフォルトの挿入方法はTeXyユーザーに
 \medskip
 \set[parameter=linespacing.method,value=css]
 \set[parameter=linespacing.css.line-height,value=2em]
-\noindent{}• \code{css}。これはブラウザで行われるようなやり方です。ベースライン間の距離が\code{linespacing.\goodbreak{}css.line-height}パラメータ設定され、各行の間にはこの値に応じた余分な\font[size=20pt]{space}（スペース）が入ります。
+\noindent{}• \code{css}。これはブラウザで行われるようなやり方です。ベースライン間の距離が\code{linespacing.\goodbreak{}css.line-height}パラメータで設定され、各行の間にはこの値に応じた余分な\font[size=20pt]{space}（スペース）が入ります。
 \medskip
 
 \linespacing-off
